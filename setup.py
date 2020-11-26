@@ -99,6 +99,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Topic :: Software Development :: Libraries",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Environment :: Console",
     ],
     project_urls={
         "Changelog": URL + "/releases",
