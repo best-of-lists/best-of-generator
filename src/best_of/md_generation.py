@@ -639,7 +639,7 @@ def generate_project_md(project: Dict, configuration: Dict, labels: list) -> str
     if project.labels:
         label_count = len(project.labels)
     desc_length = max(
-        60, 112 - len(project.name) - len(metrics_md) - license_len - (label_count * 3)
+        60, 105 - len(project.name) - len(metrics_md) - license_len - (label_count * 3)
     )
     description = utils.process_description(project.description, desc_length)
     # target="_blank"
@@ -693,32 +693,32 @@ def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
     legend_md = title_md_prefix + " Explanation\n"
     # Score that various project-quality metrics
     # score for a package based on a number of metrics
-    legend_md += "- 🥇🥈🥉 Combined project-quality score\n"
-    legend_md += "- ⭐️ Star count from Github\n"
+    legend_md += "- 🥇🥈🥉&nbsp; Combined project-quality score\n"
+    legend_md += "- ⭐️&nbsp; Star count from Github\n"
     legend_md += (
-        "- 🐣 New project _(less than "
+        "- 🐣&nbsp; New project _(less than "
         + str(configuration.project_new_months)
         + " month old)_\n"
     )
     legend_md += (
-        "- 💤 Inactive project _("
+        "- 💤&nbsp; Inactive project _("
         + str(configuration.project_inactive_months)
         + " month no activity)_\n"
     )
     legend_md += (
-        "- 💀 Dead project _("
+        "- 💀&nbsp; Dead project _("
         + str(configuration.project_dead_months)
         + " month no activity)_\n"
     )
-    legend_md += "- ❗️ Warning _(e.g. missing/risky license)_\n"
-    legend_md += "- 👨‍💻 Contributors count from Github\n"
-    legend_md += "- 🔀 Fork count from Github\n"
-    legend_md += "- 📋 Issue count from Github\n"
-    legend_md += "- ⏱️ Last update timestamp on package manager\n"
-    legend_md += "- 📥 Download count from package manager\n"
-    legend_md += "- 📦 Number of dependent projects\n"
-    # legend_md += "- 📈 Trending project\n"
-    # legend_md += "- 💲 Commercial project\n"
+    legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
+    legend_md += "- 👨‍💻&nbsp; Contributors count from Github\n"
+    legend_md += "- 🔀&nbsp; Fork count from Github\n"
+    legend_md += "- 📋&nbsp; Issue count from Github\n"
+    legend_md += "- ⏱️&nbsp; Last update timestamp on package manager\n"
+    legend_md += "- 📥&nbsp; Download count from package manager\n"
+    legend_md += "- 📦&nbsp; Number of dependent projects\n"
+    # legend_md += "- 📈&nbsp; Trending project\n"
+    # legend_md += "- 💲&nbsp; Commercial project\n"
     return legend_md + "\n"
 
 
