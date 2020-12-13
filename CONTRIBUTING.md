@@ -1,5 +1,5 @@
 <!-- markdownlint-disable MD024 -->
-# Contribute to Project Template
+# Contribute to best-of-generator
 
 Thanks for your interest in contributing to our project. This page will give you a quick overview of how things are organized and, most importantly, how to get involved.
 
@@ -16,22 +16,20 @@ Everyone is welcome to contribute, and we value everybody's contribution. Code i
     - [Git workflow & versioning](#git-workflow--versioning)
 3. [Code conventions](#code-conventions)
     - [Python conventions](#python-conventions)
-    - [Java conventions](#java-conventions)
-    - [Web development conventions](#web-development-conventions)
 4. [Code of conduct](#code-of-conduct)
 
 ## Issues and bug reports
 
-- We use GitHub issues to track bugs and enhancement requests. Submit issues for any [feature request and enhancement](https://github.com/mltooling/project-template/issues/new?assignees=&labels=feature&template=02_feature-request.md&title=), [bugs](https://github.com/mltooling/project-template/issues/new?assignees=&labels=bug&template=01_bug-report.md&title=), or [documentation](https://github.com/mltooling/project-template/issues/new?assignees=&labels=documentation&template=03_documentation.md&title=) problems.
+- We use GitHub issues to track bugs and enhancement requests. Submit issues for any [feature request and enhancement](https://github.com/ml-tooling/best-of-generator/issues/new?assignees=&labels=feature&template=02_feature-request.md&title=), [bugs](https://github.com/ml-tooling/best-of-generator/issues/new?assignees=&labels=bug&template=01_bug-report.md&title=), or [documentation](https://github.com/ml-tooling/best-of-generator/issues/new?assignees=&labels=documentation&template=03_documentation.md&title=) problems.
 - First, do a quick search on the Github issue tracker or the known issues section in the readme to see if the issue has already been reported. If so, it's often better to just leave a comment on an existing issue rather than creating a new one. Old - and sometimes closed - issues also often include helpful tips and solutions to common problems.
-- When creating an issue, try using one of our [issue templates](https://github.com/mltooling/project-template/issues/new/choose) which already contain some guidelines on which content is expected to process the issue most efficiently. If no template applies, you can of course also create an issue from scratch.
+- When creating an issue, try using one of our [issue templates](https://github.com/ml-tooling/best-of-generator/issues/new/choose) which already contain some guidelines on which content is expected to process the issue most efficiently. If no template applies, you can of course also create an issue from scratch.
 - Please provide as much context as possible when you open an issue. The information you provide must be comprehensive enough to reproduce that issue for the assignee. Therefore, contributors should use but aren't restricted to the issue template provided by the project maintainers.
-- Please apply one or more applicable [labels](https://github.com/mltooling/project-template/labels) to your issue so that all community members are able to cluster the issues better.
+- Please apply one or more applicable [labels](https://github.com/ml-tooling/best-of-generator/labels) to your issue so that all community members are able to cluster the issues better.
 - If you have questions about one of the existing issues, please comment on them, and one of the maintainers will clarify.
 
 ## Contributing to the code base
 
-You are welcome to contribute code in order to fix a bug, to implement a new feature, to propose new documentation, or just to fix a typo. Check out [good first issue](https://github.com/mltooling/project-template/labels/good%20first%20issue) and [help wanted](https://github.com/mltooling/project-template/labels/help%20wanted) issues if you want to find open issues to implement.
+You are welcome to contribute code in order to fix a bug, to implement a new feature, to propose new documentation, or just to fix a typo. Check out [good first issue](https://github.com/ml-tooling/best-of-generator/labels/good%20first%20issue) and [help wanted](https://github.com/ml-tooling/best-of-generator/labels/help%20wanted) issues if you want to find open issues to implement.
 
 - Before writing code, we strongly advise you to search through the existing PRs or issues to make sure that nobody is already working on the same thing. If you find your issue already exists, make relevant comments and add your reaction (👍 - upvote, 👎 - downvote). If you are unsure, it is always a good idea to open an issue to get some feedback.
 - Should you wish to work on an existing issue that has not yet been claimed, please claim it first by commenting on the GitHub issue that you want to work on and begin work (the maintainers will assign it to your GitHub user as soon as they can). This is to prevent duplicated efforts from other contributors on the same issue.
@@ -41,7 +39,9 @@ You are welcome to contribute code in order to fix a bug, to implement a new fea
 
 ### Development Instructions
 
-To simplify the process of building this project from scratch, we provide build scripts that run all necessary steps (build, test, and release) within a containerized environment by using [Github Actions](https://github.com/features/actions) and [Act](https://github.com/nektos/act) to run all actions locally.
+To simplify the process of building this project from scratch, we provide build-scripts - based on [universal-build](https://github.com/ml-tooling/universal-build) - that run all necessary steps (build, test, and release) within a containerized environment by using [Github Actions](https://github.com/features/actions) and [Act](https://github.com/nektos/act) to run all actions locally.
+
+> _Please refer to the [documentation of universal-build](https://github.com/ml-tooling/universal-build#automated-build-pipeline-ci) for instructions on how to execute the build-scripts directly on your machine instead of using the containerized approach documented below._
 
 #### Requirements
 
@@ -255,120 +255,6 @@ pytest -m "not slow"
 ```
 
 When adding tests, make sure to use descriptive names, keep the code short and concise and only test for one behavior at a time. Try to avoid unnecessary imports and use `parametrize` test cases wherever possible. Parametrizing tests allows to test multiple inputs to a function and verify that they return the expected output. Use [fixtures](https://docs.pytest.org/en/stable/fixture.html) to share test setups with - optional - setup and tear-down routines. Fixtures can also be parameterized. Extensive tests that take a long time should be marked with `@pytest.mark.slow`.
-
-### Java conventions
-
-- Code Style: [Google Java Style](https://google.github.io/styleguide/javaguide.html) ([Checkstyle](https://github.com/checkstyle/checkstyle) to enforce styling)
-- Documentation Style: [Google Java Style](https://google.github.io/styleguide/javaguide.html#s4.8.6-comments) (Javadoc)
-- Naming Conventions: [naming-conventions-guide](https://github.com/naming-convention/naming-convention-guides/tree/master/java)
-- Build Tool: [Maven](https://maven.apache.org/)
-- Code Formatter: [google-java-format](https://github.com/google/google-java-format)
-- Linting: [sonarlint](https://www.sonarlint.org/)
-- Testing: [JUnit 5](https://junit.org/junit5/)
-- Logging: [SLF4J](https://github.com/qos-ch/slf4j) with [LOG4J](https://logging.apache.org/log4j)
-- Minimum compatibility: Java 11
-
-#### Code style & naming
-
-- **Code & documentation style** should loosely follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
-- **Naming** should follow the recommendations [here](https://github.com/naming-convention/naming-convention-guides/tree/master/java).
-- To enforce the Google Java Style, we recommend to run the [checkstyle](https://github.com/checkstyle/checkstyle) tool with the `google_checks.xml` configuration. For VS Code, you can use the [checkstyle extension](https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-checkstyle).
-
-#### Code formatting
-
-We use [google-java-format](https://github.com/google/google-java-format) for code formatting and import sorting. The following command run `google-java-format` on a Java file:
-
-```bash
-google-java-format --replace path/to/file.java
-```
-
-If you want to only check if the formatting and sorting is applied correctly to all files, execute:
-
-```bash
-google-java-format --dry-run --set-exit-if-changed path/to/file.java
-```
-
-You can also configure `google-java-format` inside your code editor. For IntelliJ you can find information [here](https://github.com/google/google-java-format#intellij-android-studio-and-other-jetbrains-ides) and for VS Code [here](https://marketplace.visualstudio.com/items?itemName=mngrm3a.vscode-google-java-formatter).
-
-#### Code linting
-
-We recommend to use [Sonarlint](https://www.sonarlint.org/) for linting in Java. You can configure Sonarlint for VS Code as explained [here](https://www.sonarlint.org/visualstudio) or for IntelliJ as described [here](https://www.sonarlint.org/intellij).
-
-#### Adding & running tests
-
-We use the [JUnit 5](https://junit.org/junit5/) framework for testing. For more info on this, see the [junit documentation](https://junit.org/junit5/docs/current/user-guide/). Tests for classes live in their own directories of the same name inside the `src/test` folder. To be discovered, all test classes need to be suffixed with `Test`. To run the test suite via maven, execute the following command in the component root:
-
-```bash
-# run test suite:
-mvn verify
-```
-
-### Web development conventions
-
-- Code Style: [Airbnb Style Guide](https://github.com/airbnb/javascript)
-- Documentation Style: [JSDoc](https://jsdoc.app/about-getting-started.html)
-- Build Tool: [webpack](https://webpack.js.org/) (+ [babel](https://babeljs.io/))
-- Package Manager: [yarn](https://yarnpkg.com/)
-- Code Formatter: [prettier](https://github.com/prettier/prettier)
-- Linting: [eslint](https://github.com/eslint/eslint) (JavaScript) & [stylelint](https://github.com/stylelint/stylelint) (CSS)
-- Testing: [jest](https://github.com/facebook/jest) + [react-testing-library](https://github.com/testing-library/react-testing-library)
-- Component Styling: [styled-components](https://github.com/styled-components/styled-components)
-- Minimum compatibility: Node 12
-
-#### Code style & naming
-
-- **Code style** should follow [Airbnb Style Guide](https://github.com/airbnb/javascript).
-- **Documentation style** should follow the [JSDoc](https://jsdoc.app/about-getting-started.html) convention, though overall we advocate self-explanatory code over comments.
-- For additional **component documentation**, we use [Storybook](https://storybook.js.org/docs/react/get-started/introduction). Add Storybook files next to the components they describe. Story files must follow the `<component-name>.stories.jsx` name pattern. The Storybook server can be started via `yarn run storybook`.
-- For **component styling** we use the [styled-components](https://github.com/styled-components/styled-components) library. The style of a component should be bundled with the component and, usually, lies in the same file.
-- **Custom Guidelines:**
-  - Components should be written as [React Hooks](https://reactjs.org/docs/hooks-intro.html) instead of the old class-style wherever possible.
-  - Functions should in general be written in the [arrow function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) notation. Arrow functions should be defined outside of the `render` function to avoid [any performance problems](https://reactjs.org/docs/faq-functions.html#arrow-function-in-render).
-
-#### Code formatting
-
-We use [prettier](https://prettier.io) for code formatting. The following command runs `prettier` on a JavaScript file:
-
-```bash
-./node_modules/.bin/prettier --config .prettierrc --write path/to/file
-```
-
-Our default configuration for prettier can be found in [.prettierrc](.github/linting/.prettierrc). The configurations adhere to [Airbnb's JavaScript style guide](https://github.com/airbnb/javascript).
-
-You can also configure `prettier` inside your code editor. For VS Code you can find information [here](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
-
-#### Code linting
-
-[ESlint](https://eslint.org) is used for linting JavaScript code with the linting rules defined in the [.eslintrc.js](.github/linting/eslintrc.js) file. You can configure eslint for VS Code via [this extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
-
-For CSS linting, [Stylelint](https://stylelint.io) is used for which the configuration can be found in the [.stylelintrc.json](.github/linting/.stylelintrc.json) file. Stylelint can be configured in VS Code via [this extension](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint).
-
-The following commands run `eslint` and `stylelint` on all files to show linting issues (when executed in the component root):
-
-```bash
-# Run eslint on all javascript files:
-./node_modules/.bin/eslint "**/*.js"
-# Run stylelint on all css files:
-./node_modules/.bin/stylelint "**/*.css"
-```
-
-Sometimes, you have to do something that is not allowed by the linting rules. For example, property spreading in React makes sense sometimes. In this example, you can disable the linter for the specific line by adding `// eslint-disable-line react/jsx-props-no-spreading`.
-
-#### Adding & running tests
-
-This project uses [Jest](https://create-react-app.dev/docs/running-tests) and [react-testing-library](https://github.com/testing-library/react-testing-library) for unit and integration testing. To run the tests, execute:
-
-```bash
-yarn test
-# See test coverage
-yarn test -- --coverage
-```
-
-Add at least a smoke test to every new component to make sure that it renders, as recommended [here](https://create-react-app.dev/docs/running-tests#testing-components). It is also [recommended](https://jestjs.io/docs/en/api.html#testname-fn-timeout) to use `test()` instead of it's alias `it()`. Add test files next to the code they are testing. Test files must follow the `<component-name>.test.jsx` name pattern.
-
-#### Local development build & run
-
-Execute `yarn start` in the component root to run the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 ## Code of Conduct
 
