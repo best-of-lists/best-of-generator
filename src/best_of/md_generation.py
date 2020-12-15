@@ -241,7 +241,7 @@ def generate_pypi_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = "- **[PyPi](" + pypi_url + ")**" + metrics_md + seperator + "\n"
+    details_md = "- [PyPi](" + pypi_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         details_md += "![PyPI Version](https://img.shields.io/pypi/v/{pypi_id}?style=social&logo=python&logoColor=black) "
         details_md += "![PyPI Downloads](https://img.shields.io/pypi/dm/{pypi_id}?style=social&logo=python&logoColor=black) "
@@ -301,7 +301,7 @@ def generate_conda_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = "- **[Conda](" + conda_url + ")**" + metrics_md + seperator + "\n"
+    details_md = "- [Conda](" + conda_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         details_md += "![Conda Version](https://img.shields.io/conda/v/{conda_channel}/{conda_package}?style=social) "
         details_md += "![Conda Downloads](https://img.shields.io/conda/dn/{conda_channel}/{conda_package}?style=social) "
@@ -348,7 +348,7 @@ def generate_maven_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = "- **[Maven](" + maven_url + ")**" + metrics_md + seperator + "\n"
+    details_md = "- [Maven](" + maven_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         pass
     if configuration.generate_install_hints:
@@ -400,9 +400,7 @@ def generate_dockerhub_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = (
-        "- **[Dockerhub](" + dockerhub_url + ")**" + metrics_md + seperator + "\n"
-    )
+    details_md = "- [Dockerhub](" + dockerhub_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         details_md += "![Docker Pulls](https://img.shields.io/docker/pulls/{dockerhub_id}?logo=docker&label=pulls&color=informational&logoColor=white) "
         details_md += "![Docker Stars](https://img.shields.io/docker/stars/{dockerhub_id}?logo=docker&label=stars&color=informational&logoColor=white) "
@@ -464,7 +462,7 @@ def generate_npm_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = "- **[NPM](" + npm_url + ")**" + metrics_md + seperator + "\n"
+    details_md = "- [NPM](" + npm_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         details_md += "![NPM Version](https://img.shields.io/npm/v/{npm_id}?style=social&logo=node.js&logoColor=black) "
         details_md += "![NPM Downloads](https://img.shields.io/npm/dm/{npm_id}?style=social&logo=node.js&logoColor=black) "
@@ -555,7 +553,7 @@ def generate_github_details(project: Dict, configuration: Dict) -> str:
         else ":"
     )
 
-    details_md = "- **[GitHub](" + github_url + ")**" + metrics_md + seperator + "\n"
+    details_md = "- [GitHub](" + github_url + ")" + metrics_md + seperator + "\n"
     if configuration.generate_badges:
         details_md += "![GitHub Stars](https://img.shields.io/github/stars/{github_id}?style=social) "
         details_md += "![GitHub Forks](https://img.shields.io/github/forks/{github_id}?style=social) "
