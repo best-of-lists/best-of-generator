@@ -217,21 +217,33 @@ def update_repo_via_libio(project_info: Dict) -> None:
         log.info("The github project id is not valid: " + project_info.github_id)
         return
 
+    if not is_activated():
+        # Libraries.io not activated
+        return
+
     owner = project_info.github_id.split("/")[0]
     repo = project_info.github_id.split("/")[1]
 
-    from pybraries.search import Search
+    try:
+        from pybraries.search import Search
 
-    search = Search()
-    github_info = search.repository(host="github", owner=owner, repo=repo)
+        search = Search()
+        github_info = search.repository(host="github", owner=owner, repo=repo)
 
-    if not github_info:
+        if not github_info:
+            log.info(
+                "Unable to find github repo via libraries.io: " + project_info.github_id
+            )
+            return
+
+        github_info = Dict(github_info)
+    except Exception as ex:
         log.info(
-            "Unable to find github repo via libraries.io: " + project_info.github_id
+            "Unable to request github repo info from libraries.io: "
+            + project_info.github_id,
+            exc_info=ex,
         )
         return
-
-    github_info = Dict(github_info)
 
     if not project_info.github_url:
         project_info.github_url = "https://github.com/" + project_info.github_id
