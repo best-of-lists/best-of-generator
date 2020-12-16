@@ -9,6 +9,14 @@ from typing import Tuple
 from addict import Dict
 
 from best_of import utils
+from best_of.integrations import (
+    conda_integration,
+    dockerhub_integration,
+    github_integration,
+    maven_integration,
+    npm_integration,
+    pypi_integration,
+)
 from best_of.license import get_license
 
 log = logging.getLogger(__name__)
@@ -170,437 +178,28 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
     return license_md, license_length
 
 
-def generate_links_list(project: Dict, configuration: Dict) -> str:
-    links_md = ""
-    # target="_blank"
-    link_template = ' <code><a href="{url}">{text}</a></code>'
-    if project.github_url and project.homepage != project.github_url:
-        links_md += link_template.format(url=project.npm_url, text="github")
-
-    if project.dockerhub_url and project.homepage != project.dockerhub_url:
-        links_md += link_template.format(url=project.dockerhub_url, text="dockerhub")
-
-    if project.docs_url and project.homepage != project.docs_url:
-        links_md += link_template.format(url=project.docs_url, text="docs")
-
-    if project.pypi_url and project.homepage != project.conda_url:
-        links_md += link_template.format(url=project.pypi_url, text="pypi")
-
-    if project.conda_url and project.homepage != project.conda_url:
-        links_md += link_template.format(url=project.conda_url, text="conda")
-
-    if project.npm_url and project.homepage != project.npm_url:
-        links_md += link_template.format(url=project.npm_url, text="npm")
-
-    return links_md
-
-
-def generate_pypi_details(project: Dict, configuration: Dict) -> str:
-    pypi_id = project.pypi_id
-    if not pypi_id:
-        return ""
-
-    metrics_md = ""
-    if project.pypi_monthly_downloads:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += (
-            "📥 "
-            + str(utils.simplify_number(project.pypi_monthly_downloads))
-            + " / month"
-        )
-
-    if project.pypi_dependent_project_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📦 " + str(
-            utils.simplify_number(project.pypi_dependent_project_count)
-        )
-
-    if project.pypi_latest_release_published_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(
-            project.pypi_latest_release_published_at.strftime("%d.%m.%Y")
-        )
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    pypi_url = ""
-    if project.pypi_url:
-        pypi_url = project.pypi_url
-
-    # https://badgen.net/#pypi
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [PyPi](" + pypi_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        details_md += "![PyPI Version](https://img.shields.io/pypi/v/{pypi_id}?style=social&logo=python&logoColor=black) "
-        details_md += "![PyPI Downloads](https://img.shields.io/pypi/dm/{pypi_id}?style=social&logo=python&logoColor=black) "
-        # Tool Slow: details_md += "![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/pypi/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        # Tool Slow: details_md += "![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/pypi/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        details_md += "![PyPI Status](https://img.shields.io/pypi/status/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        details_md += "![PyPI Python Version](https://img.shields.io/pypi/pyversions/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        details_md += "![PyPI Format](https://img.shields.io/pypi/format/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        details_md += "![Dependent repos](https://img.shields.io/librariesio/dependent-repos/pypi/{pypi_id}?color=informational&logo=python&logoColor=white) "
-        details_md += "![PyPI License](https://img.shields.io/pypi/l/{pypi_id}?color=informational&logo=python&logoColor=white) "
-
-    if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tpip install {pypi_id}\n\t```\n"
-    return details_md.format(pypi_id=pypi_id)
-
-
-def generate_conda_details(project: Dict, configuration: Dict) -> str:
-    conda_id = project.conda_id
-    if not conda_id:
-        return ""
-
-    # https://anaconda.org/anaconda/anaconda/badges
-    metrics_md = ""
-    if project.conda_dependent_project_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📦 " + str(
-            utils.simplify_number(project.conda_dependent_project_count)
-        )
-
-    if project.conda_latest_release_published_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(
-            project.conda_latest_release_published_at.strftime("%d.%m.%Y")
-        )
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    conda_url = ""
-    if project.conda_url:
-        conda_url = project.conda_url
-
-    conda_package = project.conda_id
-    conda_channel = "anaconda"
-    if "/" in project.conda_id:
-        # different channel
-        conda_channel = project.conda_id.split("/")[0]
-        conda_package = project.conda_id.split("/")[1]
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [Conda](" + conda_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        details_md += "![Conda Version](https://img.shields.io/conda/v/{conda_channel}/{conda_package}?style=social) "
-        details_md += "![Conda Downloads](https://img.shields.io/conda/dn/{conda_channel}/{conda_package}?style=social) "
-        details_md += "![Supported Platforms](https://img.shields.io/conda/pn/{conda_channel}/{conda_package}?color=informational) "
-    if configuration.generate_install_hints:
-        details_md += (
-            "\n\t```\n\tconda install -c {conda_channel} {conda_package}\n\t```\n"
-        )
-    return details_md.format(conda_channel=conda_channel, conda_package=conda_package)
-
-
-def generate_maven_details(project: Dict, configuration: Dict) -> str:
-    maven_id = project.maven_id
-    if not maven_id or ":" not in maven_id:
-        return ""
-
-    metrics_md = ""
-    if project.maven_dependent_project_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📦 " + str(
-            utils.simplify_number(project.maven_dependent_project_count)
-        )
-
-    if project.maven_latest_release_published_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(
-            project.maven_latest_release_published_at.strftime("%d.%m.%Y")
-        )
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    maven_url = ""
-    if project.maven_url:
-        maven_url = project.maven_url
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [Maven](" + maven_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        pass
-    if configuration.generate_install_hints:
-        details_md += "\n\t```\n\t<dependency>\n\t\t<groupId>{maven_group_id}</groupId>\n\t\t<artifactId>{maven_artifact_id}</artifactId>\n\t\t<version>[VERSION]</version>\n\t</dependency>\n\t```\n"
-    maven_group_id = maven_id.split(":")[0]
-    maven_artifact_id = maven_id.split(":")[1]
-    return details_md.format(
-        maven_group_id=maven_group_id, maven_artifact_id=maven_artifact_id
-    )
-
-
-def generate_dockerhub_details(project: Dict, configuration: Dict) -> str:
-    dockerhub_id = project.dockerhub_id
-    if not dockerhub_id:
-        return ""
-
-    metrics_md = ""
-    if project.dockerhub_pulls:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📥 " + str(utils.simplify_number(project.dockerhub_pulls))
-
-    if project.dockerhub_stars:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⭐ " + str(utils.simplify_number(project.dockerhub_stars))
-
-    if project.dockerhub_latest_release_published_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(
-            project.dockerhub_latest_release_published_at.strftime("%d.%m.%Y")
-        )
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    dockerhub_url = ""
-    if project.dockerhub_url:
-        dockerhub_url = project.dockerhub_url
-
-    # https://badgen.net/#docker
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [Dockerhub](" + dockerhub_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        details_md += "![Docker Pulls](https://img.shields.io/docker/pulls/{dockerhub_id}?logo=docker&label=pulls&color=informational&logoColor=white) "
-        details_md += "![Docker Stars](https://img.shields.io/docker/stars/{dockerhub_id}?logo=docker&label=stars&color=informational&logoColor=white) "
-        details_md += "![Docker Build](https://img.shields.io/docker/automated/{dockerhub_id}?logo=docker&label=build&color=informational&logoColor=white) "
-        details_md += "![Docker Version](https://images.microbadger.com/badges/version/{dockerhub_id}.svg) "
-        details_md += "![Docker License](https://images.microbadger.com/badges/license/{dockerhub_id}.svg) "
-        details_md += "![Docker Commit](https://images.microbadger.com/badges/commit/{dockerhub_id}.svg) "
-        details_md += "![MicroBadger Layers](https://img.shields.io/microbadger/layers/{dockerhub_id}?logo=docker&color=informational&logoColor=white) "
-        details_md += "![MicroBadger Size](https://img.shields.io/microbadger/image-size/{dockerhub_id}?logo=docker&color=informational&logoColor=white) "
-
-    if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tdocker pull {dockerhub_id}\n\t```\n"
-    return details_md.format(dockerhub_id=dockerhub_id)
-
-
-def generate_npm_details(project: Dict, configuration: Dict) -> str:
-    npm_id = project.npm_id
-    if not npm_id:
-        return ""
-
-    metrics_md = ""
-    if project.npm_monthly_downloads:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += (
-            "📥 "
-            + str(utils.simplify_number(project.npm_monthly_downloads))
-            + " / month"
-        )
-
-    if project.npm_dependent_project_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📦 " + str(
-            utils.simplify_number(project.npm_dependent_project_count)
-        )
-
-    if project.npm_latest_release_published_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(
-            project.npm_latest_release_published_at.strftime("%d.%m.%Y")
-        )
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    npm_url = ""
-    if project.npm_url:
-        npm_url = project.npm_url
-
-    # https://badgen.net/#npm
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [NPM](" + npm_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        details_md += "![NPM Version](https://img.shields.io/npm/v/{npm_id}?style=social&logo=node.js&logoColor=black) "
-        details_md += "![NPM Downloads](https://img.shields.io/npm/dm/{npm_id}?style=social&logo=node.js&logoColor=black) "
-        details_md += "![NPM License](https://img.shields.io/npm/l/{npm_id}?color=informational&logo=node.js&logoColor=white) "
-        details_md += "![Node Version](https://img.shields.io/node/v/{npm_id}?color=informational&logo=node.js&logoColor=white) "
-        details_md += "![NPM Type Definitions](https://img.shields.io/npm/types/{npm_id}?color=informational&logo=node.js&logoColor=white) "
-        details_md += "![NPM Collaborators](https://img.shields.io/npm/collaborators/{npm_id}?color=informational&logo=node.js&logoColor=white) "
-        details_md += "![NPM Bundle Size](https://img.shields.io/bundlephobia/min/{npm_id}?color=informational&logo=node.js&logoColor=white) "
-        details_md += "![NPM Intstall Size](https://badgen.net/packagephobia/install/{npm_id}?color=blue&icon=npm) "
-        details_md += "![NPM Snyk Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/{npm_id}?color=informational&logo=snyk&logoColor=white) "
-        details_md += "![NPM JsDelivr Hits](https://img.shields.io/jsdelivr/npm/hm/{npm_id}?color=informational&logo=jsdelivr&logoColor=white) "
-
-    if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tnpm install {npm_id}\n\t```\n"
-    return details_md.format(npm_id=npm_id)
-
-
-def generate_github_details(project: Dict, configuration: Dict) -> str:
-    github_id = project.github_id
-    if not github_id:
-        return ""
-
-    metrics_md = ""
-    if project.contributor_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "👨‍💻 " + str(utils.simplify_number(project.contributor_count))
-
-    if project.fork_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "🔀 " + str(utils.simplify_number(project.fork_count))
-
-    if project.github_release_downloads:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📥 " + str(
-            utils.simplify_number(project.github_release_downloads)
-        )
-
-    if project.github_dependent_project_count:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "📦 " + str(
-            utils.simplify_number(project.github_dependent_project_count)
-        )
-
-    if project.open_issue_count and project.closed_issue_count:
-        if metrics_md:
-            metrics_md += " · "
-        total_issues = project.closed_issue_count + project.open_issue_count
-
-        metrics_md += (
-            "📋 "
-            + str(utils.simplify_number(total_issues))
-            + " - "
-            + str(
-                int(
-                    (
-                        project.open_issue_count
-                        / (project.closed_issue_count + project.open_issue_count)
-                    )
-                    * 100
-                )
-            )
-            + "% open"
-        )
-
-    if project.last_commit_pushed_at:
-        if metrics_md:
-            metrics_md += " · "
-        metrics_md += "⏱️ " + str(project.last_commit_pushed_at.strftime("%d.%m.%Y"))
-
-    if metrics_md:
-        metrics_md = " (" + metrics_md + ")"
-
-    github_url = ""
-    if project.github_url:
-        github_url = project.github_url
-
-    # https://badgen.net/#github
-
-    # only show : if details are available
-    seperator = (
-        ""
-        if not configuration.generate_badges
-        and not configuration.generate_install_hints
-        else ":"
-    )
-
-    details_md = "- [GitHub](" + github_url + ")" + metrics_md + seperator + "\n"
-    if configuration.generate_badges:
-        details_md += "![GitHub Stars](https://img.shields.io/github/stars/{github_id}?style=social) "
-        details_md += "![GitHub Forks](https://img.shields.io/github/forks/{github_id}?style=social) "
-        details_md += "![GitHub Contributors](https://img.shields.io/github/contributors/{github_id}?style=social&logo=github) "
-        details_md += "![GitHub Watchers](https://img.shields.io/github/watchers/{github_id}?style=social) "
-        details_md += "![GitHub Last Commit](https://img.shields.io/github/last-commit/{github_id}?color=informational&logo=github&logoColor=white) "
-        # Too Slow:  details_md += "![Libraries.io Dependency Status](https://img.shields.io/librariesio/github/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub License](https://img.shields.io/github/license/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Open Issues](https://img.shields.io/github/issues-raw/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Closed Issues](https://img.shields.io/github/issues-closed-raw/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Pull Requests](https://badgen.net/github/prs/{github_id}?color=blue&icon=github) "
-        details_md += "![Github Commits](https://badgen.net/github/commits/{github_id}?color=blue&icon=github) "
-        details_md += "![Github Repo Dependents](https://badgen.net/github/dependents-repo/{github_id}?color=blue&icon=github) "
-        details_md += "![Github Pkgs Dependents](https://badgen.net/github/dependents-pkg/{github_id}?color=blue&icon=github) "
-        details_md += "![GitHub Language Count](https://img.shields.io/github/languages/count/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Top Language](https://img.shields.io/github/languages/top/{github_id}?color=informational&logo=github&logoColor=white) "
-        details_md += "![GitHub Release](https://badgen.net/github/release/{github_id}/stable?color=blue&icon=github) "
-        # details_md += "![GitHub Downloads](https://img.shields.io/github/downloads/{github_id}/total?color=informational) "
-        # Github API Limit: details_md += "![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/{github_id}.svg) "
-        # Github API Limit: details_md += "![Percentage of issues still open](http://isitmaintained.com/badge/open/{github_id}.svg) "
-
-    if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tgit clone https://github.com/{github_id}\n\t```\n"
-    return details_md.format(github_id=github_id)
-
-
 def generate_project_body(project: Dict, configuration: Dict) -> str:
     body_md = ""
 
     if project.github_id:
-        body_md += generate_github_details(project, configuration)
+        body_md += github_integration.generate_github_details(project, configuration)
 
     if project.pypi_id:
-        body_md += generate_pypi_details(project, configuration)
+        body_md += pypi_integration.generate_pypi_details(project, configuration)
 
     if project.npm_id:
-        body_md += generate_npm_details(project, configuration)
+        body_md += npm_integration.generate_npm_details(project, configuration)
 
     if project.conda_id:
-        body_md += generate_conda_details(project, configuration)
+        body_md += conda_integration.generate_conda_details(project, configuration)
 
     if project.dockerhub_id:
-        body_md += generate_dockerhub_details(project, configuration)
+        body_md += dockerhub_integration.generate_dockerhub_details(
+            project, configuration
+        )
 
     if project.maven_id:
-        body_md += generate_maven_details(project, configuration)
+        body_md += maven_integration.generate_maven_details(project, configuration)
 
     if not body_md:
         # show message if no information is available
@@ -616,9 +215,6 @@ def generate_project_md(project: Dict, configuration: Dict, labels: list) -> str
     metrics_md = generate_metrics_info(project, configuration)
     license_md, license_len = generate_license_info(project, configuration)
     labels_md = generate_project_labels(project, labels)
-
-    if configuration.generate_link_shortcuts:
-        labels_md += generate_links_list(project, configuration)
 
     metadata_md = ""
     if license_md and labels_md:
@@ -636,8 +232,17 @@ def generate_project_md(project: Dict, configuration: Dict, labels: list) -> str
     label_count = 0
     if project.labels:
         label_count = len(project.labels)
-    desc_length = max(
-        60, 105 - len(project.name) - len(metrics_md) - license_len - (label_count * 3)
+    desc_length = int(
+        round(
+            max(
+                60,
+                100
+                - (len(project.name) * 1.1)
+                - len(metrics_md)
+                - license_len
+                - (label_count * 4),
+            )
+        )
     )
     description = utils.process_description(project.description, desc_length)
     # target="_blank"

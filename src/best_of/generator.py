@@ -8,6 +8,8 @@ import pandas as pd
 import yaml
 from addict import Dict
 
+from best_of.integrations import libio_integration
+
 log = logging.getLogger(__name__)
 
 
@@ -44,11 +46,14 @@ def parse_projects_yaml(
 
 
 def generate_markdown(
-    projects_yaml_path: str, libraries_api_key: str, github_api_key: str = None
+    projects_yaml_path: str, libraries_api_key: str = None, github_api_key: str = None
 ) -> None:
     try:
         # Set libraries api key
-        os.environ["LIBRARIES_API_KEY"] = libraries_api_key
+        if libraries_api_key:
+            os.environ[libio_integration.ENV_LIBRARIES_API_KEY] = libraries_api_key
+        else:
+            log.warn("No Libraries.io API key provided.")
 
         if github_api_key:
             os.environ["GITHUB_API_KEY"] = github_api_key

@@ -23,7 +23,7 @@ def cli() -> None:
 @click.option(
     "--libraries-key",
     "-l",
-    required=True,
+    required=False,
     type=click.STRING,
     help="Libraries.io API Key: https://libraries.io/api",
 )
