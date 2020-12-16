@@ -53,13 +53,16 @@ def generate_markdown(
         if libraries_api_key:
             os.environ[libio_integration.ENV_LIBRARIES_API_KEY] = libraries_api_key
         else:
-            log.warn("No Libraries.io API key provided.")
+            log.warn(
+                "No Libraries.io API key provided. "
+                "We recommend to activate the libraries.io integration by providing a valid API key from https://libraries.io/api"
+            )
 
         if github_api_key:
             os.environ["GITHUB_API_KEY"] = github_api_key
         else:
-            log.info(
-                "No Github API key provided. Only using libraries.io for fetching repo information."
+            log.warn(
+                "No Github API key provided. We recommend to activate the Github integration by providing a valid API key from https://github.com/settings/tokens"
             )
 
         # Needs to be imported without setting environment variable
