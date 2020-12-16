@@ -1,7 +1,6 @@
 import json
 import logging
 import time
-from urllib.parse import quote
 
 import pypistats
 from addict import Dict

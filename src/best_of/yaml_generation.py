@@ -5,7 +5,7 @@ import yaml
 from addict import Dict
 from tqdm import tqdm
 
-from best_of import projects_collection
+from best_of.integrations import github_integration, pypi_integration
 
 
 def extract_github_projects_to_yaml(input_str: str, yaml_output_path: str) -> None:
@@ -25,7 +25,7 @@ def extract_github_projects_to_yaml(input_str: str, yaml_output_path: str) -> No
 
         project = Dict()
         project.github_id = github_id
-        projects_collection.update_via_github(project)
+        github_integration.update_via_github(project)
         projects.append(project)
 
     output_yaml = []
@@ -52,7 +52,7 @@ def requirements_to_yaml(requirements_path: str, yaml_output_path: str) -> None:
         for req in tqdm(requirements.parse(fd)):
             project = Dict()
             project.pypi_id = req.name
-            projects_collection.update_via_pypi(project)
+            pypi_integration.update_via_pypi(project)
             requirements_projects.append(project)
 
     output_yaml = []

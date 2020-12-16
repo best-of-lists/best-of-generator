@@ -1,5 +1,4 @@
 import logging
-from urllib.parse import quote
 
 from addict import Dict
 

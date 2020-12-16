@@ -1,6 +1,5 @@
 import logging
 import math
-import os
 import re
 from collections import OrderedDict
 from datetime import datetime
@@ -264,9 +263,6 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "generate_toc" not in config:
         config.generate_toc = True
-
-    if "generate_link_shortcuts" not in config:
-        config.generate_link_shortcuts = False
 
     if "generate_legend" not in config:
         config.generate_legend = True
