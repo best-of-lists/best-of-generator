@@ -6,7 +6,6 @@ from datetime import datetime
 
 import numpy as np
 from addict import Dict
-from dateutil.parser import parse
 from tqdm import tqdm
 
 from best_of import utils
