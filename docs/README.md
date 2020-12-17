@@ -45,6 +45,7 @@
 - [`npm_integration.update_via_npm`](./best_of.integrations.npm_integration.md#function-update_via_npm)
 - [`pypi_integration.generate_pypi_details`](./best_of.integrations.pypi_integration.md#function-generate_pypi_details)
 - [`pypi_integration.update_via_pypi`](./best_of.integrations.pypi_integration.md#function-update_via_pypi)
+- [`pypi_integration.update_via_pypistats`](./best_of.integrations.pypi_integration.md#function-update_via_pypistats)
 - [`license.get_license`](./best_of.license.md#function-get_license)
 - [`md_generation.generate_category_md`](./best_of.md_generation.md#function-generate_category_md)
 - [`md_generation.generate_changes_md`](./best_of.md_generation.md#function-generate_changes_md)
