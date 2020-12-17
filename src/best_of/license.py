@@ -108,6 +108,14 @@ LICENSES: List[dict] = [
         "osi_approved": True,
         "warning": False,
     },
+    {
+        "name": "CC-BY-SA-4.0",
+        "spdx_id": "CC-BY-SA-4.0",
+        "keywords": [" CC-BY-SA-4.0 License"],
+        "url": "https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)",
+        "osi_approved": False,
+        "warning": False,
+    },
 ]
 
 
