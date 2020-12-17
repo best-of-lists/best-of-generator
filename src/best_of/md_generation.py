@@ -257,14 +257,24 @@ def generate_project_md(
     )
     description = utils.process_description(project.description, desc_length)
     # target="_blank"
-    project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}</summary>{body}</details>'.format(
-        homepage=project.homepage,
-        name=project.name,
-        description=description,
-        metrics=metrics_md,
-        metadata=metadata_md,
-        body=body_md,
-    )
+    if generate_body:
+        project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}</summary>{body}</details>'.format(
+            homepage=project.homepage,
+            name=project.name,
+            description=description,
+            metrics=metrics_md,
+            metadata=metadata_md,
+            body=body_md,
+        )
+    else:
+        # don't use details format
+        project_md = '- <b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}'.format(
+            homepage=project.homepage,
+            name=project.name,
+            description=description,
+            metrics=metrics_md,
+            metadata=metadata_md,
+        )
 
     return project_md
 
