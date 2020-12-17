@@ -12,7 +12,6 @@
     "shd101wyy.markdown-preview-enhanced",
     // Python Development
     "ms-python.python",
-    "ms-python.vscode-pylance",
     "njpwerner.autodocstring",
   ]
 }
