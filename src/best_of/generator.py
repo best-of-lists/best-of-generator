@@ -75,8 +75,9 @@ def generate_markdown(
             projects, categories, config
         )
 
+        LATEST_CHANGES_FILE = "latest_changes.md"
+
         if config.projects_history_folder:
-            print("try to generate changes")
             # generate trending information from most recent
 
             history_files = glob.glob(
@@ -84,8 +85,6 @@ def generate_markdown(
             )
 
             if history_files:
-                print("there are files")
-
                 (
                     added_projects,
                     trending_projects,
@@ -110,7 +109,7 @@ def generate_markdown(
                     f.write(changes_md)
 
                 # write to working directory
-                with open("latest_changes.md", "w") as f:
+                with open(LATEST_CHANGES_FILE, "w") as f:
                     f.write(changes_md)
 
         projects_collection.categorize_projects(projects, categories)
@@ -132,6 +131,10 @@ def generate_markdown(
         if not config.output_markdown_file:
             # Default output markdown file
             config.output_markdown_file = "README.md"
+
+        if not os.path.exists(LATEST_CHANGES_FILE):
+            with open(LATEST_CHANGES_FILE, "w") as f:
+                f.write("Nothing changed from last update.")
 
         with open(config.output_markdown_file, "w") as f:
             f.write(markdown)
