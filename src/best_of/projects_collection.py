@@ -424,7 +424,9 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
             if license_metadata:
                 allowed_licenses.append(utils.simplify_str(license_metadata["spdx_id"]))
 
-        if project_license not in set(allowed_licenses):
+        if project_license not in set(allowed_licenses) and "all" not in set(
+            allowed_licenses
+        ):
             project_info.show = False
 
     # Do not show if project is dead
