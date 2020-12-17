@@ -74,7 +74,13 @@ def generate_metrics_info(project: Dict, configuration: Dict) -> str:
         status_md = "🐣"
     elif project.commercial:
         status_md = "💲"
-    # TODO: add support for trending (📈) and new addition (➕)
+    elif project.trending:
+        if project.trending > 0:
+            status_md = "📈"
+        elif project.trending < 0:
+            status_md = "📉"
+    elif project.new_addition:
+        status_md = "➕"
 
     if status_md and metrics_md:
         metrics_md = metrics_md + " · " + status_md
@@ -292,6 +298,53 @@ def generate_category_md(
     return "<br>\n\n" + category_md
 
 
+def generate_changes_md(projects: list, configuration: Dict, labels: list) -> str:
+    added_projects = []
+    trending_up_projects = []
+    trending_down_projects = []
+
+    for project in projects:
+        project = Dict(project)
+        if project.trending:
+            if project.trending > 0:
+                trending_up_projects.append(project)
+            elif project.trending < 0:
+                trending_down_projects.append(project)
+        elif project.new_addition:
+            added_projects.append(project)
+
+    markdown = ""
+
+    if added_projects:
+        markdown += "## ➕ Added Projects\n\n"
+        markdown += "_Projects that were recently added to this best-of list._\n\n"
+        for project in added_projects:
+            project_md = generate_project_md(project, configuration, labels)
+            markdown += project_md + "\n"
+        markdown += "\n"
+
+    if trending_up_projects:
+        markdown += "## 📈 Trending Up\n\n"
+        markdown += "_Projects that have a higher project-quality score compared to the last update. There might be a variety of reasons, such as more weekly downloads or code activity._\n\n"
+        for project in trending_up_projects:
+            project_md = generate_project_md(project, configuration, labels)
+            markdown += project_md + "\n"
+        markdown += "\n"
+
+    if trending_down_projects:
+        markdown += "## 📉 Trending Down\n\n"
+        markdown += "_Projects that have a lower project-quality score compared to the last update. There might be a variety of reasons such as less weekly downloads or code activity._\n\n"
+        for project in trending_down_projects:
+            project_md = generate_project_md(project, configuration, labels)
+            markdown += project_md + "\n"
+        markdown += "\n"
+
+    if not markdown:
+        markdown = "Nothing changed from last update."
+
+    return markdown
+
+
 def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
     legend_md = title_md_prefix + " Explanation\n"
     # Score that various project-quality metrics
@@ -313,6 +366,8 @@ def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
         + str(configuration.project_dead_months)
         + " month no activity)_\n"
     )
+    legend_md += "- 📈📉&nbsp; Project is trending up or down\n"
+    legend_md += "- ➕&nbsp; Project was recently added\n"
     legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
     legend_md += "- 👨‍💻&nbsp; Contributors count from Github\n"
     legend_md += "- 🔀&nbsp; Fork count from Github\n"
@@ -320,7 +375,7 @@ def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
     legend_md += "- ⏱️&nbsp; Last update timestamp on package manager\n"
     legend_md += "- 📥&nbsp; Download count from package manager\n"
     legend_md += "- 📦&nbsp; Number of dependent projects\n"
-    # legend_md += "- 📈&nbsp; Trending project\n"
+
     # legend_md += "- 💲&nbsp; Commercial project\n"
     return legend_md + "\n"
 

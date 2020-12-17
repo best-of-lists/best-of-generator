@@ -1,3 +1,4 @@
+import glob
 import logging
 import os
 from collections import OrderedDict
@@ -53,7 +54,7 @@ def generate_markdown(
         if libraries_api_key:
             os.environ[libio_integration.ENV_LIBRARIES_API_KEY] = libraries_api_key
         else:
-            log.warn(
+            log.warning(
                 "No Libraries.io API key provided. "
                 "We recommend to activate the libraries.io integration by providing a valid API key from https://libraries.io/api"
             )
@@ -61,7 +62,7 @@ def generate_markdown(
         if github_api_key:
             os.environ["GITHUB_API_KEY"] = github_api_key
         else:
-            log.warn(
+            log.warning(
                 "No Github API key provided. We recommend to activate the Github integration by providing a valid API key from https://github.com/settings/tokens"
             )
 
@@ -74,6 +75,44 @@ def generate_markdown(
             projects, categories, config
         )
 
+        if config.projects_history_folder:
+            print("try to generate changes")
+            # generate trending information from most recent
+
+            history_files = glob.glob(
+                os.path.join(config.projects_history_folder, "*_projects.csv")
+            )
+
+            if history_files:
+                print("there are files")
+
+                (
+                    added_projects,
+                    trending_projects,
+                ) = projects_collection.get_projects_changes(
+                    projects, sorted(history_files, reverse=True)[1]
+                )
+
+                projects_collection.apply_projects_changes(
+                    projects, added_projects, trending_projects
+                )
+
+                changes_md = md_generation.generate_changes_md(projects, config, labels)
+                changes_md_file_name = (
+                    datetime.today().strftime("%Y-%m-%d") + "_changes.md"
+                )
+
+                # write to history file
+                with open(
+                    os.path.join(config.projects_history_folder, changes_md_file_name),
+                    "w",
+                ) as f:
+                    f.write(changes_md)
+
+                # write to working directory
+                with open("latest_changes.md", "w") as f:
+                    f.write(changes_md)
+
         projects_collection.categorize_projects(projects, categories)
 
         if config.projects_history_folder:
@@ -84,6 +123,8 @@ def generate_markdown(
                 config.projects_history_folder, projects_file_name
             )
             pd.DataFrame(projects).to_csv(projects_history_file, sep=",")
+
+            # Load most recent
 
         markdown = md_generation.generate_md(categories, config, labels)
 

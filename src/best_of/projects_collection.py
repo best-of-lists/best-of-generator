@@ -3,8 +3,10 @@ import math
 import re
 from collections import OrderedDict
 from datetime import datetime
+from typing import List, Tuple
 
 import numpy as np
+import pandas as pd
 from addict import Dict
 from tqdm import tqdm
 
@@ -225,6 +227,69 @@ def prepare_categories(input_categories: dict) -> OrderedDict:
         # Add others category at the last position
         categories[DEFAULT_OTHERS_CATEGORY_ID] = Dict({"title": "Others"})
     return categories
+
+
+def get_projects_changes(
+    projects: List[Dict], history_file_path: str
+) -> Tuple[List[str], Dict]:
+    # get project scores from history file
+    projects_history_df = pd.read_csv(history_file_path, sep=",", index_col=0)
+    project_scores_history = {}
+
+    for project in projects_history_df.to_dict("records"):
+        project_scores_history[project["name"]] = int(project["projectrank"])
+
+    added_projects = []
+    trending_projects = {}
+
+    for project in projects:
+        project_name = project["name"]
+        project_score = project["projectrank"]
+        if project_name not in project_scores_history:
+            added_projects.append(project_name)
+        else:
+            score_difference = project_score - project_scores_history[project_name]
+
+        if score_difference == 0:
+            # did not change
+            continue
+        trending_projects[project_name] = score_difference
+    return added_projects, trending_projects
+
+
+def apply_projects_changes(
+    projects: List[Dict],
+    added_projects: List[str],
+    trending_projects: Dict,
+    max_trends: int = 10,
+) -> None:
+    trending_up: dict = {}
+    for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=True):
+        project_name = project[0]
+        project_score = trending_projects[project[0]]
+        if project_score < 0:
+            break
+        if len(trending_up) < max_trends:
+            trending_up[project_name] = project_score
+
+    trending_down: dict = {}
+    for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=False):
+        project_name = project[0]
+        project_score = trending_projects[project[0]]
+        if project_score > 0:
+            break
+        if len(trending_down) < max_trends:
+            trending_down[project_name] = project_score
+
+    for project in projects:
+        project_name = project["name"]
+        if project_name in trending_up:
+            project["trending"] = trending_up[project_name]
+        elif project_name in trending_down:
+            project["trending"] = trending_down[project_name]
+
+        if project_name in added_projects:
+            project["new_addition"] = True
 
 
 def prepare_configuration(cfg: dict) -> Dict:
