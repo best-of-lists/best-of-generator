@@ -215,7 +215,9 @@ def generate_project_body(project: Dict, configuration: Dict) -> str:
     return body_md
 
 
-def generate_project_md(project: Dict, configuration: Dict, labels: list) -> str:
+def generate_project_md(
+    project: Dict, configuration: Dict, labels: list, generate_body: bool = True
+) -> str:
 
     project_md = ""
     metrics_md = generate_metrics_info(project, configuration)
@@ -231,7 +233,10 @@ def generate_project_md(project: Dict, configuration: Dict, labels: list) -> str
     elif labels_md:
         metadata_md = labels_md
 
-    body_md = generate_project_body(project, configuration)
+    if generate_body:
+        body_md = generate_project_body(project, configuration)
+    else:
+        body_md = ""
 
     # Dynamically calculate the max length of the description.
     # The goal is that it fits into one row in most cases.
@@ -319,23 +324,29 @@ def generate_changes_md(projects: list, configuration: Dict, labels: list) -> st
         markdown += "## ➕ Added Projects\n\n"
         markdown += "_Projects that were recently added to this best-of list._\n\n"
         for project in added_projects:
-            project_md = generate_project_md(project, configuration, labels)
+            project_md = generate_project_md(
+                project, configuration, labels, generate_body=False
+            )
             markdown += project_md + "\n"
         markdown += "\n"
 
     if trending_up_projects:
         markdown += "## 📈 Trending Up\n\n"
-        markdown += "_Projects that have a higher project-quality score compared to the last update. There might be a variety of reasons, such as more weekly downloads or code activity._\n\n"
+        markdown += "_Projects that have a higher project-quality score compared to the last update. There might be a variety of reasons, such as increased downloads or code activity._\n\n"
         for project in trending_up_projects:
-            project_md = generate_project_md(project, configuration, labels)
+            project_md = generate_project_md(
+                project, configuration, labels, generate_body=False
+            )
             markdown += project_md + "\n"
         markdown += "\n"
 
     if trending_down_projects:
         markdown += "## 📉 Trending Down\n\n"
-        markdown += "_Projects that have a lower project-quality score compared to the last update. There might be a variety of reasons such as less weekly downloads or code activity._\n\n"
+        markdown += "_Projects that have a lower project-quality score compared to the last update. There might be a variety of reasons such as decreased downloads or code activity._\n\n"
         for project in trending_down_projects:
-            project_md = generate_project_md(project, configuration, labels)
+            project_md = generate_project_md(
+                project, configuration, labels, generate_body=False
+            )
             markdown += project_md + "\n"
         markdown += "\n"
 
