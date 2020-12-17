@@ -93,7 +93,10 @@ def generate_markdown(
                 )
 
                 projects_collection.apply_projects_changes(
-                    projects, added_projects, trending_projects
+                    projects,
+                    added_projects,
+                    trending_projects,
+                    max_trends=config.max_trending_projects,
                 )
 
                 changes_md = md_generation.generate_changes_md(projects, config, labels)
