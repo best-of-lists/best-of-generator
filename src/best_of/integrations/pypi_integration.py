@@ -4,6 +4,7 @@ import time
 
 import pypistats
 from addict import Dict
+from requests.exceptions import HTTPError
 
 from best_of import utils
 from best_of.integrations import libio_integration
@@ -21,26 +22,54 @@ def update_via_pypi(project_info: Dict) -> None:
     if libio_integration.is_activated():
         libio_integration.update_package_via_libio("pypi", project_info)
 
-    try:
-        # pypi stats limit is 30 per minute: https://github.com/crflynn/pypistats.org/issues/28#issuecomment-598417650
-        time.sleep(1.5)
+    update_via_pypistats(project_info)
 
-        # get download count from pypi stats
-        project_info.pypi_monthly_downloads = int(
-            json.loads(pypistats.recent(project_info.pypi_id, "month", format="json"))[
-                "data"
-            ]["last_month"]
-        )
 
-        if not project_info.monthly_downloads:
-            project_info.monthly_downloads = 0
+def update_via_pypistats(project_info: Dict) -> None:
 
-        project_info.monthly_downloads += int(project_info.pypi_monthly_downloads)
-    except Exception as ex:
-        log.info(
-            "Unable to request statistics from pypi: " + project_info.pypi_id,
-            exc_info=ex,
-        )
+    # pypi stats limit is 30 per minute: https://github.com/crflynn/pypistats.org/issues/28#issuecomment-598417650
+    # So, we try 10 times
+    MAX_TRIES = 10
+    for i in range(1, MAX_TRIES):
+        try:
+            # get download count from pypi stats
+            project_info.pypi_monthly_downloads = int(
+                json.loads(
+                    pypistats.recent(project_info.pypi_id, "month", format="json")
+                )["data"]["last_month"]
+            )
+
+            if not project_info.monthly_downloads:
+                project_info.monthly_downloads = 0
+
+            project_info.monthly_downloads += int(project_info.pypi_monthly_downloads)
+            return
+        except HTTPError as ex:
+            if ex.response.status_code == 429:
+                sleep_time = 2 * i
+                log.info(
+                    f"Too many requests to pypistats (429). Sleep for {sleep_time} seconds and try again."
+                )
+                # wait for an increasing time
+                time.sleep(sleep_time)
+                continue
+            else:
+                log.info(
+                    "Unable to request statistics from pypi: " + project_info.pypi_id,
+                    exc_info=ex,
+                )
+                return
+        except Exception as ex:
+            log.info(
+                "Unable to request statistics from pypi: " + project_info.pypi_id,
+                exc_info=ex,
+            )
+            return
+
+    log.info(
+        f"Unable to request statistics from pypi after {MAX_TRIES} tries: "
+        + project_info.pypi_id
+    )
 
 
 def generate_pypi_details(project: Dict, configuration: Dict) -> str:
