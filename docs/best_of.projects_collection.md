@@ -172,7 +172,7 @@ apply_filters(project_info: Dict, configuration: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L449"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L451"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `collect_projects_info`
 
