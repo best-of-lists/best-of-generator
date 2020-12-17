@@ -261,7 +261,7 @@ def apply_projects_changes(
     projects: List[Dict],
     added_projects: List[str],
     trending_projects: Dict,
-    max_trends: int = 10,
+    max_trends: int = 5,
 ) -> None:
     trending_up: dict = {}
     for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=True):
@@ -333,6 +333,9 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "sort_by" not in config:
         config.sort_by = "projectrank"
+
+    if "max_trending_projects" not in config:
+        config.max_trending_projects = 5
 
     if "allowed_licenses" not in config:
         config.allowed_licenses = []
