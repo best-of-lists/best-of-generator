@@ -39,6 +39,8 @@ def update_via_pypistats(project_info: Dict) -> None:
                 )["data"]["last_month"]
             )
 
+            # TODO use pepy api as fallback: https://api.pepy.tech/api/projects/lazydocs
+
             if not project_info.monthly_downloads:
                 project_info.monthly_downloads = 0
 
