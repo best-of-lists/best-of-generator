@@ -129,8 +129,6 @@ def generate_dockerhub_details(project: Dict, configuration: Dict) -> str:
     if project.dockerhub_url:
         dockerhub_url = project.dockerhub_url
 
-    # https://badgen.net/#docker
-
     # only show : if details are available
     seperator = (
         ""
