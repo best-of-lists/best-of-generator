@@ -1,6 +1,9 @@
 import logging
+from datetime import datetime
 
+import requests
 from addict import Dict
+from dateutil.parser import parse
 
 from best_of import utils
 from best_of.integrations import libio_integration
@@ -12,19 +15,98 @@ def update_via_conda(project_info: Dict) -> None:
     if not project_info.conda_id:
         return
 
-    if "/" in project_info.conda_id:
-        # Package from different conda channel (not anaconda)
-        # Cannot be requested by libraries.io
-        project_info.conda_url = "https://anaconda.org/" + project_info.conda_id
-        return
-
     if not project_info.conda_url:
-        project_info.conda_url = (
-            "https://anaconda.org/anaconda/" + project_info.conda_id
-        )
+        if "/" in project_info.conda_id:
+            # Package from different conda channel (not anaconda)
+            # Cannot be requested by libraries.io
+            project_info.conda_url = "https://anaconda.org/" + project_info.conda_id
+        else:
+            project_info.conda_url = (
+                "https://anaconda.org/anaconda/" + project_info.conda_id
+            )
 
     if libio_integration.is_activated():
         libio_integration.update_package_via_libio("conda", project_info)
+
+    update_via_conda_api(project_info)
+
+
+def update_via_conda_api(project_info: Dict) -> None:
+    try:
+        conda_package = project_info.conda_id
+        if "/" not in conda_package:
+            # Add anaconda as default channel, if channel not provided
+            conda_package = "anaconda/" + project_info.conda_id
+
+        request = requests.get("https://api.anaconda.org/package/" + conda_package)
+        request.text
+        if request.status_code != 200:
+            log.info(
+                "Unable to find package via conda api: "
+                + project_info.conda_id
+                + " ("
+                + str(request.status_code)
+                + ")"
+            )
+            return
+        conda_info = Dict(request.json())
+
+        created_at = None
+        if conda_info.created_at:
+            try:
+                created_at = parse(str(conda_info.created_at))
+                if not project_info.created_at or project_info.created_at > created_at:
+                    project_info.created_at = created_at
+            except Exception as ex:
+                log.warning(
+                    "Failed to parse timestamp: " + str(conda_info.created_at),
+                    exc_info=ex,
+                )
+
+        if conda_info.modified_at:
+            try:
+                updated_at = parse(str(conda_info.modified_at))
+                if not project_info.updated_at or project_info.updated_at < updated_at:
+                    project_info.updated_at = updated_at
+            except Exception as ex:
+                log.warning(
+                    "Failed to parse timestamp: " + str(conda_info.modified_at),
+                    exc_info=ex,
+                )
+
+        total_downloads = 0
+        if conda_info.files:
+            for package_file in conda_info.files:
+                total_downloads += int(package_file.ndownloads)
+
+        if total_downloads:
+            project_info.conda_release_downloads = total_downloads
+
+            # Add to monthly downloads
+            if not project_info.monthly_downloads:
+                project_info.monthly_downloads = 0
+
+            if created_at:
+                # monthly downloads = total downloads to total month
+                project_info.monthly_downloads += int(
+                    total_downloads
+                    / max(1, int(utils.diff_month(datetime.now(), created_at)))
+                )
+
+        # TODO set docs or project url based on metadata
+        # TODO set latest stable release based on latest_version
+        if (
+            not project_info.description
+            or len(project_info.description) < libio_integration.MIN_PROJECT_DESC_LENGTH
+        ) and conda_info.summary:
+            project_info.description = conda_info.summary
+
+    except Exception as ex:
+        log.info(
+            "Failed to request package via conda api: " + project_info.npm_id,
+            exc_info=ex,
+        )
+        return
 
 
 def generate_conda_details(project: Dict, configuration: Dict) -> str:
