@@ -25,7 +25,8 @@ def update_via_conda(project_info: Dict) -> None:
                 "https://anaconda.org/anaconda/" + project_info.conda_id
             )
 
-    if libio_integration.is_activated():
+    if libio_integration.is_activated() and "/" not in project_info.conda_id:
+        # libraries.io can currently only parse conda packages from default channel (anaconda)
         libio_integration.update_package_via_libio("conda", project_info)
 
     update_via_conda_api(project_info)
@@ -66,6 +67,9 @@ def update_via_conda_api(project_info: Dict) -> None:
         if conda_info.modified_at:
             try:
                 updated_at = parse(str(conda_info.modified_at))
+                # Set as latest release publish date
+                project_info.conda_latest_release_published_at = updated_at
+                # Update update date from project
                 if not project_info.updated_at or project_info.updated_at < updated_at:
                     project_info.updated_at = updated_at
             except Exception as ex:
@@ -80,7 +84,7 @@ def update_via_conda_api(project_info: Dict) -> None:
                 total_downloads += int(package_file.ndownloads)
 
         if total_downloads:
-            project_info.conda_release_downloads = total_downloads
+            project_info.conda_total_downloads = total_downloads
 
             # Add to monthly downloads
             if not project_info.monthly_downloads:
@@ -92,6 +96,14 @@ def update_via_conda_api(project_info: Dict) -> None:
                     total_downloads
                     / max(1, int(utils.diff_month(datetime.now(), created_at)))
                 )
+
+        if conda_info.versions:
+            version_count = len(conda_info.versions)
+            if (
+                not project_info.release_count
+                or int(project_info.release_count) < version_count
+            ):
+                project_info.release_count = version_count
 
         # TODO set docs or project url based on metadata
         # TODO set latest stable release based on latest_version
@@ -115,6 +127,12 @@ def generate_conda_details(project: Dict, configuration: Dict) -> str:
         return ""
 
     metrics_md = ""
+
+    if project.conda_total_downloads:
+        if metrics_md:
+            metrics_md += " · "
+        metrics_md += "📥 " + str(utils.simplify_number(project.conda_total_downloads))
+
     if project.conda_dependent_project_count:
         if metrics_md:
             metrics_md += " · "
