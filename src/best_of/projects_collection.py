@@ -337,6 +337,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "max_trending_projects" not in config:
         config.max_trending_projects = 5
 
+    if "hide_empty_categories" not in config:
+        config.hide_empty_categories = False
+
     if "allowed_licenses" not in config:
         config.allowed_licenses = []
         from best_of.license import LICENSES

@@ -280,11 +280,15 @@ def generate_project_md(
 
 
 def generate_category_md(
-    category: Dict, configuration: Dict, labels: list, title_md_prefix: str = "##"
+    category: Dict, config: Dict, labels: list, title_md_prefix: str = "##"
 ) -> str:
     category_md = ""
 
-    if not category.projects and not category.hidden_projects:
+    if (
+        config.hide_empty_categories
+        and not category.projects
+        and not category.hidden_projects
+    ):
         # Do not show category
         return category_md
 
@@ -296,7 +300,7 @@ def generate_category_md(
 
     if category.projects:
         for project in category.projects:
-            project_md = generate_project_md(project, configuration, labels)
+            project_md = generate_project_md(project, config, labels)
             category_md += project_md + "\n"
 
     if category.hidden_projects:
@@ -306,14 +310,14 @@ def generate_category_md(
             + " hidden projects...</summary>\n<br>"
         )
         for project in category.hidden_projects:
-            project_md = generate_project_md(project, configuration, labels)
+            project_md = generate_project_md(project, config, labels)
             category_md += project_md + "\n"
         category_md += "</details>\n"
 
     return "<br>\n\n" + category_md
 
 
-def generate_changes_md(projects: list, configuration: Dict, labels: list) -> str:
+def generate_changes_md(projects: list, config: Dict, labels: list) -> str:
     added_projects = []
     trending_up_projects = []
     trending_down_projects = []
@@ -335,7 +339,7 @@ def generate_changes_md(projects: list, configuration: Dict, labels: list) -> st
         markdown += "_Projects that were recently added to this best-of list._\n\n"
         for project in added_projects:
             project_md = generate_project_md(
-                project, configuration, labels, generate_body=False
+                project, config, labels, generate_body=False
             )
             markdown += project_md + "\n"
         markdown += "\n"
@@ -345,7 +349,7 @@ def generate_changes_md(projects: list, configuration: Dict, labels: list) -> st
         markdown += "_Projects that have a higher project-quality score compared to the last update. There might be a variety of reasons, such as increased downloads or code activity._\n\n"
         for project in trending_up_projects:
             project_md = generate_project_md(
-                project, configuration, labels, generate_body=False
+                project, config, labels, generate_body=False
             )
             markdown += project_md + "\n"
         markdown += "\n"
@@ -355,7 +359,7 @@ def generate_changes_md(projects: list, configuration: Dict, labels: list) -> st
         markdown += "_Projects that have a lower project-quality score compared to the last update. There might be a variety of reasons such as decreased downloads or code activity._\n\n"
         for project in trending_down_projects:
             project_md = generate_project_md(
-                project, configuration, labels, generate_body=False
+                project, config, labels, generate_body=False
             )
             markdown += project_md + "\n"
         markdown += "\n"
@@ -406,7 +410,7 @@ def process_md_link(text: str) -> str:
     return re.compile(r"[^a-zA-Z0-9-]").sub("", text)
 
 
-def generate_toc(categories: OrderedDict) -> str:
+def generate_toc(categories: OrderedDict, config: Dict) -> str:
     toc_md = "## Contents\n\n"
     for category in categories:
         title = categories[category]["title"]
@@ -421,7 +425,7 @@ def generate_toc(categories: OrderedDict) -> str:
         ):
             project_count += len(categories[category]["hidden_projects"])
 
-        if not project_count:
+        if not project_count and config.hide_empty_categories:
             # only add if more than 0 projects
             continue
 
@@ -431,7 +435,7 @@ def generate_toc(categories: OrderedDict) -> str:
     return toc_md + "\n"
 
 
-def generate_md(categories: OrderedDict, configuration: Dict, labels: list) -> str:
+def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
     full_markdown = ""
 
     project_count = 0
@@ -440,7 +444,9 @@ def generate_md(categories: OrderedDict, configuration: Dict, labels: list) -> s
 
     for category_name in categories:
         category = categories[category_name]
-        if category.projects or category.hidden_projects:
+        if not config.hide_empty_categories or (
+            category.projects or category.hidden_projects
+        ):
             category_count += 1
 
         if category.projects:
@@ -455,9 +461,9 @@ def generate_md(categories: OrderedDict, configuration: Dict, labels: list) -> s
                 if project.star_count:
                     stars_count += project.star_count
 
-    if configuration.markdown_header_file:
-        if os.path.exists(configuration.markdown_header_file):
-            with open(configuration.markdown_header_file, "r") as f:
+    if config.markdown_header_file:
+        if os.path.exists(config.markdown_header_file):
+            with open(config.markdown_header_file, "r") as f:
                 full_markdown += (
                     str(f.read()).format(
                         project_count=utils.simplify_number(project_count),
@@ -469,23 +475,21 @@ def generate_md(categories: OrderedDict, configuration: Dict, labels: list) -> s
         else:
             log.warning(
                 "The markdown header file does not exist: "
-                + os.path.abspath(configuration.markdown_header_file)
+                + os.path.abspath(config.markdown_header_file)
             )
 
-    if configuration.generate_toc:
-        full_markdown += generate_toc(categories)
+    if config.generate_toc:
+        full_markdown += generate_toc(categories, config)
 
-    if configuration.generate_legend:
-        full_markdown += generate_legend(configuration)
+    if config.generate_legend:
+        full_markdown += generate_legend(config)
 
     for category in categories:
-        full_markdown += generate_category_md(
-            categories[category], configuration, labels
-        )
+        full_markdown += generate_category_md(categories[category], config, labels)
 
-    if configuration.markdown_footer_file:
-        if os.path.exists(configuration.markdown_footer_file):
-            with open(configuration.markdown_footer_file, "r") as f:
+    if config.markdown_footer_file:
+        if os.path.exists(config.markdown_footer_file):
+            with open(config.markdown_footer_file, "r") as f:
                 full_markdown += str(f.read()).format(
                     project_count=utils.simplify_number(project_count),
                     category_count=utils.simplify_number(category_count),
@@ -494,6 +498,6 @@ def generate_md(categories: OrderedDict, configuration: Dict, labels: list) -> s
         else:
             log.warning(
                 "The markdown footer file does not exist: "
-                + os.path.abspath(configuration.markdown_footer_file)
+                + os.path.abspath(config.markdown_footer_file)
             )
     return full_markdown
