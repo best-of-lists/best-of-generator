@@ -90,7 +90,9 @@ def update_package_via_libio(
 
     if package_info.latest_release_published_at:
         try:
-            updated_at = parse(str(package_info.latest_release_published_at))
+            updated_at = parse(
+                str(package_info.latest_release_published_at), ignoretz=True
+            )
             if not project_info.updated_at:
                 project_info.updated_at = updated_at
             elif project_info.updated_at < updated_at:
@@ -114,7 +116,9 @@ def update_package_via_libio(
 
     if package_info.versions and len(package_info.versions) > 0:
         try:
-            updated_at = parse(str(package_info.versions[0].published_at))
+            updated_at = parse(
+                str(package_info.versions[0].published_at), ignoretz=True
+            )
             if not project_info.updated_at:
                 project_info.updated_at = updated_at
             elif project_info.updated_at < updated_at:
@@ -130,7 +134,7 @@ def update_package_via_libio(
     if package_info.latest_stable_release_published_at:
         try:
             latest_stable_release_published_at = parse(
-                str(package_info.latest_stable_release_published_at)
+                str(package_info.latest_stable_release_published_at), ignoretz=True
             )
             if (
                 not project_info.latest_stable_release_published_at
@@ -261,7 +265,7 @@ def update_repo_via_libio(project_info: Dict) -> None:
 
     if github_info.created_at:
         try:
-            created_at = parse(str(github_info.created_at))
+            created_at = parse(str(github_info.created_at), ignoretz=True)
             if not project_info.created_at:
                 project_info.created_at = created_at
             elif project_info.created_at > created_at:
@@ -274,7 +278,7 @@ def update_repo_via_libio(project_info: Dict) -> None:
     # pushed_at is the last github push, updated_at is the last sync?
     if github_info.pushed_at:
         try:
-            updated_at = parse(str(github_info.pushed_at))
+            updated_at = parse(str(github_info.pushed_at), ignoretz=True)
             if not project_info.updated_at:
                 project_info.updated_at = updated_at
             elif project_info.updated_at < updated_at:
