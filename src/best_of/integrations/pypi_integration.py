@@ -56,9 +56,8 @@ def update_via_pypistats(project_info: Dict) -> None:
                 time.sleep(sleep_time)
                 continue
             else:
-                log.warning(
-                    "Unable to request statistics from pypi: " + project_info.pypi_id,
-                    exc_info=ex,
+                log.info(
+                    f"Unable to request statistics from pypi: {project_info.pypi_id} ({ex.response.status_code})"
                 )
                 return
         except Exception as ex:
