@@ -115,6 +115,7 @@ def update_via_github_api(project_info: Dict) -> None:
 query($owner: String!, $repo: String!) {
   repository(owner: $owner, name: $repo) {
     name
+    nameWithOwner
     description
     url
     homepageUrl
@@ -220,6 +221,17 @@ query($owner: String!, $repo: String!) {
     if not project_info.homepage:
         project_info.homepage = project_info.github_url
 
+    if not project_info.name and github_info.name:
+        project_info.name = github_info.name
+
+    if github_info.nameWithOwner and utils.simplify_str(
+        project_info.github_id
+    ) != utils.simplify_str(github_info.nameWithOwner):
+        log.info(
+            f"The github repo name has changed from {project_info.github_id} to {github_info.nameWithOwner}"
+        )
+        project_info.updated_github_id = github_info.nameWithOwner
+
     if (
         not project_info.license
         and github_info.licenseInfo
@@ -231,7 +243,7 @@ query($owner: String!, $repo: String!) {
 
     if github_info.createdAt:
         try:
-            created_at = parse(str(github_info.createdAt))
+            created_at = parse(str(github_info.createdAt), ignoretz=True)
             if not project_info.created_at:
                 project_info.created_at = created_at
             elif project_info.created_at > created_at:
@@ -245,7 +257,7 @@ query($owner: String!, $repo: String!) {
     # pushed_at is the last github push, updated_at is the last sync?
     if github_info.pushedAt:
         try:
-            updated_at = parse(str(github_info.pushedAt))
+            updated_at = parse(str(github_info.pushedAt), ignoretz=True)
             if not project_info.updated_at:
                 project_info.updated_at = updated_at
             elif project_info.updated_at < updated_at:
@@ -263,7 +275,7 @@ query($owner: String!, $repo: String!) {
     ):
         try:
             last_commit_pushed_at = parse(
-                str(github_info.masterCommit.target.committedDate)
+                str(github_info.masterCommit.target.committedDate), ignoretz=True
             )
             if not project_info.last_commit_pushed_at:
                 project_info.last_commit_pushed_at = last_commit_pushed_at
@@ -327,7 +339,7 @@ query($owner: String!, $repo: String!) {
                     is_stable = False
 
                 if release.publishedAt:
-                    release_date = parse(str(release.publishedAt))
+                    release_date = parse(str(release.publishedAt), ignoretz=True)
                     if not first_release_date:
                         first_release_date = release_date
                     if first_release_date > release_date:
