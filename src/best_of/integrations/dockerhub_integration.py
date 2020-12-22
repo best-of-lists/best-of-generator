@@ -59,7 +59,7 @@ def update_via_dockerhub(project_info: Dict) -> None:
 
     if dockerhub_info.last_updated:
         try:
-            updated_at = parse(str(dockerhub_info.last_updated))
+            updated_at = parse(str(dockerhub_info.last_updated), ignoretz=True)
             if not project_info.updated_at:
                 project_info.updated_at = updated_at
             elif project_info.updated_at < updated_at:

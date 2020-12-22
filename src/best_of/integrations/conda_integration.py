@@ -55,7 +55,7 @@ def update_via_conda_api(project_info: Dict) -> None:
         created_at = None
         if conda_info.created_at:
             try:
-                created_at = parse(str(conda_info.created_at))
+                created_at = parse(str(conda_info.created_at), ignoretz=True)
                 if not project_info.created_at or project_info.created_at > created_at:
                     project_info.created_at = created_at
             except Exception as ex:
@@ -66,7 +66,7 @@ def update_via_conda_api(project_info: Dict) -> None:
 
         if conda_info.modified_at:
             try:
-                updated_at = parse(str(conda_info.modified_at))
+                updated_at = parse(str(conda_info.modified_at), ignoretz=True)
                 # Set as latest release publish date
                 project_info.conda_latest_release_published_at = updated_at
                 # Update update date from project
@@ -107,6 +107,8 @@ def update_via_conda_api(project_info: Dict) -> None:
 
         # TODO set docs or project url based on metadata
         # TODO set latest stable release based on latest_version
+        # TODO: set licenses if provided
+
         if (
             not project_info.description
             or len(project_info.description) < libio_integration.MIN_PROJECT_DESC_LENGTH
