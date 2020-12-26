@@ -6,7 +6,6 @@ import urllib.request
 from typing import List, Optional
 
 import requirements
-import yaml
 from addict import Dict
 from tqdm import tqdm
 
