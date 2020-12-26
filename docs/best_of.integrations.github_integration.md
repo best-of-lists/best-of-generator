@@ -58,7 +58,7 @@ update_via_github_api(project_info: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/github_integration.py#L407"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/github_integration.py#L419"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `update_via_github`
 
@@ -73,7 +73,7 @@ update_via_github(project_info: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/github_integration.py#L415"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/github_integration.py#L427"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_github_details`
 

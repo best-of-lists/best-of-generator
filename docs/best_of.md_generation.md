@@ -112,7 +112,7 @@ generate_project_md(
 ```python
 generate_category_md(
     category: Dict,
-    configuration: Dict,
+    config: Dict,
     labels: list,
     title_md_prefix: str = '##'
 ) → str
@@ -125,12 +125,12 @@ generate_category_md(
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L316"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L320"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_changes_md`
 
 ```python
-generate_changes_md(projects: list, configuration: Dict, labels: list) → str
+generate_changes_md(projects: list, config: Dict, labels: list) → str
 ```
 
 
@@ -140,7 +140,7 @@ generate_changes_md(projects: list, configuration: Dict, labels: list) → str
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L369"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L373"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_legend`
 
@@ -155,7 +155,7 @@ generate_legend(configuration: Dict, title_md_prefix: str = '##') → str
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L404"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L408"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `process_md_link`
 
@@ -170,12 +170,12 @@ process_md_link(text: str) → str
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L409"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L413"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_toc`
 
 ```python
-generate_toc(categories: OrderedDict) → str
+generate_toc(categories: OrderedDict, config: Dict) → str
 ```
 
 
@@ -185,12 +185,12 @@ generate_toc(categories: OrderedDict) → str
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L434"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/md_generation.py#L438"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_md`
 
 ```python
-generate_md(categories: OrderedDict, configuration: Dict, labels: list) → str
+generate_md(categories: OrderedDict, config: Dict, labels: list) → str
 ```
 
 
