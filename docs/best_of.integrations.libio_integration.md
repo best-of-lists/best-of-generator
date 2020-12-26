@@ -48,7 +48,7 @@ update_package_via_libio(
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/libio_integration.py#L212"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/libio_integration.py#L216"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `update_repo_via_libio`
 

@@ -7,6 +7,9 @@
 
 
 
+**Global Variables**
+---------------
+- **url_validator**
 
 ---
 
@@ -96,6 +99,19 @@ process_description(text: str, max_lenght: int) → str
 
 
 
+
+
+---
+
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/utils.py#L67"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `is_valid_url`
+
+```python
+is_valid_url(url: str) → bool
+```
+
+Check is the provided URL is valid. 
 
 
 

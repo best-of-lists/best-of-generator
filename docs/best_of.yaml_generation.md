@@ -10,12 +10,15 @@
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/yaml_generation.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/yaml_generation.py#L23"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `extract_github_projects_to_yaml`
+## <kbd>function</kbd> `extract_github_projects`
 
 ```python
-extract_github_projects_to_yaml(input_str: str, yaml_output_path: str) → None
+extract_github_projects(
+    input: str,
+    excluded_github_ids: Optional[List[str]] = None
+) → list
 ```
 
 
@@ -25,12 +28,35 @@ extract_github_projects_to_yaml(input_str: str, yaml_output_path: str) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/yaml_generation.py#L49"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/yaml_generation.py#L93"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `requirements_to_yaml`
+## <kbd>function</kbd> `extract_pypi_projects_from_requirements`
 
 ```python
-requirements_to_yaml(requirements_path: str, yaml_output_path: str) → None
+extract_pypi_projects_from_requirements(
+    requirements_input: str,
+    excluded_pypi_ids: Optional[List[str]] = None
+) → list
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/yaml_generation.py#L141"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `auto_extend_package_manager`
+
+```python
+auto_extend_package_manager(
+    projects: list,
+    pypi: bool = False,
+    conda: bool = False,
+    npm: bool = False
+) → list
 ```
 
 
