@@ -175,7 +175,6 @@ def generate_conda_details(project: Dict, configuration: Dict) -> str:
 
     if configuration.generate_install_hints:
         details_md += (
-            # "\n\t```\n\tconda install -c {conda_channel} {conda_package}\n\t```\n"
-            "\t<pre><code>conda install -c {conda_channel} {conda_package}</code></pre>\n"
+            "\t```\n\tconda install -c {conda_channel} {conda_package}\n\t```\n"
         )
     return details_md.format(conda_channel=conda_channel, conda_package=conda_package)

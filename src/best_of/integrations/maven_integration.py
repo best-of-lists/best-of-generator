@@ -60,7 +60,7 @@ def generate_maven_details(project: Dict, configuration: Dict) -> str:
     details_md = "- [Maven](" + maven_url + ")" + metrics_md + seperator + "\n"
 
     if configuration.generate_install_hints:
-        details_md += "\n\t```\n\t<dependency>\n\t\t<groupId>{maven_group_id}</groupId>\n\t\t<artifactId>{maven_artifact_id}</artifactId>\n\t\t<version>[VERSION]</version>\n\t</dependency>\n\t```\n"
+        details_md += "\t```\n\t<dependency>\n\t\t<groupId>{maven_group_id}</groupId>\n\t\t<artifactId>{maven_artifact_id}</artifactId>\n\t\t<version>[VERSION]</version>\n\t</dependency>\n\t```\n"
     maven_group_id = maven_id.split(":")[0]
     maven_artifact_id = maven_id.split(":")[1]
     return details_md.format(

@@ -500,7 +500,5 @@ def generate_github_details(project: Dict, configuration: Dict) -> str:
     details_md = "- [GitHub](" + github_url + ")" + metrics_md + seperator + "\n"
 
     if configuration.generate_install_hints:
-        details_md += (
-            "\n\t<pre><code>git clone https://github.com/{github_id}</code></pre>\n"
-        )
+        details_md += "\n\t```\n\tgit clone https://github.com/{github_id}\n\t```\n"
     return details_md.format(github_id=github_id)

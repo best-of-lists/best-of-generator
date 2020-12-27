@@ -140,5 +140,5 @@ def generate_dockerhub_details(project: Dict, configuration: Dict) -> str:
     details_md = "- [Dockerhub](" + dockerhub_url + ")" + metrics_md + seperator + "\n"
 
     if configuration.generate_install_hints:
-        details_md += "\t<pre><code>docker pull {dockerhub_id}</code></pre>\n"
+        details_md += "\t```\n\tdocker pull {dockerhub_id}\n\t```\n"
     return details_md.format(dockerhub_id=dockerhub_id)
