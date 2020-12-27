@@ -134,7 +134,6 @@ def generate_project_labels(project: Dict, labels: list) -> str:
                 image=label_info.image, name=label_info.name
             )
         elif label_info.image:
-            # TODO: try code blocks?
             label_md = '<code><img src="{image}" style="display:inline;" width="13" height="13"></code>'.format(
                 image=label_info.image
             )
@@ -372,7 +371,9 @@ def generate_changes_md(projects: list, config: Dict, labels: list) -> str:
     return markdown
 
 
-def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
+def generate_legend(
+    configuration: Dict, labels: list, title_md_prefix: str = "##"
+) -> str:
     legend_md = title_md_prefix + " Explanation\n"
     # Score that various project-quality metrics
     # score for a package based on a number of metrics
@@ -404,6 +405,16 @@ def generate_legend(configuration: Dict, title_md_prefix: str = "##") -> str:
     legend_md += "- 📦&nbsp; Number of dependent projects\n"
 
     # legend_md += "- 💲&nbsp; Commercial project\n"
+
+    if configuration.show_labels_in_legend:
+        for label in labels:
+            label_info = Dict(label)
+            # Add image labels to explanations
+            if label_info.image and label_info.description:
+                legend_md += '- <img src="{image}" style="display:inline;" width="13" height="13">&nbsp; {description}\n'.format(
+                    image=label_info.image, description=label_info.description
+                )
+
     return legend_md + "\n"
 
 
@@ -484,7 +495,7 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
         full_markdown += generate_toc(categories, config)
 
     if config.generate_legend:
-        full_markdown += generate_legend(config)
+        full_markdown += generate_legend(config, labels)
 
     for category in categories:
         full_markdown += generate_category_md(categories[category], config, labels)

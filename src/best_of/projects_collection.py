@@ -232,6 +232,7 @@ def prepare_categories(input_categories: dict) -> OrderedDict:
 def get_projects_changes(
     projects: List[Dict], history_file_path: str
 ) -> Tuple[List[str], Dict]:
+    print(history_file_path)
     # get project scores from history file
     projects_history_df = pd.read_csv(history_file_path, sep=",", index_col=0)
     project_scores_history = {}
@@ -339,6 +340,9 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "hide_empty_categories" not in config:
         config.hide_empty_categories = False
+
+    if "show_labels_in_legend" not in config:
+        config.show_labels_in_legend = True
 
     if "allowed_licenses" not in config:
         config.allowed_licenses = []
