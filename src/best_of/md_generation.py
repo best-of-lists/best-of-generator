@@ -307,10 +307,12 @@ def generate_category_md(
         category_md += (
             "<details><summary>Show "
             + str(len(category.hidden_projects))
-            + " hidden projects...</summary>\n<br>"
+            + " hidden projects...</summary>\n\n"
         )
         for project in category.hidden_projects:
-            project_md = generate_project_md(project, config, labels)
+            project_md = generate_project_md(
+                project, config, labels, generate_body=False
+            )
             category_md += project_md + "\n"
         category_md += "</details>\n"
 

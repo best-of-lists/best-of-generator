@@ -102,5 +102,5 @@ def generate_npm_details(project: Dict, configuration: Dict) -> str:
     details_md = "- [NPM](" + npm_url + ")" + metrics_md + seperator + "\n"
 
     if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tnpm install {npm_id}\n\t```\n"
+        details_md += "\t<pre><code>npm install {npm_id}</code></pre>\n"
     return details_md.format(npm_id=npm_id)

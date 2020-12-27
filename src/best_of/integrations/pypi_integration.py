@@ -122,5 +122,5 @@ def generate_pypi_details(project: Dict, configuration: Dict) -> str:
     details_md = "- [PyPi](" + pypi_url + ")" + metrics_md + seperator + "\n"
 
     if configuration.generate_install_hints:
-        details_md += "\n\t```\n\tpip install {pypi_id}\n\t```\n"
+        details_md += "\t<pre><code>pip install {pypi_id}</code></pre>\n"
     return details_md.format(pypi_id=pypi_id)

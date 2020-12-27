@@ -117,7 +117,7 @@ def update_via_conda_api(project_info: Dict) -> None:
 
     except Exception as ex:
         log.info(
-            "Failed to request package via conda api: " + project_info.npm_id,
+            "Failed to request package via conda api: " + project_info.conda_id,
             exc_info=ex,
         )
         return
@@ -175,6 +175,7 @@ def generate_conda_details(project: Dict, configuration: Dict) -> str:
 
     if configuration.generate_install_hints:
         details_md += (
-            "\n\t```\n\tconda install -c {conda_channel} {conda_package}\n\t```\n"
+            # "\n\t```\n\tconda install -c {conda_channel} {conda_package}\n\t```\n"
+            "\t<pre><code>conda install -c {conda_channel} {conda_package}</code></pre>\n"
         )
     return details_md.format(conda_channel=conda_channel, conda_package=conda_package)
