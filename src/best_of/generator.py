@@ -89,7 +89,7 @@ def generate_markdown(
                     added_projects,
                     trending_projects,
                 ) = projects_collection.get_projects_changes(
-                    projects, sorted(history_files, reverse=True)[1]
+                    projects, sorted(history_files, reverse=True)[0]
                 )
 
                 projects_collection.apply_projects_changes(
