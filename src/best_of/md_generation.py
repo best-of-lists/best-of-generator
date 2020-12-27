@@ -336,16 +336,6 @@ def generate_changes_md(projects: list, config: Dict, labels: list) -> str:
 
     markdown = ""
 
-    if added_projects:
-        markdown += "## ➕ Added Projects\n\n"
-        markdown += "_Projects that were recently added to this best-of list._\n\n"
-        for project in added_projects:
-            project_md = generate_project_md(
-                project, config, labels, generate_body=False
-            )
-            markdown += project_md + "\n"
-        markdown += "\n"
-
     if trending_up_projects:
         markdown += "## 📈 Trending Up\n\n"
         markdown += "_Projects that have a higher project-quality score compared to the last update. There might be a variety of reasons, such as increased downloads or code activity._\n\n"
@@ -360,6 +350,16 @@ def generate_changes_md(projects: list, config: Dict, labels: list) -> str:
         markdown += "## 📉 Trending Down\n\n"
         markdown += "_Projects that have a lower project-quality score compared to the last update. There might be a variety of reasons such as decreased downloads or code activity._\n\n"
         for project in trending_down_projects:
+            project_md = generate_project_md(
+                project, config, labels, generate_body=False
+            )
+            markdown += project_md + "\n"
+        markdown += "\n"
+
+    if added_projects:
+        markdown += "## ➕ Added Projects\n\n"
+        markdown += "_Projects that were recently added to this best-of list._\n\n"
+        for project in added_projects:
             project_md = generate_project_md(
                 project, config, labels, generate_body=False
             )
