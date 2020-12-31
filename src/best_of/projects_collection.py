@@ -323,6 +323,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "markdown_output_file" not in config:
         config.markdown_output_file = "README.md"
 
+    if "projects_history_folder" not in config:
+        config.projects_history_folder = "history"
+
     if "generate_badges" not in config:
         config.generate_badges = False
 
