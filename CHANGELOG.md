@@ -1,3 +1,3 @@
 # Changelog
 
-You can find the changelog of this project in the [Github release section](https://github.com/mltooling/project-template/releases).
+You can find the changelog of this project in the [Github release section](https://github.com/ml-tooling/best-of-generator/releases).
