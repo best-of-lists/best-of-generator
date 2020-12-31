@@ -247,10 +247,12 @@ def get_projects_changes(
     trending_projects = {}
 
     for project in projects:
+        score_difference = 0
         project_name = project["name"]
         project_score = project["projectrank"]
         if project_name not in project_scores_history:
             added_projects.append(project_name)
+            continue
         else:
             score_difference = project_score - project_scores_history[project_name]
 
