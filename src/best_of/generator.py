@@ -33,15 +33,27 @@ def parse_projects_yaml(
 
     projects = parsed_yaml["projects"]
 
+    if not projects:
+        projects = []
+
     config = projects_collection.prepare_configuration(
         parsed_yaml["configuration"] if "configuration" in parsed_yaml else {}
     )
+
+    if not config:
+        config = {}
 
     categories = projects_collection.prepare_categories(
         parsed_yaml["categories"] if "categories" in parsed_yaml else []
     )
 
+    if not categories:
+        categories = OrderedDict()
+
     labels = parsed_yaml["labels"] if "labels" in parsed_yaml else []
+
+    if not labels:
+        labels = []
 
     return config, projects, categories, labels
 

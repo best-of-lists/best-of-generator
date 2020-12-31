@@ -220,8 +220,10 @@ def update_project_category(project_info: Dict, categories: OrderedDict) -> None
 
 def prepare_categories(input_categories: dict) -> OrderedDict:
     categories = OrderedDict()
-    for category in input_categories:
-        categories[category["category"]] = Dict(category)
+
+    if input_categories:
+        for category in input_categories:
+            categories[category["category"]] = Dict(category)
 
     if DEFAULT_OTHERS_CATEGORY_ID not in categories:
         # Add others category at the last position
