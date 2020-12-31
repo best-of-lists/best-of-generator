@@ -4,6 +4,7 @@
 
 ## Modules
 
+- [`best_of.default_config`](./best_of.default_config.md#module-best_ofdefault_config)
 - [`best_of.generator`](./best_of.generator.md#module-best_ofgenerator)
 - [`best_of.integrations`](./best_of.integrations.md#module-best_ofintegrations)
 - [`best_of.integrations.conda_integration`](./best_of.integrations.conda_integration.md#module-best_ofintegrationsconda_integration)
