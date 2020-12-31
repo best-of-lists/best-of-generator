@@ -443,7 +443,7 @@ def generate_toc(categories: OrderedDict, config: Dict) -> str:
 
         if not project_count and (
             config.hide_empty_categories
-            or category.category == default_config.DEFAULT_OTHERS_CATEGORY_ID
+            or category == default_config.DEFAULT_OTHERS_CATEGORY_ID
         ):
             # only add if more than 0 projects
             continue
