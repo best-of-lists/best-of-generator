@@ -5,9 +5,9 @@ from urllib.parse import quote, urlparse
 from addict import Dict
 from dateutil.parser import parse
 
-log = logging.getLogger(__name__)
+from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 
-MIN_PROJECT_DESC_LENGTH = 10
+log = logging.getLogger(__name__)
 
 ENV_LIBRARIES_API_KEY = "LIBRARIES_API_KEY"
 

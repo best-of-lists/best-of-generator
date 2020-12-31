@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from dateutil.parser import parse
 
 from best_of import utils
+from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations import libio_integration
 
 log = logging.getLogger(__name__)
@@ -390,7 +391,7 @@ query($owner: String!, $repo: String!) {
 
     if (
         not project_info.description
-        or len(project_info.description) < libio_integration.MIN_PROJECT_DESC_LENGTH
+        or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
     ) and github_info.description:
         project_info.description = github_info.description
 

@@ -406,7 +406,6 @@ def generate_legend(
     legend_md += "- ⏱️&nbsp; Last update timestamp on package manager\n"
     legend_md += "- 📥&nbsp; Download count from package manager\n"
     legend_md += "- 📦&nbsp; Number of dependent projects\n"
-
     # legend_md += "- 💲&nbsp; Commercial project\n"
 
     if configuration.show_labels_in_legend:

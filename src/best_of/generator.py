@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
 def parse_projects_yaml(
     projects_yaml_path: str,
 ) -> Tuple[Dict, list, OrderedDict, list]:
-    from best_of import projects_collection
+    from best_of import default_config, projects_collection
 
     parsed_yaml = {}
 
@@ -36,7 +36,7 @@ def parse_projects_yaml(
     if not projects:
         projects = []
 
-    config = projects_collection.prepare_configuration(
+    config = default_config.prepare_configuration(
         parsed_yaml["configuration"] if "configuration" in parsed_yaml else {}
     )
 
