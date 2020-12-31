@@ -10,7 +10,7 @@ import pandas as pd
 from addict import Dict
 from tqdm import tqdm
 
-from best_of import utils
+from best_of import default_config, utils
 from best_of.integrations import (
     conda_integration,
     dockerhub_integration,
@@ -24,7 +24,6 @@ from best_of.license import get_license
 
 log = logging.getLogger(__name__)
 
-DEFAULT_OTHERS_CATEGORY_ID = "others"
 # Official Regex: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 SEMVER_VALIDATION = re.compile(
     r"^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$"
@@ -207,7 +206,7 @@ def categorize_projects(projects: list, categories: OrderedDict) -> None:
 def update_project_category(project_info: Dict, categories: OrderedDict) -> None:
     if not project_info.category:
         # if category is not provided, put into others category
-        project_info.category = DEFAULT_OTHERS_CATEGORY_ID
+        project_info.category = default_config.DEFAULT_OTHERS_CATEGORY_ID
 
     if project_info.category not in categories:
         log.info(
@@ -215,7 +214,7 @@ def update_project_category(project_info: Dict, categories: OrderedDict) -> None
             + project_info.category
             + " is not listed in the categories configuration."
         )
-        project_info.category = DEFAULT_OTHERS_CATEGORY_ID
+        project_info.category = default_config.DEFAULT_OTHERS_CATEGORY_ID
 
 
 def prepare_categories(input_categories: dict) -> OrderedDict:
@@ -225,9 +224,11 @@ def prepare_categories(input_categories: dict) -> OrderedDict:
         for category in input_categories:
             categories[category["category"]] = Dict(category)
 
-    if DEFAULT_OTHERS_CATEGORY_ID not in categories:
+    if default_config.DEFAULT_OTHERS_CATEGORY_ID not in categories:
         # Add others category at the last position
-        categories[DEFAULT_OTHERS_CATEGORY_ID] = Dict({"title": "Others"})
+        categories[default_config.DEFAULT_OTHERS_CATEGORY_ID] = Dict(
+            {"category": default_config.DEFAULT_OTHERS_CATEGORY_ID, "title": "Others"}
+        )
     return categories
 
 

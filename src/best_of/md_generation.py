@@ -8,7 +8,7 @@ from typing import Tuple
 
 from addict import Dict
 
-from best_of import utils
+from best_of import default_config, utils
 from best_of.integrations import (
     conda_integration,
     dockerhub_integration,
@@ -284,7 +284,10 @@ def generate_category_md(
     category_md = ""
 
     if (
-        config.hide_empty_categories
+        (
+            config.hide_empty_categories
+            or category.category == default_config.DEFAULT_OTHERS_CATEGORY_ID
+        )
         and not category.projects
         and not category.hidden_projects
     ):
@@ -438,7 +441,10 @@ def generate_toc(categories: OrderedDict, config: Dict) -> str:
         ):
             project_count += len(categories[category]["hidden_projects"])
 
-        if not project_count and config.hide_empty_categories:
+        if not project_count and (
+            config.hide_empty_categories
+            or category.category == default_config.DEFAULT_OTHERS_CATEGORY_ID
+        ):
             # only add if more than 0 projects
             continue
 
