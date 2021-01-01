@@ -7,10 +7,13 @@
 
 
 
+**Global Variables**
+---------------
+- **MIN_PROJECT_DESC_LENGTH**
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `update_via_conda`
 
@@ -25,7 +28,7 @@ update_via_conda(project_info: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L35"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L36"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `update_via_conda_api`
 
@@ -40,7 +43,7 @@ update_via_conda_api(project_info: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L126"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/integrations/conda_integration.py#L127"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_conda_details`
 

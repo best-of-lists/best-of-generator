@@ -26,6 +26,7 @@
 
 ## Functions
 
+- [`default_config.prepare_configuration`](./best_of.default_config.md#function-prepare_configuration)
 - [`generator.generate_markdown`](./best_of.generator.md#function-generate_markdown)
 - [`generator.parse_projects_yaml`](./best_of.generator.md#function-parse_projects_yaml)
 - [`conda_integration.generate_conda_details`](./best_of.integrations.conda_integration.md#function-generate_conda_details)
@@ -69,7 +70,6 @@
 - [`projects_collection.collect_projects_info`](./best_of.projects_collection.md#function-collect_projects_info)
 - [`projects_collection.get_projects_changes`](./best_of.projects_collection.md#function-get_projects_changes)
 - [`projects_collection.prepare_categories`](./best_of.projects_collection.md#function-prepare_categories)
-- [`projects_collection.prepare_configuration`](./best_of.projects_collection.md#function-prepare_configuration)
 - [`projects_collection.sort_projects`](./best_of.projects_collection.md#function-sort_projects)
 - [`projects_collection.update_project_category`](./best_of.projects_collection.md#function-update_project_category)
 - [`utils.clean_whitespaces`](./best_of.utils.md#function-clean_whitespaces)
