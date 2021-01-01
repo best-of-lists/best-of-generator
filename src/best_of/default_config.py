@@ -2,6 +2,7 @@ from addict import Dict
 
 DEFAULT_OTHERS_CATEGORY_ID = "others"
 MIN_PROJECT_DESC_LENGTH = 10
+UP_ARROW_IMAGE = "https://bit.ly/382Vmvi"
 
 
 def prepare_configuration(cfg: dict) -> Dict:

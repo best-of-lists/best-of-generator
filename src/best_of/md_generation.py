@@ -295,7 +295,7 @@ def generate_category_md(
         return category_md
 
     category_md += title_md_prefix + " " + category.title + "\n\n"
-    category_md += '<a href="#contents"><img align="right" width="15" height="15" src="https://i.ibb.co/2PS8bhR/up-arrow.png" alt="Back to top"></a>\n\n'
+    category_md += f'<a href="#contents"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
 
     if category.subtitle:
         category_md += "_" + category.subtitle.strip() + "_\n\n"
