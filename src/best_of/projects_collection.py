@@ -324,12 +324,22 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
     project_info.show = True
 
     # Project should have atleast name, homepage, and an description longer than a few chars
+    if not project_info.name:
+        log.info("Could not find a valid name" + str(project_info))
+        project_info.show = False
+        return
+
+    if not project_info.homepage:
+        log.info(f"Could not find a valid homepage for {project_info.name}")
+        project_info.show = False
+
     if (
-        not project_info.name
-        or not project_info.homepage
-        or not project_info.description
+        not project_info.description
         or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
     ):
+        log.info(
+            f"Could not find a valid description (> {MIN_PROJECT_DESC_LENGTH} chars) for {project_info.name}"
+        )
         project_info.show = False
 
     # Do not show if project projectrank less than min_projectrank
@@ -350,6 +360,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
 
     # Check platform requires
     if configuration.require_github and not project_info.github_url:
+        log.info(f"{project_info.name} requires github, but no github repo found .")
         project_info.show = False
 
     # TODO: also support other package managers as requirement
@@ -358,6 +369,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
 
     # Do not show if license was not found
     if not project_info.license and configuration.require_license:
+        log.info(f"Unable to detect a licenses for {project_info.name}")
         project_info.show = False
 
     # Do not show if license is not in allowed_licenses
