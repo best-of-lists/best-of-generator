@@ -479,6 +479,10 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
                 if project.star_count:
                     stars_count += project.star_count
 
+    if category_count > 0:
+        # do not count others as category
+        category_count -= 1
+
     if config.markdown_header_file:
         if os.path.exists(config.markdown_header_file):
             with open(config.markdown_header_file, "r") as f:
