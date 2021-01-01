@@ -9,6 +9,7 @@
 
 **Global Variables**
 ---------------
+- **MIN_PROJECT_DESC_LENGTH**
 - **SEMVER_VALIDATION**
 
 ---
@@ -128,21 +129,6 @@ apply_projects_changes(
 
 <a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L301"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `prepare_configuration`
-
-```python
-prepare_configuration(cfg: dict) → Dict
-```
-
-
-
-
-
-
----
-
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L365"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
-
 ## <kbd>function</kbd> `sort_projects`
 
 ```python
@@ -156,7 +142,7 @@ sort_projects(projects: list, configuration: Dict) → list
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L387"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L323"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `apply_filters`
 
@@ -171,7 +157,7 @@ apply_filters(project_info: Dict, configuration: Dict) → None
 
 ---
 
-<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L466"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/ml-tooling/best-of-generator/blob/main/src/best_of/projects_collection.py#L414"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `collect_projects_info`
 
