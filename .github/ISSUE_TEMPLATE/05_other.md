@@ -1,5 +1,5 @@
 ---
-name: "\U0001F4AC Anything else?"
+name: "💬 Anything else?"
 about: 'Do you have any other question?'
 title: ''
 labels: 'question'

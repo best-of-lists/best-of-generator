@@ -1,5 +1,5 @@
 ---
-name: "🚨&nbsp; Bug Report"
+name: "🚨 Bug Report"
 about: Did you come across a bug or unexpected behaviour differing from the docs?
 title: ''
 labels: bug

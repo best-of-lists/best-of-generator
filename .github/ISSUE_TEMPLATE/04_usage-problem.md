@@ -1,5 +1,5 @@
 ---
-name: "🧑‍💻&nbsp; Usage Problem"
+name: "🧑‍💻 Usage Problem"
 about: Do you have problems with usage, and none of the suggestions in the docs helped?
 title: ''
 labels: 'support'
