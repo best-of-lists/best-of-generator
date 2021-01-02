@@ -11,18 +11,18 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		 // General Development
-		 "esbenp.prettier-vscode",
-     "EditorConfig.EditorConfig",
-     "mutantdino.resourcemonitor",
-     "redhat.vscode-yaml",
-		 // Collaboration
-		 "eamodio.gitlens",
-		 // Markdown
-		 "DavidAnson.vscode-markdownlint",
-		 // Python Development
-		 "ms-python.python",
-		 "ms-python.vscode-pylance",
+    // General Development
+    "mutantdino.resourcemonitor",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "redhat.vscode-yaml",
+    "esbenp.prettier-vscode",
+    "EditorConfig.EditorConfig",
+    "aaron-bond.better-comments",
+    // Markdown
+    "DavidAnson.vscode-markdownlint",
+    // Python Development
+    "ms-python.python",
+    "njpwerner.autodocstring"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
