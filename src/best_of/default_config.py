@@ -57,6 +57,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "hide_empty_categories" not in config:
         config.hide_empty_categories = False
 
+    if "hide_project_license" not in config:
+        config.hide_project_license = False
+
     if "show_labels_in_legend" not in config:
         config.show_labels_in_legend = True
 

@@ -153,6 +153,9 @@ def generate_project_labels(project: Dict, labels: list) -> str:
 
 
 def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]:
+    if configuration.hide_project_license:
+        return "", 0
+
     license_length = 12
     license_md = ""
     if project.license:
@@ -399,7 +402,8 @@ def generate_legend(
     )
     legend_md += "- 📈📉&nbsp; Project is trending up or down\n"
     legend_md += "- ➕&nbsp; Project was recently added\n"
-    legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
+    if not configuration.hide_project_license:
+        legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
     legend_md += "- 👨‍💻&nbsp; Contributors count from Github\n"
     legend_md += "- 🔀&nbsp; Fork count from Github\n"
     legend_md += "- 📋&nbsp; Issue count from Github\n"
