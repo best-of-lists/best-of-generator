@@ -9,6 +9,7 @@ import pandas as pd
 import yaml
 from addict import Dict
 
+from best_of import default_config, projects_collection
 from best_of.integrations import libio_integration
 
 log = logging.getLogger(__name__)
@@ -17,7 +18,6 @@ log = logging.getLogger(__name__)
 def parse_projects_yaml(
     projects_yaml_path: str,
 ) -> Tuple[Dict, list, OrderedDict, list]:
-    from best_of import default_config, projects_collection
 
     parsed_yaml = {}
 
@@ -87,8 +87,6 @@ def generate_markdown(
             projects, categories, config
         )
 
-        LATEST_CHANGES_FILE = "latest_changes.md"
-
         if config.projects_history_folder:
             # generate trending information from most recent
 
@@ -124,7 +122,7 @@ def generate_markdown(
                     f.write(changes_md)
 
                 # write to working directory
-                with open(LATEST_CHANGES_FILE, "w") as f:
+                with open(default_config.LATEST_CHANGES_FILE, "w") as f:
                     f.write(changes_md)
 
         projects_collection.categorize_projects(projects, categories)
