@@ -2,7 +2,7 @@
 name: "\U0001F4AC Anything else?"
 about: 'Do you have any other question?'
 title: ''
-labels: ''
+labels: 'question'
 assignees: ''
 
 ---

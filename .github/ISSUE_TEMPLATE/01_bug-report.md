@@ -33,7 +33,6 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 **Technical details:**
 
 - Host Machine OS (Windows/Linux/Mac):
-- Browser (Chrome/Firefox/Safari):
 
 **Possible Fix:**
 

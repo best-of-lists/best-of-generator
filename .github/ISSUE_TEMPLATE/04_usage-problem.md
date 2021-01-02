@@ -1,6 +1,6 @@
 ---
-name: "\U0001F433 Deployment Problem"
-about: Do you have problems with deployment, and none of the suggestions in the docs helped?
+name: "\U0001f4bb Usage Problem"
+about: Do you have problems with usage, and none of the suggestions in the docs helped?
 title: ''
 labels: 'support'
 assignees: ''
@@ -20,4 +20,3 @@ Before opening a new issue, please make sure that we do not have any duplicates 
 **Technical details:**
 
 - Host Machine OS (Windows/Linux/Mac):
-- Browser (Chrome/Firefox/Safari):
