@@ -11,9 +11,9 @@ from setuptools import find_packages, setup  # type: ignore
 NAME = "best-of"
 MAIN_PACKAGE = "best_of"  # Change if main package != NAME
 DESCRIPTION = "Generates a ranked list of awesome libraries and tools."
-URL = "https://github.com/ml-tooling/best-of-generator"
-EMAIL = "team@mltooling.org"
-AUTHOR = "ML Tooling Team"
+URL = "https://github.com/best-of-lists/best-of-generator"
+EMAIL = "best-of@mltooling.org"
+AUTHOR = "Best-of Team"
 LICENSE = "MIT"
 REQUIRES_PYTHON = ">=3.6"
 VERSION = None  # Only set version if you like to overwrite the version in _about.py
