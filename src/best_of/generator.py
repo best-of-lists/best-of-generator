@@ -145,8 +145,8 @@ def generate_markdown(
             # Default output markdown file
             config.output_markdown_file = "README.md"
 
-        if not os.path.exists(LATEST_CHANGES_FILE):
-            with open(LATEST_CHANGES_FILE, "w") as f:
+        if not os.path.exists(default_config.LATEST_CHANGES_FILE):
+            with open(default_config.LATEST_CHANGES_FILE, "w") as f:
                 f.write("Nothing changed from last update.")
 
         with open(config.output_markdown_file, "w") as f:
