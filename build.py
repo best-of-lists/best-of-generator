@@ -5,7 +5,7 @@ from universal_build.helpers import build_python
 
 # Project specific configuration
 MAIN_PACKAGE = "best_of"
-GITHUB_URL = "https://github.com/ml-tooling/best-of-generator"
+GITHUB_URL = "https://github.com/best-of-lists/best-of-generator"
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
