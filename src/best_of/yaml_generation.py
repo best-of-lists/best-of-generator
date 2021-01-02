@@ -3,7 +3,7 @@ import logging
 import os
 import re
 import urllib.request
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import requirements
 from addict import Dict
@@ -21,8 +21,27 @@ log = logging.getLogger(__name__)
 
 
 def extract_github_projects(
-    input: str, excluded_github_ids: Optional[List[str]] = None
+    input: Union[str, List[str]], excluded_github_ids: Optional[List[str]] = None
 ) -> list:
+
+    projects: List = []
+
+    # If input is a list, iterate instead and combine all input lists
+    if not isinstance(input, str):
+        if not excluded_github_ids:
+            excluded_github_ids = []
+        for input_str in input:
+            extracted_projects = extract_github_projects(input_str, excluded_github_ids)
+            projects.extend(extracted_projects)
+            for project in extracted_projects:
+                if (
+                    "github_id" in project
+                    and project["github_id"] not in excluded_github_ids
+                ):
+                    excluded_github_ids.append(project["github_id"])
+                else:
+                    print("No github id found.")
+        return projects
 
     excluded_projects = set()
     added_projects = set()
@@ -42,7 +61,6 @@ def extract_github_projects(
         input_str = filedata.read().decode("utf-8")
 
     # extract github project urls
-    projects = []
     for github_match in tqdm(
         re.findall(
             r"(^|[^#])https:\/\/github\.com\/([a-zA-Z0-9-_.]*\/[a-zA-Z0-9-_.]*)",
