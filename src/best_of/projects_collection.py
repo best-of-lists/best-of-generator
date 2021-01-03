@@ -33,6 +33,9 @@ SEMVER_VALIDATION = re.compile(
 def calc_projectrank(project_info: Dict) -> int:
     projectrank = 0
 
+    if project_info.resource:
+        return projectrank
+
     # Basic info present?
     if project_info.homepage and project_info.description:
         # TODO: check for keywords
@@ -175,21 +178,10 @@ def categorize_projects(projects: list, categories: OrderedDict) -> None:
         if not project.name:
             log.info("A project name is required. Ignoring project.")
             continue
+
         if not project.homepage:
             log.info(
                 "A project homepage is required. Ignoring project: " + project.name
-            )
-            continue
-        if (
-            not project.description
-            or len(project.description) < MIN_PROJECT_DESC_LENGTH
-        ):
-            # project desc should also be longer than 10 chars
-            log.info(
-                "A project description is required with atleast "
-                + str(MIN_PROJECT_DESC_LENGTH)
-                + " chars. Ignoring project: "
-                + project.name
             )
             continue
 
@@ -247,9 +239,14 @@ def get_projects_changes(
     trending_projects = {}
 
     for project in projects:
+        if "resource" in project and project["resource"]:
+            # Ignore resource projects
+            continue
+
         score_difference = 0
         project_name = project["name"]
         project_score = project["projectrank"]
+
         if project_name not in project_scores_history:
             added_projects.append(project_name)
             continue
@@ -310,6 +307,11 @@ def sort_projects(projects: list, configuration: Dict) -> list:
         if project.star_count:
             star_count = int(project.star_count)
 
+        if project.resource:
+            # resources should always be on top
+            projectrank = 999999999
+            star_count = 999999999
+
         if not configuration.sort_by or configuration.sort_by == "projectrank":
             # this is also the default if nothing is set
             return (projectrank, star_count)
@@ -333,12 +335,16 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         log.info(f"Could not find a valid homepage for {project_info.name}")
         project_info.show = False
 
+    if project_info.resource:
+        project_info.show = True
+        return
+
     if (
         not project_info.description
         or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
     ):
         log.info(
-            f"Could not find a valid description (> {MIN_PROJECT_DESC_LENGTH} chars) for {project_info.name}"
+            f"A project description is required with atleast {MIN_PROJECT_DESC_LENGTH} chars. The project {project_info.name} will be hidden."
         )
         project_info.show = False
 

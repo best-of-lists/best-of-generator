@@ -181,6 +181,9 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
         # target="_blank"
         license_template = ' <code><a href="{url}">{text}</a></code>'
         license_md += license_template.format(url=licenses_url, text=licenses_name)
+    elif project.resource:
+        # resource should not show unlicensed
+        return "", 0
     else:
         license_md += " <code>❗️Unlicensed</code>"
     return license_md, license_length
@@ -258,8 +261,19 @@ def generate_project_md(
         )
     )
     description = utils.process_description(project.description, desc_length)
+
     # target="_blank"
-    if generate_body:
+    if project.resource:
+        if description:
+            description = f"- {description}"
+        project_md = '🔗&nbsp;<b><a href="{homepage}">{name}</a></b> {metrics} {description}{metadata}\n'.format(
+            homepage=project.homepage,
+            name=project.name,
+            description=description,
+            metrics=metrics_md,
+            metadata=metadata_md,
+        )
+    elif generate_body:
         project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}</summary>{body}</details>'.format(
             homepage=project.homepage,
             name=project.name,
