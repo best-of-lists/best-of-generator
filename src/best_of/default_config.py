@@ -36,9 +36,6 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "projects_history_folder" not in config:
         config.projects_history_folder = "history"
 
-    if "generate_badges" not in config:
-        config.generate_badges = False
-
     if "generate_install_hints" not in config:
         config.generate_install_hints = True
 
