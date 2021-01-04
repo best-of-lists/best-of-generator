@@ -409,13 +409,34 @@ The configuration example above changes the default configuration to show all pr
 
 ### Project Quality Score
 
-_TODO_
+All projects in a best-of list are ranked and sorted by a project-quality score (also called `projectrank`). The score is calculated based on various metrics automatically collected from Github and different package managers. The score is just a sum of points which a project collects for various aspects and metrics. The score only has a meaning when it is compared to the project-quality score of other projects. We currently use the following aspects to calculate the score:
+
+> This calculation is just chosen by experience. There is not scientific proof that this really reflects the quality of a project.
+
+- Has homepage link & description: `+ 1`
+- Has an existing GitHub repository: `+ 1`
+- Has a license: `+ 1`
+- Has a commonly used license (e.g. MIT): `+ 1`
+- Has multiple releases: `+ 1`
+- Has stable releases based on semantic version: `+ 1`
+- Has a release that is less than 6 month old: `+ 1`
+- Repo was update in the last 3 month: `+ 1`
+- Is older than 6 month: `+ 1`
+- Metrics from GitHub & package mangers:
+  - Number of stars: `+ log(COUNT / 2)`
+  - Number of contributors: `+ log(COUNT / 2) - 1`
+  - Number of commits: `+ log(COUNT / 2) - 1`
+  - Number of forks: `+ log(COUNT / 2)`
+  - Number of monthly downloads: `+ log(COUNT / 2) - 1`
+  - Number of dependent projects: `+ log(COUNT / 1.5)`
 
 ### Trending Projects
 
 The best-of list is able to automatically identify trending projects by comparing [project-quality scores](#project-quality-score) between the metadata of the current generation with the latest history file. If the history is activated (`projects_history_folder` is set to `null`), the best-of generation will automatically create a `<YYYY-MM-dd>_changes.md` file in the configured history folder for every update and a `latest-changes.md` file in the folder of the generated markdown page. These files contain a list of projects that are trending up (higher quality score since last update) and down (lower quality score since last update) as well as a list of all added projects since the last update, as shown in the following example:
 
 ![Trending project example](./docs/images/best-of-trending-projects-framed.png)
+
+The [Github Action workflow](#generation-via-github-action) uses these markdown files to automatically create releases for every update. This allows to persist a useful changelog over many updates and enables readers to get valuable email updates whenever the list is updated (by watching for release events).
 
 ### Generation via CLI
 
