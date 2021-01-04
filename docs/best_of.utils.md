@@ -111,7 +111,9 @@ process_description(text: str, max_lenght: int) → str
 is_valid_url(url: str) → bool
 ```
 
-Check is the provided URL is valid. 
+
+
+
 
 
 
