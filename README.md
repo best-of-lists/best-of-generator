@@ -61,14 +61,13 @@ This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein
   <a href="#categories">Categories</a> •
   <a href="#labels">Labels</a> •
   <a href="#configuration">Configuration</a> •
-  <a href="#">Trending Projects</a> •
+  <a href="#trending-projects">Trending Projects</a> •
   <a href="#project-quality-score">Project Quality Score</a> •
-  <a href="#generator-cli">Generator CLI</a> •
-  <a href="#">Github Action</a>
+  <a href="#generation-via-cli">CLI</a> •
+  <a href="#generation-via-github-action">Github Action</a>
 </p>
 
-The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](#projectsyaml-structure), on its different sections ([projects](#projects), [labels](#labels), [categories](#categories) & [configuration]((#configuration))), on some of the best-of features ([project-quality score]() & [trending projects]()) and instructions on how to run the markdown generation [via the command-line interface](#generator-cli) or [via Github Actions]().
-
+The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](#projectsyaml-structure), on its different sections ([projects](#projects), [labels](#labels), [categories](#categories) & [configuration]((#configuration))), on some of the best-of features ([project-quality score](#project-quality-score) & [trending projects](#trending-projects)) and instructions on how to run the markdown generation [via the command-line interface](#generation-via-cli) or [via Github Actions](#generation-via-github-action).
 
 ### `projects.yaml` Structure
 
@@ -429,8 +428,8 @@ Generates a best-of markdown page from a yaml file.
 
 **Options**:
 
-*  `-g`, `--github-key` `TEXT`: Github API Token (from https://github.com/settings/tokens)
-*  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api)
+*  `-g`, `--github-key` `TEXT`: Github API Token (from https://github.com/settings/tokens).
+*  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api).
 * `--help`: Show this message and exit.
 
 ### Generation via Github Action
