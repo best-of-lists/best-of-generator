@@ -32,6 +32,7 @@ The best-of-generator is a CLI tool to generate a markdown page of ranked open-s
 - 📇&nbsp; Generates a beautiful markdown page from a `yaml` list.
 - 🔌&nbsp; Integrates various package managers (npm, pypi, conda ...).
 - 🔄&nbsp; Github Action workflow for automated weekly updates.
+- 🥇&nbsp; Calculates a project-quality score based on a variety of metrics.
 - 📈&nbsp; Identify trending projects based on collected metrics.
 
 ## Getting Started
