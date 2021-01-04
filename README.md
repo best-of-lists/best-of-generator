@@ -126,7 +126,7 @@ projects:
 
 A project is the main component of a best-of list. In most cases, a project is hosted on a GitHub and released on different package managers. Such a project should be added with the `github_id` and the IDs of all the package managers it is released to. However, it is also possible to add projects which are not hosted or GitHub or released on a package manager, as shown in the example below.
 
-#### Project Example
+#### Project Examples
 
 ```yaml
 projects:
