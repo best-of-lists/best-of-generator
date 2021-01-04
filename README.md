@@ -196,7 +196,7 @@ projects:
 
 The example above will be rendered as shown below:
 
-![Category Example](./docs/images/best-of-category-example.png)
+![Category Example](./docs/images/best-of-category-example-framed.png)
 
 #### Category Properties
 
@@ -245,7 +245,7 @@ projects:
 
 The example above will be rendered as shown below:
 
-![Label Example](./docs/images/best-of-label-example.png)
+![Label Example](./docs/images/best-of-label-example-framed.png)
 
 #### Label Properties
 
@@ -415,7 +415,7 @@ _TODO_
 
 _TODO_
 
-### Generator CLI
+### Generation via CLI
 
 ```bash
 best-of generate [OPTIONS] PATH
@@ -433,7 +433,9 @@ Generates a best-of markdown page from a yaml file.
 *  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api)
 * `--help`: Show this message and exit.
 
-### Python API
+### Generation via Github Action
+
+### Generation via Python API
 
 > _Usage of the Python API is not well documented yet and currently not recommended._
 
