@@ -124,7 +124,7 @@ projects:
 
 ### Projects
 
-A project is the main component of a best-of list. In most cases, a project is hosted on a GitHub and released on different package managers. Such a project should be added with the `github_id` and the IDs of all the package managers it is released to. However, it is also possible to add projects which are not hosted or GitHub or released on a package manager, as shown in the example below. While you can theoretically overwrite all project metadata, we suggest to only set the metadata which the best-of generator is not able to find on Github or the configured package managers.
+A project is the main component of a best-of list. In most cases, a project is hosted on a GitHub and released on different package managers. Such a project should be added with the `github_id` and the IDs of all the package managers it is released to. However, it is also possible to add projects which are not hosted or GitHub or released on a package manager, as shown in the example below.
 
 #### Project Example
 
@@ -170,14 +170,14 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>name</code></td>
-        <td>Name of the project.</td>
+        <td>Name of the project. This name is required to be unique on the best-of list.</td>
     </tr>
     <tr>
         <td colspan="2"><b>Optional Properties:</b></td>
     </tr>
     <tr>
         <td><code>github_id</code></td>
-        <td>Github ID of the project based on user or organization  and the repository name (e.g. <code>best-of-lists/best-of-generator</code>).</td>
+        <td>Github ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
     </tr>
     <tr>
         <td><code>category</code></td>
@@ -205,28 +205,73 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>resource</code></td>
-        <td>If `True`, the project will be marked as a resource. Resources are not ranked and will always be shown on top of the category. You can use this to link to another best-of list section or website that contains additional projects.</td>
+        <td>If <code>True</code>, the project will be marked as a resource. Resources are not ranked and will always be shown on top of the category. You can use this to link to another best-of list section or website that contains additional projects.</td>
+    </tr>
+    <tr>
+        <td><code>show</code></td>
+        <td>If <code>True</code>, the project will always be shown even when the project would be actual hidden (e.g. dead project, risky licenses, to few stars...). Only use this property if you are sure that this project needs to be shown.</td>
     </tr>
     <tr>
         <td colspan="2"><b>Supported Package Managers:</b></td>
     </tr>
     <tr>
         <td><code>pypi_id</code></td>
-        <td>Project ID on the python package index (pypi.org).</td>
+        <td>Project ID on the python package index (<a href="https://pypi.org">PyPi</a>).</td>
     </tr>
     <tr>
         <td><code>conda_id</code></td>
-        <td>Project ID on the conda package manager (anaconda.org). If the main package is provided on a different channel, prefix the ID with the given channel: e.g. <code>conda-forge/tensorflow</code></td>
+        <td>Project ID on the <a href="https://anaconda.org">conda package manager</a>. If the main package is provided on a different channel, prefix the ID with the given channel: e.g. <code>conda-forge/tensorflow</code></td>
     </tr>
     <tr>
         <td><code>npm_id</code></td>
-        <td>Project ID on the Node package manager (npmjs.com).</td>
+        <td>Project ID on the Node package manager (<a href="https://www.npmjs.com">npm</a>).</td>
     </tr>
     <tr>
         <td><code>dockerhub_id</code></td>
-        <td>Project ID on the Dockerhub container registry (hub.docker.com). </td>
+        <td>Project ID on the <a href="https://hub.docker.com">Dockerhub container registry</a>. </td>
+    </tr>
+    <tr>
+        <td><code>maven_id</code></td>
+        <td>Artifact ID on <a href="https://mvnrepository.com">Maven central</a>, e.g. <code>org.apache.flink:flink-core</code>. </td>
     </tr>
 </table>
+
+While you can theoretically overwrite all project metadata, we suggest to only set the properties which the best-of generator is not able to find on Github or the configured package managers. There are also other undocumented properties, but for most projects those properties should not be overwritten.
+
+<details>
+<summary><b>Additional undocumented project metadata </b> (click to expand...)</summary>
+
+- created_at
+- update_at
+- github_url
+- github_release_downloads
+- github_dependent_project_count
+- last_commit_pushed_at
+- star_count
+- commit_count
+- dependent_project_count
+- contributor_count
+- fork_count
+- monthly_downloads
+- open_issue_count
+- closed_issue_count
+- release_count
+- latest_stable_release_published_at
+- latest_stable_release_number
+- trending
+- helm_id
+- brew_id
+- apt_id
+- yum_id
+- snap_id
+- maven_id
+- dnf_id
+- yay_id
+- <PACKAGE_MANAGER>_url
+- <PACKAGE_MANAGER>_latest_release_published_at
+- <PACKAGE_MANAGER>_dependent_project_count
+
+</details>
 
 ### Categories
 
