@@ -34,7 +34,7 @@ def calc_projectrank(project_info: Dict) -> int:
     projectrank = 0
 
     if project_info.resource:
-        return projectrank
+        return 0
 
     # Basic info present?
     if project_info.homepage and project_info.description:
@@ -138,7 +138,7 @@ def calc_projectrank_placing(projects: list) -> None:
     # Collet all projectranks
     for project in projects:
         project = Dict(project)
-        if not project.category or not project.projectrank:
+        if not project.category or not project.projectrank or project.resource:
             continue
 
         if project.category not in projectrank_placing:
@@ -148,6 +148,9 @@ def calc_projectrank_placing(projects: list) -> None:
 
     # Calculate projectrank placing
     for project in projects:
+        if "resource" in project and project["resource"]:
+            continue
+
         if "projectrank" not in project or not project["projectrank"]:
             continue
 
