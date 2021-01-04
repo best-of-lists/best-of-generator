@@ -56,28 +56,28 @@ This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein
 ## Documentation
 
 <p align="center">
-  <a href="#">YAML Structure</a> •
-  <a href="#">Projects</a> •
-  <a href="#">Categories</a> •
-  <a href="#">Labels</a> •
-  <a href="#">Configuration</a> •
+  <a href="#projectsyaml-structure">YAML Structure</a> •
+  <a href="#projects">Projects</a> •
+  <a href="#categories">Categories</a> •
+  <a href="#labels">Labels</a> •
+  <a href="#configuration">Configuration</a> •
   <a href="#">Trending Projects</a> •
-  <a href="#">Project Quality Score</a> •
-  <a href="#">Generator CLI</a> •
+  <a href="#project-quality-score">Project Quality Score</a> •
+  <a href="#generator-cli">Generator CLI</a> •
   <a href="#">Github Action</a>
 </p>
 
-The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](), on its different sections ([projects](), [labels](), [categories]() & [configuration]()), on some of the best-of features ([project-quality score]() & [trending projects]()) and instructions on how to run the markdown generation [via the command-line interface]() or [via Github Actions]().
+The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](#projectsyaml-structure), on its different sections ([projects](#projects), [labels](#labels), [categories](#categories) & [configuration]((#configuration))), on some of the best-of features ([project-quality score]() & [trending projects]()) and instructions on how to run the markdown generation [via the command-line interface](#generator-cli) or [via Github Actions]().
 
 
 ### `projects.yaml` Structure
 
 The `projects.yaml` file has the following structure:
 
-- `configurations` (optional): Can be used to overwrite the default configuration of the best-of list. More information in the [configuration section]().
-- `categories` (required): All used categories should be listed here with at least a descriptive title. More information in the [categories section]().
-- `labels` (optional): Used labels can be added here to extend the label with additional aspects (e.g. URL, image, description). More information in the [labels section]().
-- `projects` (required): All projects should be shown in the generated markdown page should be listed here. Should contain at least one project. More information in the [projects section]().
+- `configurations` (optional): Can be used to overwrite the default configuration of the best-of list. More information in the [configuration section](#configuration).
+- `categories` (required): All used categories should be listed here with at least a descriptive title. More information in the [categories section](#categories).
+- `labels` (optional): Used labels can be added here to extend the label with additional aspects (e.g. URL, image, description). More information in the [labels section](#labels).
+- `projects` (required): All projects should be shown in the generated markdown page should be listed here. Should contain at least one project. More information in the [projects section](#projects).
 
 The following `yaml` shows a small example:
 
@@ -417,7 +417,27 @@ _TODO_
 
 ### Generator CLI
 
-_TODO_
+```bash
+best-of generate [OPTIONS] PATH
+```
+
+Generates a best-of markdown page from a yaml file.
+
+**Arguments**:
+
+* `PATH`: Path to the `yaml` file containing the best-of metadata (e.g. `./projects.yaml`).
+
+**Options**:
+
+*  `-g`, `--github-key` `TEXT`: Github API Token (from https://github.com/settings/tokens)
+*  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api)
+* `--help`: Show this message and exit.
+
+### Python API
+
+> _Usage of the Python API is not well documented yet and currently not recommended._
+
+The best-of generator can also be used and integrated via its Python API. The full Python API documentation can be found [here](https://github.com/best-of-lists/best-of-generator/tree/main/docs).
 
 ## Known Issues
 
