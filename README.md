@@ -61,13 +61,14 @@ This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein
   <a href="#categories">Categories</a> •
   <a href="#labels">Labels</a> •
   <a href="#configuration">Configuration</a> •
-  <a href="#trending-projects">Trending Projects</a> •
   <a href="#project-quality-score">Project Quality Score</a> •
+  <a href="#trending-projects">Trending Projects</a> •
   <a href="#generation-via-cli">CLI</a> •
   <a href="#generation-via-github-action">Github Action</a>
+  <a href="#generation-via-python-api">Python API</a>
 </p>
 
-The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](#projectsyaml-structure), on its different sections ([projects](#projects), [labels](#labels), [categories](#categories) & [configuration]((#configuration))), on some of the best-of features ([project-quality score](#project-quality-score) & [trending projects](#trending-projects)) and instructions on how to run the markdown generation [via the command-line interface](#generation-via-cli) or [via Github Actions](#generation-via-github-action).
+The best-of generator is a CLI tool to generate a markdown page from list of projects configured in a `yaml` file. The documentation sections below will provide information on the [`projects.yaml` structure](#projectsyaml-structure), on its different sections ([projects](#projects), [labels](#labels), [categories](#categories) & [configuration]((#configuration))), on some of the best-of features (e.g. [project-quality score](#project-quality-score) & [trending projects](#trending-projects)), and instructions on how to run the markdown generation [via the command-line interface](#generation-via-cli) or [via Github Actions](#generation-via-github-action).
 
 ### `projects.yaml` Structure
 
@@ -406,13 +407,15 @@ The configuration example above changes the default configuration to show all pr
     </tr>
 </table>
 
-### Trending Projects
-
-_TODO_
-
 ### Project Quality Score
 
 _TODO_
+
+### Trending Projects
+
+The best-of list is able to automatically identify trending projects by comparing [project-quality scores](#project-quality-score) between the metadata of the current generation with the latest history file. If the history is activated (`projects_history_folder` is set to `null`), the best-of generation will automatically create a `<YYYY-MM-dd>_changes.md` file in the configured history folder for every update and a `latest-changes.md` file in the folder of the generated markdown page. These files contain a list of projects that are trending up (higher quality score since last update) and down (lower quality score since last update) as well as a list of all added projects since the last update, as shown in the following example:
+
+![Trending project example](./docs/images/best-of-trending-projects-framed.png)
 
 ### Generation via CLI
 
@@ -420,7 +423,7 @@ _TODO_
 best-of generate [OPTIONS] PATH
 ```
 
-Generates a best-of markdown page from a yaml file.
+Generates a best-of markdown page from a `yaml` file.
 
 **Arguments**:
 
@@ -438,7 +441,7 @@ Generates a best-of markdown page from a yaml file.
 
 > _Usage of the Python API is not well documented yet and currently not recommended._
 
-The best-of generator can also be used and integrated via its Python API. The full Python API documentation can be found [here](https://github.com/best-of-lists/best-of-generator/tree/main/docs).
+The best-of generator can also be used and integrated via its Python API. The full Python API documentation can be found [here](https://github.com/best-of-lists/best-of-generator/blob/main/docs/README.md).
 
 ## Known Issues
 
