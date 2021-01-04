@@ -64,7 +64,7 @@ This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein
   <a href="#project-quality-score">Project Quality Score</a> •
   <a href="#trending-projects">Trending Projects</a> •
   <a href="#generation-via-cli">CLI</a> •
-  <a href="#generation-via-github-action">Github Action</a>
+  <a href="#generation-via-github-action">Github Action</a> •
   <a href="#generation-via-python-api">Python API</a>
 </p>
 
