@@ -92,7 +92,7 @@ The `projects.yaml` file has the following structure:
 - `configurations` (optional): Can be used to overwrite the default configuration of the best-of list. More information in the [configuration section](#configuration).
 - `categories` (required): All used categories should be listed here with at least a descriptive title. More information in the [categories section](#categories).
 - `labels` (optional): Used labels can be added here to extend the label with additional aspects (e.g. URL, image, description). More information in the [labels section](#labels).
-- `projects` (required): All projects should be shown in the generated markdown page should be listed here. Should contain at least one project. More information in the [projects section](#projects).
+- `projects` (required): All projects that are supposed to be shown in the generated markdown page should be listed here. More information in the [projects section](#projects).
 
 The following `yaml` shows a small example:
 
@@ -124,7 +124,42 @@ projects:
 
 ### Projects
 
-_TODO_
+A project is the main component of a best-of list. In most cases, a project is hosted on a GitHub and released on different package managers. Such a project should be added with the `github_id` and the IDs of all the package managers it is released to. However, it is also possible to add projects which are not hosted or GitHub or released on a package manager, as shown in the example below. While you can theoretically overwrite all project metadata, we suggest to only set the metadata which the best-of generator is not able to find on Github or the configured package managers.
+
+#### Project Example
+
+```yaml
+projects:
+  # Projects with different package managers:
+  - name: "Tensorflow"
+    github_id: "tensorflow/tensorflow"
+    pypi_id: "tensorflow"
+    conda_id: "conda-forge/tensorflow"
+    dockerhub_id: "tensorflow/tensorflow"
+  - name: "Best-of Generator"
+    pypi_id: "best-of"
+    github_id: "best-of-lists/best-of-generator"
+  # Link to another project collection:
+  - name: "Best-of Overview"
+    homepage: "https://best-of.org"
+    resource: True
+  # Project that is not on Github:
+  - name: "Quart"
+    pypi_id: "quart"
+    homepage: "https://gitlab.com/pgjones/quart"
+    description: "Quart is a Python ASGI web microframework with the same API as Flask."
+    license: "MIT"
+    star_count: 772
+    show: True
+```
+
+The example above will be rendered as shown below:
+
+![Projects Example](./docs/images/best-of-generated-projects-framed.png)
+
+Every project can also be expanded to show additional project information (by clicking on the project), for example:
+
+![Project Body Example](./docs/images/best-of-project-body-framed.png)
 
 #### Project Properties
 
@@ -149,12 +184,12 @@ _TODO_
         <td>Category that this project is most related to. You can find all available category IDs in the <code>projects.yaml</code> file. The project will be sorted into the <code>Others</code> category if no category is provided.</td>
     </tr>
     <tr>
-        <td><code>license</code></td>
-        <td>License of the project. If set, license information from Github or package managers will be overwritten.</td>
-    </tr>
-    <tr>
         <td><code>labels</code></td>
         <td>List of labels that this project is related to. You can find all available label IDs in the projects.yaml file.</td>
+    </tr>
+    <tr>
+        <td><code>license</code></td>
+        <td>License of the project. If set, license information from Github or package managers will be overwritten.</td>
     </tr>
     <tr>
         <td><code>description</code></td>
