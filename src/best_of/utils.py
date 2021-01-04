@@ -65,5 +65,4 @@ url_validator = re.compile(
 
 
 def is_valid_url(url: str) -> bool:
-    """Check is the provided URL is valid."""
     return re.match(url_validator, url) is not None

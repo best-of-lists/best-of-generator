@@ -25,18 +25,18 @@ def cli() -> None:
     "-l",
     required=False,
     type=click.STRING,
-    help="Libraries.io API Key: https://libraries.io/api",
+    help="Libraries.io API Key (from https://libraries.io/api)",
 )
 @click.option(
     "--github-key",
     "-g",
     required=False,
     type=click.STRING,
-    help="Github API Key: https://github.com/settings/tokens",
+    help="Github API Token (from: https://github.com/settings/tokens)",
 )
 @click.argument("path", type=click.Path(exists=True))
 def generate(path: str, libraries_key: str, github_key: str) -> None:
-    """Generates a best-of markdown README from a projects.yaml."""
+    """Generates a best-of markdown page from a yaml file."""
     from best_of import generator
 
     generator.generate_markdown(path, libraries_key, github_key)
