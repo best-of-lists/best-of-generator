@@ -37,9 +37,22 @@ The best-of-generator is a CLI tool to generate a markdown page of ranked open-s
 
 ## Getting Started
 
-### Run via Github Action
+> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](#TODO) instead of setting up best-of manually. You will be able to set-up your own best-of list repository from the best-of template within 3 minutes. It is already set-up to automatically run the best-of generator via our Github Action and includes other useful template files. Installation of the best-of CLI tool is not required.
 
-### Run via CLI
+1. Install best-of generator via pip:
+    ```bash
+    pip install best-of
+    ```
+2. Create a `projects.yaml` file based on the [documented structure](#projectsyaml-structure). This file should contain at least one project. For example:
+    ```yaml
+    projects:
+       - name: "best-of-ml-python"
+         github_id: "ml-tooling/best-of-ml-python"
+    ```
+3. Run best-of generator via command-line:
+   ```bash
+   best-of generate -g <GITHUB_API_TOKEN> ./projects.yaml
+   ```
 
 ## Support & Feedback
 
@@ -441,6 +454,9 @@ The best-of list is able to automatically identify trending projects by comparin
 The [Github Action workflow](#generation-via-github-action) uses these markdown files to automatically create releases for every update. This allows to persist a useful changelog over many updates and enables readers to get valuable email updates whenever the list is updated (by watching for release events).
 
 ### Generation via CLI
+
+> To use the CLI, you need to have the best-of generator installed via pip: 
+> `pip install best-of`
 
 ```bash
 best-of generate [OPTIONS] PATH
