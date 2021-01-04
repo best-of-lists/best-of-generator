@@ -109,6 +109,8 @@ projects:
 
 ### Projects
 
+_TODO_
+
 #### Project Properties
 
 <table>
@@ -456,13 +458,19 @@ Generates a best-of markdown page from a `yaml` file.
 *  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api).
 * `--help`: Show this message and exit.
 
-### Generation via Github Action
+### Generation via GitHub Action
+
+> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](#TODO). You will be able to set-up your own best-of list repository from a template within 3 minutes. It already includes this Github Action and some other useful template files. Further manual steps for setting up the Github Action are not required.
+
+The [best-of-update-action](https://github.com/marketplace/actions/best-of-update-action) makes it very easy to set-up automated scheduled updates for your best-of markdown page. Please refer to the [best-of-update-action documentation](https://github.com/marketplace/actions/best-of-update-action) for more information about the Github Action and the workflow.
 
 ### Generation via Python API
 
 > _Usage of the Python API is not well documented yet and currently not recommended._
 
 The best-of generator can also be used and integrated via its Python API. The full Python API documentation can be found [here](https://github.com/best-of-lists/best-of-generator/blob/main/docs/README.md).
+
+### Updating Best-of Generator
 
 ## Known Issues
 
