@@ -32,7 +32,7 @@ The best-of-generator is a CLI tool to generate a markdown page of ranked open-s
 - 📇&nbsp; Generates a beautiful markdown page from a `yaml` list.
 - 🔌&nbsp; Integrates various package managers (npm, pypi, conda ...).
 - 🥇&nbsp; Calculates a project-quality score based on a variety of metrics.
-- 📈&nbsp; Identify trending projects based on collected metrics.
+- 📈&nbsp; Identifies trending projects based on collected metrics.
 - 🔄&nbsp; Github Action workflow for automated weekly updates.
 
 ## Getting Started
@@ -413,7 +413,7 @@ The configuration example above changes the default configuration to show all pr
 
 All projects in a best-of list are ranked and sorted by a project-quality score (also called `projectrank`). The score is calculated based on various metrics automatically collected from Github and different package managers. The score is just a sum of points which a project collects for various aspects and metrics. The score only has a meaning when it is compared to the project-quality score of other projects. We currently use the following aspects to calculate the score:
 
-> This calculation is just chosen by experience. There is not scientific proof that this really reflects the quality of a project.
+> This calculation is just chosen by experience. There is no scientific proof that this really reflects the quality of a project.
 
 - Has homepage link & description: `+ 1`
 - Has an existing GitHub repository: `+ 1`
@@ -462,7 +462,7 @@ Generates a best-of markdown page from a `yaml` file.
 
 > 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](#TODO). You will be able to set-up your own best-of list repository from a template within 3 minutes. It already includes this Github Action and some other useful template files. Further manual steps for setting up the Github Action are not required.
 
-The [best-of-update-action](https://github.com/marketplace/actions/best-of-update-action) makes it very easy to set-up automated scheduled updates for your best-of markdown page. Please refer to the [best-of-update-action documentation](https://github.com/marketplace/actions/best-of-update-action) for more information about the Github Action and the workflow.
+The [best-of-update-action](https://github.com/marketplace/actions/best-of-update-action) makes it very easy to set-up automated scheduled updates for your best-of markdown page. Please refer to the [best-of-update-action documentation](https://github.com/marketplace/actions/best-of-update-action) for more detailed information about the Github Action and the workflow.
 
 ### Generation via Python API
 
