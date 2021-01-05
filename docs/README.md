@@ -74,7 +74,7 @@
 - [`projects_collection.update_project_category`](./best_of.projects_collection.md#function-update_project_category)
 - [`utils.clean_whitespaces`](./best_of.utils.md#function-clean_whitespaces)
 - [`utils.diff_month`](./best_of.utils.md#function-diff_month)
-- [`utils.is_valid_url`](./best_of.utils.md#function-is_valid_url): Check is the provided URL is valid.
+- [`utils.is_valid_url`](./best_of.utils.md#function-is_valid_url)
 - [`utils.process_description`](./best_of.utils.md#function-process_description)
 - [`utils.remove_special_chars`](./best_of.utils.md#function-remove_special_chars)
 - [`utils.simplify_number`](./best_of.utils.md#function-simplify_number)
