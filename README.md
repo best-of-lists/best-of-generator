@@ -27,6 +27,8 @@
 
 The best-of-generator is a CLI tool to generate a markdown page of ranked open-source projects based on a list of projects defined in a `yaml` file. It is integrated with different package managers - such as PyPI, NPM, Conda, and DockerHub - to automatically collect a variety of project metadata and calculate project-quality scores. It also comes with a Github Action workflow for a fully automized update process.
 
+> 🧙‍♂️ Create your own best-of list in just 3 minutes with [this guide](https://github.com/best-of-lists/best-of/blob/main/create-best-of-list.md).
+
 ## Highlights
 
 - 📇&nbsp; Generates a beautiful markdown page from a `yaml` list.
