@@ -37,7 +37,7 @@ The best-of-generator is a CLI tool to generate a markdown page of ranked open-s
 
 ## Getting Started
 
-> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](#TODO) instead of setting up best-of manually. You will be able to set-up your own best-of list repository from the best-of template within 3 minutes. It is already set-up to automatically run the best-of generator via our Github Action and includes other useful template files. Installation of the best-of CLI tool is not required.
+> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](https://github.com/best-of-lists/best-of/blob/main/create-best-of-list.md) instead of setting up best-of manually. You will be able to set-up your own best-of list repository from the best-of template within 3 minutes. It is already set-up to automatically run the best-of generator via our Github Action and includes other useful template files. Installation of the best-of CLI tool is not required.
 
 1. Install best-of generator via pip:
     ```bash
@@ -558,7 +558,7 @@ Generates a best-of markdown page from a `yaml` file.
 
 ### Generation via GitHub Action
 
-> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](#TODO). You will be able to set-up your own best-of list repository from a template within 3 minutes. It already includes this Github Action and some other useful template files. Further manual steps for setting up the Github Action are not required.
+> 🧙‍♂️ If you want to create your own best-of list, we strongly recommend to follow [this guide](https://github.com/best-of-lists/best-of/blob/main/create-best-of-list.md). You will be able to set-up your own best-of list repository from a template within 3 minutes. It already includes this Github Action and some other useful template files. Further manual steps for setting up the Github Action are not required.
 
 The [best-of-update-action](https://github.com/marketplace/actions/best-of-update-action) makes it very easy to set-up automated scheduled updates for your best-of markdown page. Please refer to the [best-of-update-action documentation](https://github.com/marketplace/actions/best-of-update-action) for more detailed information about the Github Action and the workflow.
 
