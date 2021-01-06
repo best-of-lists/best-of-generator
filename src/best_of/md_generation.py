@@ -153,7 +153,7 @@ def generate_project_labels(project: Dict, labels: list) -> str:
 
 
 def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]:
-    if configuration.hide_project_license:
+    if configuration.hide_project_license or project.resource:
         return "", 0
 
     license_length = 12
@@ -181,9 +181,6 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
         # target="_blank"
         license_template = ' <code><a href="{url}">{text}</a></code>'
         license_md += license_template.format(url=licenses_url, text=licenses_name)
-    elif project.resource:
-        # resource should not show unlicensed
-        return "", 0
     else:
         license_md += " <code>❗️Unlicensed</code>"
     return license_md, license_length
@@ -248,15 +245,20 @@ def generate_project_md(
     label_count = 0
     if project.labels:
         label_count = len(project.labels)
+
+    if license_len:
+        # Add spacing to length
+        license_len += 2
+
     desc_length = int(
         round(
             max(
-                60,
-                100
-                - (len(project.name) * 1.1)
+                55,
+                105
+                - (len(project.name) * 1.3)
                 - len(metrics_md)
                 - license_len
-                - (label_count * 4),
+                - (label_count * 5),
             )
         )
     )
