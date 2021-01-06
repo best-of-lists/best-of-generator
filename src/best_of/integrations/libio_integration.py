@@ -180,7 +180,7 @@ def update_package_via_libio(
             # always use the highest number
             project_info.fork_count = fork_count
 
-    if package_info.rank:
+    if package_info.rank and not project_info.resource:
         projectrank = int(package_info.rank)
         if not project_info.projectrank:
             project_info.projectrank = projectrank
@@ -289,7 +289,7 @@ def update_repo_via_libio(project_info: Dict) -> None:
                 "Failed to parse timestamp: " + str(github_info.pushed_at), exc_info=ex
             )
 
-    if github_info.rank:
+    if github_info.rank and not project_info.resource:
         projectrank = int(github_info.rank)
         if not project_info.projectrank:
             project_info.projectrank = projectrank
