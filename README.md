@@ -495,6 +495,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>False</code></td>
     </tr>
     <tr>
+        <td><code>hide_license_risk</code></td>
+        <td>If <code>True</code>, the risk indicator for uncommen or risky licenses will not be shown.</td>
+        <td><code>False</code></td>
+    </tr>
+    <tr>
         <td><code>show_labels_in_legend</code></td>
         <td>If <code>True</code>, image labels will be listed in the legend (explanation) if they also have a description.</td>
         <td><code>True</code></td>

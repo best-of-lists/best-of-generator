@@ -174,7 +174,7 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
             if "warning" in license_metadata:
                 licenses_warning = license_metadata.warning
 
-        if licenses_warning:
+        if licenses_warning and not configuration.hide_license_risk:
             licenses_name = "❗️" + licenses_name
 
         license_length = len(licenses_name)
@@ -182,7 +182,10 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
         license_template = ' <code><a href="{url}">{text}</a></code>'
         license_md += license_template.format(url=licenses_url, text=licenses_name)
     else:
-        license_md += " <code>❗️Unlicensed</code>"
+        if configuration.hide_license_risk:
+            license_md += " <code>Unlicensed</code>"
+        else:
+            license_md += " <code>❗Unlicensed</code>"
     return license_md, license_length
 
 
@@ -418,7 +421,7 @@ def generate_legend(
     )
     legend_md += "- 📈📉&nbsp; Project is trending up or down\n"
     legend_md += "- ➕&nbsp; Project was recently added\n"
-    if not configuration.hide_project_license:
+    if not configuration.hide_project_license and not configuration.hide_license_risk:
         legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
     legend_md += "- 👨‍💻&nbsp; Contributors count from Github\n"
     legend_md += "- 🔀&nbsp; Fork count from Github\n"

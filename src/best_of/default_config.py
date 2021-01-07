@@ -60,6 +60,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "show_labels_in_legend" not in config:
         config.show_labels_in_legend = True
 
+    if "hide_license_risk" not in config:
+        config.hide_license_risk = False
+
     if "allowed_licenses" not in config:
         config.allowed_licenses = []
         from best_of.license import LICENSES
