@@ -23,7 +23,7 @@ def get_repo_deps_via_github(github_id: str) -> int:
         )
         if request.status_code != 200:
             log.info(
-                "Unable to find repo dependets via github api: "
+                "Unable to find repo dependents via GitHub api: "
                 + github_id
                 + " ("
                 + str(request.status_code)
@@ -45,7 +45,7 @@ def get_repo_deps_via_github(github_id: str) -> int:
         return repo_deps
     except Exception as ex:
         log.info(
-            "Unable to find repo dependets via github api: " + github_id, exc_info=ex
+            "Unable to find repo dependents via GitHub api: " + github_id, exc_info=ex
         )
         return 0
 
@@ -65,7 +65,7 @@ def get_contributors_via_github_api(
         )
         if request.status_code != 200:
             log.info(
-                "Unable to find repo contributors via github api: "
+                "Unable to find repo contributors via GitHub api: "
                 + github_id
                 + " ("
                 + str(request.status_code)
@@ -84,7 +84,7 @@ def get_contributors_via_github_api(
         return contributor_count
     except Exception as ex:
         log.info(
-            "Unable to find repo dependets via github api: " + github_id,
+            "Unable to find repo dependents via GitHub api: " + github_id,
             exc_info=ex,
         )
 
@@ -100,7 +100,7 @@ def update_via_github_api(project_info: Dict) -> None:
         return
 
     if "/" not in project_info.github_id:
-        log.info("The github project id is not valid: " + project_info.github_id)
+        log.info("The GitHub project id is not valid: " + project_info.github_id)
         return
 
     owner = project_info.github_id.split("/")[0]
@@ -201,7 +201,7 @@ query($owner: String!, $repo: String!) {
         )
         if request.status_code != 200:
             log.info(
-                "Unable to find github repo via github api: "
+                "Unable to find GitHub repo via GitHub api: "
                 + project_info.github_id
                 + " ("
                 + str(request.status_code)
@@ -211,7 +211,7 @@ query($owner: String!, $repo: String!) {
         github_info = Dict(request.json()["data"]["repository"])
     except Exception as ex:
         log.info(
-            "Failed to request github repo via github api: " + project_info.github_id,
+            "Failed to request GitHub repo via GitHub api: " + project_info.github_id,
             exc_info=ex,
         )
         return
@@ -229,7 +229,7 @@ query($owner: String!, $repo: String!) {
         project_info.github_id
     ) != utils.simplify_str(github_info.nameWithOwner):
         log.info(
-            f"The github repo name has changed from {project_info.github_id} to {github_info.nameWithOwner}"
+            f"The GitHub repo name has changed from {project_info.github_id} to {github_info.nameWithOwner}"
         )
         project_info.updated_github_id = github_info.nameWithOwner
 
@@ -366,7 +366,7 @@ query($owner: String!, $repo: String!) {
                         if release_artifact.downloadCount:
                             total_downloads += int(release_artifact.downloadCount)
             except Exception as ex:
-                log.warning("Failed to parse github release info.", exc_info=ex)
+                log.warning("Failed to parse GitHub release info.", exc_info=ex)
 
         if total_downloads:
             project_info.github_release_downloads = total_downloads
@@ -395,7 +395,7 @@ query($owner: String!, $repo: String!) {
     ) and github_info.description:
         project_info.description = github_info.description
 
-    # Get dependets count
+    # Get dependents count
     dependent_project_count = get_repo_deps_via_github(project_info.github_id)
     if dependent_project_count:
         if not project_info.dependent_project_count:
@@ -405,7 +405,7 @@ query($owner: String!, $repo: String!) {
         project_info.dependent_project_count += dependent_project_count
         project_info.github_dependent_project_count = dependent_project_count
 
-    # Get contributor count via github api 3
+    # Get contributor count via GitHub api 3
     contributor_count = get_contributors_via_github_api(
         project_info.github_id, github_api_token
     )
