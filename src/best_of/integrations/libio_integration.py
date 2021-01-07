@@ -218,7 +218,7 @@ def update_repo_via_libio(project_info: Dict) -> None:
         return
 
     if "/" not in project_info.github_id:
-        log.info("The github project id is not valid: " + project_info.github_id)
+        log.info("The GitHub project id is not valid: " + project_info.github_id)
         return
 
     if not is_activated():
@@ -236,14 +236,14 @@ def update_repo_via_libio(project_info: Dict) -> None:
 
         if not github_info:
             log.info(
-                "Unable to find github repo via libraries.io: " + project_info.github_id
+                "Unable to find GitHub repo via libraries.io: " + project_info.github_id
             )
             return
 
         github_info = Dict(github_info)
     except Exception as ex:
         log.info(
-            "Unable to request github repo info from libraries.io: "
+            "Unable to request GitHub repo info from libraries.io: "
             + project_info.github_id,
             exc_info=ex,
         )

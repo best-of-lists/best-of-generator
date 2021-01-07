@@ -400,29 +400,29 @@ def generate_legend(
     # Score that various project-quality metrics
     # score for a package based on a number of metrics
     legend_md += "- 🥇🥈🥉&nbsp; Combined project-quality score\n"
-    legend_md += "- ⭐️&nbsp; Star count from Github\n"
+    legend_md += "- ⭐️&nbsp; Star count from GitHub\n"
     legend_md += (
         "- 🐣&nbsp; New project _(less than "
         + str(configuration.project_new_months)
-        + " month old)_\n"
+        + " months old)_\n"
     )
     legend_md += (
         "- 💤&nbsp; Inactive project _("
         + str(configuration.project_inactive_months)
-        + " month no activity)_\n"
+        + " months no activity)_\n"
     )
     legend_md += (
         "- 💀&nbsp; Dead project _("
         + str(configuration.project_dead_months)
-        + " month no activity)_\n"
+        + " months no activity)_\n"
     )
     legend_md += "- 📈📉&nbsp; Project is trending up or down\n"
     legend_md += "- ➕&nbsp; Project was recently added\n"
     if not configuration.hide_project_license:
         legend_md += "- ❗️&nbsp; Warning _(e.g. missing/risky license)_\n"
-    legend_md += "- 👨‍💻&nbsp; Contributors count from Github\n"
-    legend_md += "- 🔀&nbsp; Fork count from Github\n"
-    legend_md += "- 📋&nbsp; Issue count from Github\n"
+    legend_md += "- 👨‍💻&nbsp; Contributors count from GitHub\n"
+    legend_md += "- 🔀&nbsp; Fork count from GitHub\n"
+    legend_md += "- 📋&nbsp; Issue count from GitHub\n"
     legend_md += "- ⏱️&nbsp; Last update timestamp on package manager\n"
     legend_md += "- 📥&nbsp; Download count from package manager\n"
     legend_md += "- 📦&nbsp; Number of dependent projects\n"
