@@ -422,7 +422,12 @@ def update_via_github(project_info: Dict) -> None:
         return
 
     update_via_github_api(project_info)
-    libio_integration.update_repo_via_libio(project_info)
+
+    if not project_info.github_url or (
+        project_info.star_count and project_info.star_count > 20
+    ):
+        # small projects cannot be found on liberies.io often
+        libio_integration.update_repo_via_libio(project_info)
 
 
 def generate_github_details(project: Dict, configuration: Dict) -> str:

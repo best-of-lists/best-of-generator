@@ -236,7 +236,9 @@ def update_repo_via_libio(project_info: Dict) -> None:
 
         if not github_info:
             log.info(
-                "Unable to find github repo via libraries.io: " + project_info.github_id
+                "Unable to find github repo via libraries.io: "
+                + project_info.github_id
+                + ". This might also happen if the repo is quite new, was recently renamed, or has very few stars."
             )
             return
 
