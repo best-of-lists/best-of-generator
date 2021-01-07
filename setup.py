@@ -14,7 +14,7 @@ DESCRIPTION = "Generates a ranked list of awesome libraries and tools."
 URL = "https://github.com/best-of-lists/best-of-generator"
 EMAIL = "best-of@mltooling.org"
 AUTHOR = "Best-of Team"
-LICENSE = "MIT"
+LICENSE = "GPLv3"
 REQUIRES_PYTHON = ">=3.6"
 VERSION = None  # Only set version if you like to overwrite the version in _about.py
 
@@ -86,7 +86,7 @@ setup(
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
