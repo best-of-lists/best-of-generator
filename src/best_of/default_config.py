@@ -63,6 +63,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "hide_license_risk" not in config:
         config.hide_license_risk = False
 
+    if "extension_script" not in config:
+        config.extension_script = None
+
     if "allowed_licenses" not in config:
         config.allowed_licenses = []
         from best_of.license import LICENSES

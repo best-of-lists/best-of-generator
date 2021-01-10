@@ -58,6 +58,25 @@ def parse_projects_yaml(
     return config, projects, categories, labels
 
 
+def load_extension_script(extension_script_path: str) -> None:
+    if not os.path.exists(extension_script_path):
+        log.warn("Extension script does not exist " + extension_script_path)
+        return
+
+    try:
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location(
+            "module.name", extension_script_path
+        )
+        loaded_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(loaded_module)  # type: ignore
+    except Exception as ex:
+        log.warn(
+            "Failed to load extension script: " + extension_script_path, exc_info=ex
+        )
+
+
 def generate_markdown(
     projects_yaml_path: str, libraries_api_key: str = None, github_api_key: str = None
 ) -> None:
@@ -82,6 +101,9 @@ def generate_markdown(
         from best_of import md_generation, projects_collection
 
         config, projects, categories, labels = parse_projects_yaml(projects_yaml_path)
+
+        if config.extension_script:
+            load_extension_script(config.extension_script)
 
         projects = projects_collection.collect_projects_info(
             projects, categories, config

@@ -509,6 +509,11 @@ The configuration example above changes the default configuration to show all pr
         <td>List of allowed licenses (spdx format). A project with a different license will be hidden. Use <code>["all"]</code> to allow all licenses.</td>
         <td>selection of common open-source licenses</td>
     </tr>
+    <tr>
+        <td><code>extension_script</code></td>
+        <td>Path to a python script which is loaded before project collection or markdown generation to allow extensibility.</td>
+        <td></td>
+    </tr>
 </table>
 
 ### Project Quality Score
