@@ -9,8 +9,7 @@ import pandas as pd
 import yaml
 from addict import Dict
 
-from best_of import default_config, projects_collection
-from best_of.integrations import libio_integration
+from best_of import default_config
 
 log = logging.getLogger(__name__)
 
@@ -43,7 +42,7 @@ def parse_projects_yaml(
     if not config:
         config = {}
 
-    categories = projects_collection.prepare_categories(
+    categories = default_config.prepare_categories(
         parsed_yaml["categories"] if "categories" in parsed_yaml else []
     )
 
@@ -83,7 +82,7 @@ def generate_markdown(
     try:
         # Set libraries api key
         if libraries_api_key:
-            os.environ[libio_integration.ENV_LIBRARIES_API_KEY] = libraries_api_key
+            os.environ[default_config.ENV_LIBRARIES_API_KEY] = libraries_api_key
         else:
             log.warning(
                 "No Libraries.io API key provided. "
@@ -97,13 +96,13 @@ def generate_markdown(
                 "No Github API key provided. We recommend to activate the Github integration by providing a valid API key from https://github.com/settings/tokens"
             )
 
-        # Needs to be imported without setting environment variable
-        from best_of import md_generation, projects_collection
-
         config, projects, categories, labels = parse_projects_yaml(projects_yaml_path)
 
         if config.extension_script:
             load_extension_script(config.extension_script)
+
+        # Needs to be imported without setting environment variable
+        from best_of import md_generation, projects_collection
 
         projects = projects_collection.collect_projects_info(
             projects, categories, config
@@ -158,20 +157,8 @@ def generate_markdown(
             )
             pd.DataFrame(projects).to_csv(projects_history_file, sep=",")
 
-            # Load most recent
+        # Write collected content to markdown
+        md_generation.write_outpupt_file(categories, config, labels)
 
-        markdown = md_generation.generate_md(categories, config, labels)
-
-        # Write markdown to file
-        if not config.output_markdown_file:
-            # Default output markdown file
-            config.output_markdown_file = "README.md"
-
-        if not os.path.exists(default_config.LATEST_CHANGES_FILE):
-            with open(default_config.LATEST_CHANGES_FILE, "w") as f:
-                f.write("Nothing changed from last update.")
-
-        with open(config.output_markdown_file, "w") as f:
-            f.write(markdown)
     except Exception as ex:
         log.error("Failed to generate markdown.", exc_info=ex)

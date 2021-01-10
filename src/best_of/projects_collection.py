@@ -212,21 +212,6 @@ def update_project_category(project_info: Dict, categories: OrderedDict) -> None
         project_info.category = default_config.DEFAULT_OTHERS_CATEGORY_ID
 
 
-def prepare_categories(input_categories: dict) -> OrderedDict:
-    categories = OrderedDict()
-
-    if input_categories:
-        for category in input_categories:
-            categories[category["category"]] = Dict(category)
-
-    if default_config.DEFAULT_OTHERS_CATEGORY_ID not in categories:
-        # Add others category at the last position
-        categories[default_config.DEFAULT_OTHERS_CATEGORY_ID] = Dict(
-            {"category": default_config.DEFAULT_OTHERS_CATEGORY_ID, "title": "Others"}
-        )
-    return categories
-
-
 def get_projects_changes(
     projects: List[Dict], history_file_path: str
 ) -> Tuple[List[str], Dict]:

@@ -5,11 +5,9 @@ from urllib.parse import quote, urlparse
 from addict import Dict
 from dateutil.parser import parse
 
-from best_of.default_config import MIN_PROJECT_DESC_LENGTH
+from best_of.default_config import ENV_LIBRARIES_API_KEY, MIN_PROJECT_DESC_LENGTH
 
 log = logging.getLogger(__name__)
-
-ENV_LIBRARIES_API_KEY = "LIBRARIES_API_KEY"
 
 
 def is_activated() -> bool:

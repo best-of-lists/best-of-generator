@@ -1,9 +1,12 @@
+from collections import OrderedDict
+
 from addict import Dict
 
 DEFAULT_OTHERS_CATEGORY_ID = "others"
 MIN_PROJECT_DESC_LENGTH = 10
 UP_ARROW_IMAGE = "https://bit.ly/382Vmvi"
 LATEST_CHANGES_FILE = "latest-changes.md"
+ENV_LIBRARIES_API_KEY = "LIBRARIES_API_KEY"
 
 
 def prepare_configuration(cfg: dict) -> Dict:
@@ -74,3 +77,18 @@ def prepare_configuration(cfg: dict) -> Dict:
             config.allowed_licenses.append(license["spdx_id"])
 
     return config
+
+
+def prepare_categories(input_categories: dict) -> OrderedDict:
+    categories = OrderedDict()
+
+    if input_categories:
+        for category in input_categories:
+            categories[category["category"]] = Dict(category)
+
+    if DEFAULT_OTHERS_CATEGORY_ID not in categories:
+        # Add others category at the last position
+        categories[DEFAULT_OTHERS_CATEGORY_ID] = Dict(
+            {"category": DEFAULT_OTHERS_CATEGORY_ID, "title": "Others"}
+        )
+    return categories

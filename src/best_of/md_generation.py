@@ -546,3 +546,18 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
                 + os.path.abspath(config.markdown_footer_file)
             )
     return full_markdown
+
+
+def write_outpupt_file(categories: OrderedDict, config: Dict, labels: list) -> None:
+    markdown = generate_md(categories=categories, config=config, labels=labels)
+    # Write markdown to file
+    if not config.output_markdown_file:
+        # Default output markdown file
+        config.output_markdown_file = "README.md"
+
+    if not os.path.exists(default_config.LATEST_CHANGES_FILE):
+        with open(default_config.LATEST_CHANGES_FILE, "w") as f:
+            f.write("Nothing changed from last update.")
+
+    with open(config.output_markdown_file, "w") as f:
+        f.write(markdown)
