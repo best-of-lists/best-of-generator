@@ -48,7 +48,7 @@ LICENSES: List[dict] = [
     {
         "name": "GPL-3.0",
         "spdx_id": "GPL-3.0",
-        "keywords": ["gpl-3"],
+        "keywords": ["gpl-3", "gpl3", "gplv3", "gpl3.0"],
         "url": "http://bit.ly/2M0xdwT",
         "osi_approved": True,
         "warning": True,
