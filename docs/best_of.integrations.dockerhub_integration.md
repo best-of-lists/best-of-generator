@@ -8,29 +8,49 @@
 
 
 
+
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/dockerhub_integration.py#L13"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/dockerhub_integration.py#L14"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `update_via_dockerhub`
+## <kbd>class</kbd> `DockerhubIntegration`
+
+
+
+
+
+---
+
+#### <kbd>property</kbd> name
+
+
+
+
+
+
+
+---
+
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/dockerhub_integration.py#L110"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `generate_md_details`
 
 ```python
-update_via_dockerhub(project_info: Dict) → None
+generate_md_details(project: Dict, configuration: Dict) → str
 ```
 
 
 
 
 
-
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/dockerhub_integration.py#L102"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/dockerhub_integration.py#L19"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `generate_dockerhub_details`
+### <kbd>method</kbd> `update_project_info`
 
 ```python
-generate_dockerhub_details(project: Dict, configuration: Dict) → str
+update_project_info(project_info: Dict) → None
 ```
 
 
