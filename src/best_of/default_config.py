@@ -33,8 +33,8 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "require_github" not in config:
         config.require_github = False
 
-    if "markdown_output_file" not in config:
-        config.markdown_output_file = "README.md"
+    if "output_file" not in config:
+        config.output_file = "README.md"
 
     if "projects_history_folder" not in config:
         config.projects_history_folder = "history"
@@ -68,6 +68,9 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "extension_script" not in config:
         config.extension_script = None
+
+    if "output_generator" not in config:
+        config.output_generator = "markdown-list"
 
     if "allowed_licenses" not in config:
         config.allowed_licenses = []

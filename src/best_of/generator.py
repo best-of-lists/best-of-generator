@@ -102,7 +102,7 @@ def generate_markdown(
             load_extension_script(config.extension_script)
 
         # Needs to be imported without setting environment variable
-        from best_of import md_generation, projects_collection
+        from best_of import projects_collection
 
         projects = projects_collection.collect_projects_info(
             projects, categories, config
@@ -130,22 +130,6 @@ def generate_markdown(
                     max_trends=config.max_trending_projects,
                 )
 
-                changes_md = md_generation.generate_changes_md(projects, config, labels)
-                changes_md_file_name = (
-                    datetime.today().strftime("%Y-%m-%d") + "_changes.md"
-                )
-
-                # write to history file
-                with open(
-                    os.path.join(config.projects_history_folder, changes_md_file_name),
-                    "w",
-                ) as f:
-                    f.write(changes_md)
-
-                # write to working directory
-                with open(default_config.LATEST_CHANGES_FILE, "w") as f:
-                    f.write(changes_md)
-
         projects_collection.categorize_projects(projects, categories)
 
         if config.projects_history_folder:
@@ -157,8 +141,13 @@ def generate_markdown(
             )
             pd.DataFrame(projects).to_csv(projects_history_file, sep=",")
 
-        # Write collected content to markdown
-        md_generation.write_outpupt_file(categories, config, labels)
+        from best_of.generators import get_generator
 
+        output_generator = get_generator(config.output_generator)
+        if not output_generator:
+            log.error("No output generator registered for " + config.output_generator)
+            return
+
+        output_generator.write_output(categories, projects, config, labels)
     except Exception as ex:
         log.error("Failed to generate markdown.", exc_info=ex)

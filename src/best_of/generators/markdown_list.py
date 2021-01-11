@@ -4,11 +4,12 @@ import re
 import urllib.parse
 from collections import OrderedDict
 from datetime import datetime
-from typing import Tuple
+from typing import List, Tuple
 
 from addict import Dict
 
 from best_of import default_config, integrations, utils
+from best_of.generators.base_generator import BaseGenerator
 from best_of.integrations import github_integration
 from best_of.license import get_license
 
@@ -189,7 +190,7 @@ def generate_project_body(project: Dict, configuration: Dict) -> str:
         body_md += github_integration.generate_github_details(project, configuration)
 
     for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
-        package_manager_id = package_manager.name + "id"
+        package_manager_id = package_manager.name.lower().strip() + "id"
         if package_manager_id in project and project[package_manager_id]:
             package_manager.generate_md_details(project, configuration)
 
@@ -529,16 +530,35 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
     return full_markdown
 
 
-def write_outpupt_file(categories: OrderedDict, config: Dict, labels: list) -> None:
-    markdown = generate_md(categories=categories, config=config, labels=labels)
-    # Write markdown to file
-    if not config.output_markdown_file:
-        # Default output markdown file
-        config.output_markdown_file = "README.md"
+class MarkdownListGenerator(BaseGenerator):
+    @property
+    def name(self) -> str:
+        return "markdown-list"
 
-    if not os.path.exists(default_config.LATEST_CHANGES_FILE):
-        with open(default_config.LATEST_CHANGES_FILE, "w") as f:
-            f.write("Nothing changed from last update.")
+    def write_output(
+        self, categories: OrderedDict, projects: List[Dict], config: Dict, labels: list
+    ) -> None:
+        markdown = generate_md(categories=categories, config=config, labels=labels)
 
-    with open(config.output_markdown_file, "w") as f:
-        f.write(markdown)
+        changes_md = generate_changes_md(projects, config, labels)
+
+        if config.projects_history_folder:
+            changes_md_file_name = datetime.today().strftime("%Y-%m-%d") + "_changes.md"
+            # write to history folder
+            with open(
+                os.path.join(config.projects_history_folder, changes_md_file_name), "w"
+            ) as f:
+                f.write(changes_md)
+
+        # write changes to working directory
+        with open(
+            os.path.join(
+                os.path.dirname(config.output_file), default_config.LATEST_CHANGES_FILE
+            ),
+            "w",
+        ) as f:
+            f.write(changes_md)
+
+        # Write markdown to file
+        with open(config.output_file, "w") as f:
+            f.write(markdown)
