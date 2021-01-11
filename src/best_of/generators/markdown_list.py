@@ -117,7 +117,7 @@ def generate_project_labels(project: Dict, labels: list) -> str:
     for label in project.labels:
         label_info = get_label_info(label, labels)
 
-        if label.hide:
+        if label_info.ignore:
             # Label should not be displayed
             continue
 
@@ -210,6 +210,9 @@ def generate_project_md(
     project: Dict, configuration: Dict, labels: list, generate_body: bool = True
 ) -> str:
 
+    if project.ignore:
+        return ""
+
     project_md = ""
     metrics_md = generate_metrics_info(project, configuration)
     license_md, license_len = generate_license_info(project, configuration)
@@ -289,7 +292,7 @@ def generate_project_md(
 def generate_category_md(
     category: Dict, config: Dict, labels: list, title_md_prefix: str = "##"
 ) -> str:
-    if category.hide:
+    if category.ignore:
         return ""
 
     if (
@@ -421,10 +424,9 @@ def generate_legend(
 
     if configuration.show_labels_in_legend:
         for label in labels:
-            if label.hide:
-                continue
-
             label_info = Dict(label)
+            if label_info.ignore:
+                continue
             # Add image labels to explanations
             if label_info.image and label_info.description:
                 legend_md += '- <img src="{image}" style="display:inline;" width="13" height="13">&nbsp; {description}\n'.format(
@@ -443,7 +445,7 @@ def generate_toc(categories: OrderedDict, config: Dict) -> str:
     toc_md = "## Contents\n\n"
     for category in categories:
         category_info = Dict(categories[category])
-        if category_info.hide:
+        if category_info.ignore:
             continue
 
         url = "#" + process_md_link(category_info.title)

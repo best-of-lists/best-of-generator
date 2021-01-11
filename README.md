@@ -214,6 +214,10 @@ Every project can also be expanded to show additional project information (by cl
         <td>If <code>True</code>, the project will always be shown even when the project would be actual hidden (e.g. dead project, risky licenses, to few stars...). Only use this property if you are sure that this project needs to be shown.</td>
     </tr>
     <tr>
+        <td><code>ignore</code></td>
+        <td>If <code>True</code>, the project will be ignored. This also means that it will not be included in the hidden projects section. However, the project metadata will still be collected.</td>
+    </tr>
+    <tr>
         <td colspan="2"><b>Supported Package Managers:</b></td>
     </tr>
     <tr>
@@ -320,7 +324,7 @@ The example above will be rendered as shown below:
         <td>Short description about the category shown under the title.</td>
     </tr>
     <tr>
-        <td><code>hide</code></td>
+        <td><code>ignore</code></td>
         <td>If <code>True</code>, the category and all its projects will be ignored.</td>
     </tr>
 </table>
@@ -377,7 +381,7 @@ The example above will be rendered as shown below:
         <td>Short description of the label. If <code>show_labels_in_legend</code> configuration is <code>True</code> and an <code>image</code> is set, this description will also be shown in the legend (explanations).</td>
     </tr>
     <tr>
-        <td><code>hide</code></td>
+        <td><code>ignore</code></td>
         <td>If <code>True</code>, the label will not be shown anywhere.</td>
     </tr>
     <tr>
