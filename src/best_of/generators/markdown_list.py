@@ -117,6 +117,10 @@ def generate_project_labels(project: Dict, labels: list) -> str:
     for label in project.labels:
         label_info = get_label_info(label, labels)
 
+        if label.hide:
+            # Label should not be displayed
+            continue
+
         if not label_info.image and not label_info.name:
             # no image or name is given, do not add the label
             # this should not happen
@@ -285,7 +289,8 @@ def generate_project_md(
 def generate_category_md(
     category: Dict, config: Dict, labels: list, title_md_prefix: str = "##"
 ) -> str:
-    category_md = ""
+    if category.hide:
+        return ""
 
     if (
         (
@@ -296,8 +301,9 @@ def generate_category_md(
         and not category.hidden_projects
     ):
         # Do not show category
-        return category_md
+        return ""
 
+    category_md: str = ""
     category_md += title_md_prefix + " " + category.title + "\n\n"
     category_md += f'<a href="#contents"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
 
@@ -415,6 +421,9 @@ def generate_legend(
 
     if configuration.show_labels_in_legend:
         for label in labels:
+            if label.hide:
+                continue
+
             label_info = Dict(label)
             # Add image labels to explanations
             if label_info.image and label_info.description:
@@ -433,17 +442,17 @@ def process_md_link(text: str) -> str:
 def generate_toc(categories: OrderedDict, config: Dict) -> str:
     toc_md = "## Contents\n\n"
     for category in categories:
-        title = categories[category]["title"]
-        url = "#" + process_md_link(title)
+        category_info = Dict(categories[category])
+        if category_info.hide:
+            continue
+
+        url = "#" + process_md_link(category_info.title)
 
         project_count = 0
-        if "projects" in categories[category] and categories[category]["projects"]:
-            project_count += len(categories[category]["projects"])
-        if (
-            "hidden_projects" in categories[category]
-            and categories[category]["hidden_projects"]
-        ):
-            project_count += len(categories[category]["hidden_projects"])
+        if category_info.projects:
+            project_count += len(category_info.projects)
+        if category_info.hidden_projects:
+            project_count += len(category_info.hidden_projects)
 
         if not project_count and (
             config.hide_empty_categories
@@ -453,7 +462,7 @@ def generate_toc(categories: OrderedDict, config: Dict) -> str:
             continue
 
         toc_md += "- [{title}]({url}) _{project_count} projects_\n".format(
-            title=categories[category]["title"], url=url, project_count=project_count
+            title=category_info.title, url=url, project_count=project_count
         )
     return toc_md + "\n"
 
@@ -512,7 +521,8 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
         full_markdown += generate_legend(config, labels)
 
     for category in categories:
-        full_markdown += generate_category_md(categories[category], config, labels)
+        category_info = categories[category]
+        full_markdown += generate_category_md(category_info, config, labels)
 
     if config.markdown_footer_file:
         if os.path.exists(config.markdown_footer_file):

@@ -319,6 +319,10 @@ The example above will be rendered as shown below:
         <td><code>subtitle</code></td>
         <td>Short description about the category shown under the title.</td>
     </tr>
+    <tr>
+        <td><code>hide</code></td>
+        <td>If `True`, the category and all its projects will be ignored.</td>
+    </tr>
 </table>
 
 ### Labels
@@ -371,6 +375,10 @@ The example above will be rendered as shown below:
     <tr>
         <td><code>description</code></td>
         <td>Short description of the label. If <code>show_labels_in_legend</code> configuration is <code>True</code> and an <code>image</code> is set, this description will also be shown in the legend (explanations).</td>
+    </tr>
+    <tr>
+        <td><code>hide</code></td>
+        <td>If `True`, the label will not be shown anywhere.</td>
     </tr>
     <tr>
         <td><code>url</code></td>
