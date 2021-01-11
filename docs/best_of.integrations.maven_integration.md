@@ -8,29 +8,49 @@
 
 
 
+
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/maven_integration.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/maven_integration.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `update_via_maven`
+## <kbd>class</kbd> `MavenIntegration`
+
+
+
+
+
+---
+
+#### <kbd>property</kbd> name
+
+
+
+
+
+
+
+---
+
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/maven_integration.py#L30"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `generate_md_details`
 
 ```python
-update_via_maven(project_info: Dict) → None
+generate_md_details(project: Dict, configuration: Dict) → str
 ```
 
 
 
 
 
-
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/maven_integration.py#L25"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/maven_integration.py#L17"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `generate_maven_details`
+### <kbd>method</kbd> `update_project_info`
 
 ```python
-generate_maven_details(project: Dict, configuration: Dict) → str
+update_project_info(project_info: Dict) → None
 ```
 
 

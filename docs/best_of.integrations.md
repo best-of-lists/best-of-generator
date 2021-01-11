@@ -9,14 +9,15 @@
 
 **Global Variables**
 ---------------
-- **AVAILABLE_PACKAGE_MANAGER**
+- **base_integration**
 - **libio_integration**
 - **conda_integration**
 - **dockerhub_integration**
-- **github_integration**
 - **maven_integration**
 - **npm_integration**
 - **pypi_integration**
+- **AVAILABLE_PACKAGE_MANAGER**
+- **github_integration**
 
 
 
