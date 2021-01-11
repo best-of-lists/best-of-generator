@@ -204,9 +204,9 @@ def generate_project_body(project: Dict, configuration: Dict) -> str:
         body_md += github_integration.generate_github_details(project, configuration)
 
     for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
-        package_manager_id = package_manager.name.lower().strip() + "id"
+        package_manager_id = package_manager.name.lower().strip() + "_id"
         if package_manager_id in project and project[package_manager_id]:
-            package_manager.generate_md_details(project, configuration)
+            body_md += package_manager.generate_md_details(project, configuration)
 
     if not body_md:
         # show message if no information is available
