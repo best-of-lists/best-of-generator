@@ -10,16 +10,9 @@ import pandas as pd
 from addict import Dict
 from tqdm import tqdm
 
-from best_of import default_config, utils
+from best_of import default_config, integrations, utils
 from best_of.default_config import MIN_PROJECT_DESC_LENGTH
-from best_of.integrations import (
-    conda_integration,
-    dockerhub_integration,
-    github_integration,
-    maven_integration,
-    npm_integration,
-    pypi_integration,
-)
+from best_of.integrations import github_integration
 from best_of.license import get_license
 
 log = logging.getLogger(__name__)
@@ -419,11 +412,9 @@ def collect_projects_info(
         unique_projects.add(project_info.name.lower())
 
         github_integration.update_via_github(project_info)
-        pypi_integration.update_via_pypi(project_info)
-        conda_integration.update_via_conda(project_info)
-        npm_integration.update_via_npm(project_info)
-        maven_integration.update_via_maven(project_info)
-        dockerhub_integration.update_via_dockerhub(project_info)
+
+        for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
+            package_manager.update_project_info(project_info)
 
         if not project_info.updated_at and project_info.created_at:
             # set update at if created at is available

@@ -8,15 +8,8 @@ from typing import Tuple
 
 from addict import Dict
 
-from best_of import default_config, utils
-from best_of.integrations import (
-    conda_integration,
-    dockerhub_integration,
-    github_integration,
-    maven_integration,
-    npm_integration,
-    pypi_integration,
-)
+from best_of import default_config, integrations, utils
+from best_of.integrations import github_integration
 from best_of.license import get_license
 
 log = logging.getLogger(__name__)
@@ -195,22 +188,10 @@ def generate_project_body(project: Dict, configuration: Dict) -> str:
     if project.github_id:
         body_md += github_integration.generate_github_details(project, configuration)
 
-    if project.pypi_id:
-        body_md += pypi_integration.generate_pypi_details(project, configuration)
-
-    if project.npm_id:
-        body_md += npm_integration.generate_npm_details(project, configuration)
-
-    if project.conda_id:
-        body_md += conda_integration.generate_conda_details(project, configuration)
-
-    if project.dockerhub_id:
-        body_md += dockerhub_integration.generate_dockerhub_details(
-            project, configuration
-        )
-
-    if project.maven_id:
-        body_md += maven_integration.generate_maven_details(project, configuration)
+    for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
+        package_manager_id = package_manager.name + "id"
+        if package_manager_id in project and project[package_manager_id]:
+            package_manager.generate_md_details(project, configuration)
 
     if not body_md:
         # show message if no information is available

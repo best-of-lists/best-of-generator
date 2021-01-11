@@ -143,7 +143,7 @@ def extract_pypi_projects_from_requirements(
 
         project = Dict()
         project.pypi_id = pypi_id
-        pypi_integration.update_via_pypi(project)
+        pypi_integration.PypiIntegration().update_project_info(project)
 
         if not project.monthly_downloads:
             # did not fetch any data from github, do not add project
@@ -166,7 +166,7 @@ def auto_extend_package_manager(
         if pypi and not project.pypi_id:
             project_cloned = copy.deepcopy(project)
             project_cloned.pypi_id = project_name
-            pypi_integration.update_via_pypi(project_cloned)
+            pypi_integration.PypiIntegration().update_project_info(project_cloned)
             if (
                 project_cloned.pypi_monthly_downloads
                 and project_cloned.pypi_monthly_downloads > 500
@@ -180,7 +180,7 @@ def auto_extend_package_manager(
         if conda and not project.conda_id:
             project_cloned = copy.deepcopy(project)
             project_cloned.conda_id = "conda-forge/" + project_name
-            conda_integration.update_via_conda(project_cloned)
+            conda_integration.CondaIntegration().update_project_info(project_cloned)
             if (
                 project_cloned.conda_total_downloads
                 and project_cloned.conda_total_downloads > 5000
@@ -195,7 +195,7 @@ def auto_extend_package_manager(
             project_cloned = copy.deepcopy(project)
 
             project_cloned.npm_id = project_name
-            npm_integration.update_via_npm(project_cloned)
+            npm_integration.NpmIntegration().update_project_info(project_cloned)
             if (
                 project_cloned.npm_monthly_downloads
                 and project_cloned.npm_monthly_downloads > 500
