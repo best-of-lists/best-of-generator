@@ -405,7 +405,7 @@ The configuration example above changes the default configuration to show all pr
         <th>Default</th>
     </tr>
     <tr>
-        <td><code>markdown_output_file</code></td>
+        <td><code>output_file</code></td>
         <td>The markdown output file.</td>
         <td><code>./README.md</code></td>
     </tr>
@@ -418,6 +418,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>markdown_footer_file</code></td>
         <td>Path to a markdown file that will be attached below the generated content.</td>
         <td></td>
+    </tr>
+    <tr>
+        <td><code>output_generator</code></td>
+        <td>Select the markdown generator to use for generating the output markdown page. Currently, only <code>markdown-list</code> is supported.</td>
+        <td><code>markdown-list</code></td>
     </tr>
     <tr>
         <td><code>project_inactive_months</code></td>
