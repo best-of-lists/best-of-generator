@@ -321,7 +321,7 @@ The example above will be rendered as shown below:
     </tr>
     <tr>
         <td><code>hide</code></td>
-        <td>If `True`, the category and all its projects will be ignored.</td>
+        <td>If <code>True</code>, the category and all its projects will be ignored.</td>
     </tr>
 </table>
 
@@ -378,7 +378,7 @@ The example above will be rendered as shown below:
     </tr>
     <tr>
         <td><code>hide</code></td>
-        <td>If `True`, the label will not be shown anywhere.</td>
+        <td>If <code>True</code>, the label will not be shown anywhere.</td>
     </tr>
     <tr>
         <td><code>url</code></td>
