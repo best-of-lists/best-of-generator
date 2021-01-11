@@ -108,11 +108,15 @@ def get_label_info(label: str, labels: list) -> Dict:
     return labels_map[label_query]
 
 
-def generate_project_labels(project: Dict, labels: list) -> str:
+def generate_project_labels(project: Dict, labels: list) -> Tuple[str, int]:
+    IMAGE_LABEL_LENGTH = 2
+    LABEL_SPACING_LENGTH = 2
+
     labels_md = ""
+    labels_text_length = 0
 
     if not project.labels:
-        return labels_md
+        return "", 0
 
     for label in project.labels:
         label_info = get_label_info(label, labels)
@@ -128,14 +132,19 @@ def generate_project_labels(project: Dict, labels: list) -> str:
 
         label_md = ""
         if label_info.image and label_info.name:
+            labels_text_length += len(label_info.name) + IMAGE_LABEL_LENGTH
+
             label_md = '<code><img src="{image}" style="display:inline;" width="13" height="13">{name}</code>'.format(
                 image=label_info.image, name=label_info.name
             )
         elif label_info.image:
+            labels_text_length += IMAGE_LABEL_LENGTH
+
             label_md = '<code><img src="{image}" style="display:inline;" width="13" height="13"></code>'.format(
                 image=label_info.image
             )
         elif label_info.name:
+            labels_text_length += len(label_info.name)
             label_md = "<code>{name}</code>".format(name=label_info.name)
 
         if label_info.url:
@@ -146,8 +155,9 @@ def generate_project_labels(project: Dict, labels: list) -> str:
         if label_md:
             # Add a single space in front of label:
             labels_md += " " + label_md.strip()
+            labels_text_length += LABEL_SPACING_LENGTH
 
-    return labels_md
+    return (labels_md, labels_text_length)
 
 
 def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]:
@@ -216,7 +226,9 @@ def generate_project_md(
     project_md = ""
     metrics_md = generate_metrics_info(project, configuration)
     license_md, license_len = generate_license_info(project, configuration)
-    labels_md = generate_project_labels(project, labels)
+    labels_md, labels_lenght = generate_project_labels(project, labels)
+
+    # TODO: use labels_lenght
 
     metadata_md = ""
     if license_md and labels_md:
