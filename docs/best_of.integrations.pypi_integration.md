@@ -8,44 +8,63 @@
 
 
 
+
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L15"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L16"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `update_via_pypi`
+## <kbd>class</kbd> `PypiIntegration`
+
+
+
+
+
+---
+
+#### <kbd>property</kbd> name
+
+
+
+
+
+
+
+---
+
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L33"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `generate_md_details`
 
 ```python
-update_via_pypi(project_info: Dict) → None
+generate_md_details(project: Dict, configuration: Dict) → str
 ```
 
 
 
 
 
+---
+
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L21"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+### <kbd>method</kbd> `update_project_info`
+
+```python
+update_project_info(project_info: Dict) → None
+```
+
+
+
+
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L28"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L85"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `update_via_pypistats`
+### <kbd>method</kbd> `update_via_pypistats`
 
 ```python
 update_via_pypistats(project_info: Dict) → None
-```
-
-
-
-
-
-
----
-
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/integrations/pypi_integration.py#L76"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
-
-## <kbd>function</kbd> `generate_pypi_details`
-
-```python
-generate_pypi_details(project: Dict, configuration: Dict) → str
 ```
 
 

@@ -10,7 +10,7 @@
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generator.py#L18"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generator.py#L17"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `parse_projects_yaml`
 
@@ -27,7 +27,22 @@ parse_projects_yaml(
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generator.py#L61"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generator.py#L60"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+
+## <kbd>function</kbd> `load_extension_script`
+
+```python
+load_extension_script(extension_script_path: str) → None
+```
+
+
+
+
+
+
+---
+
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generator.py#L79"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `generate_markdown`
 
