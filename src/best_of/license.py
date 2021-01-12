@@ -40,7 +40,7 @@ LICENSES: List[dict] = [
     {
         "name": "BSD-3",
         "spdx_id": "BSD-3-Clause",
-        "keywords": ["bsd-3", "bds-3-clause"],
+        "keywords": ["bsd-3", "bds-3-clause", "BSD-3.0-Clause"],
         "url": "http://bit.ly/3aKzpTv",
         "osi_approved": True,
         "warning": False,
@@ -111,8 +111,16 @@ LICENSES: List[dict] = [
     {
         "name": "CC-BY-SA-4.0",
         "spdx_id": "CC-BY-SA-4.0",
-        "keywords": [" CC-BY-SA-4.0 License"],
+        "keywords": ["CC-BY-SA-4.0 License"],
         "url": "http://bit.ly/3mSooSG",
+        "osi_approved": False,
+        "warning": False,
+    },
+    {
+        "name": "Python-2.0",
+        "spdx_id": "PSF-2.0",
+        "keywords": ["Python License 2.0", "PSF-2", "Python-2"],
+        "url": "http://bit.ly/35wkF7y",
         "osi_approved": False,
         "warning": False,
     },
