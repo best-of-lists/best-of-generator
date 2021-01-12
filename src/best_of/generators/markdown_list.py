@@ -320,7 +320,12 @@ def generate_category_md(
 
     category_md: str = ""
     category_md += title_md_prefix + " " + category.title + "\n\n"
-    category_md += f'<a href="#contents"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
+    back_to_top_anchor = "#contents"
+    if not config.generate_toc:
+        # Use # anchor to get back to top of repo
+        back_to_top_anchor = "#"
+
+    category_md += f'<a href="{back_to_top_anchor}"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
 
     if category.subtitle:
         category_md += "_" + category.subtitle.strip() + "_\n\n"
