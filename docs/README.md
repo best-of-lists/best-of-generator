@@ -81,6 +81,7 @@
 - [`utils.simplify_str`](./best_of.utils.md#function-simplify_str)
 - [`yaml_generation.auto_extend_package_manager`](./best_of.yaml_generation.md#function-auto_extend_package_manager)
 - [`yaml_generation.extract_github_projects`](./best_of.yaml_generation.md#function-extract_github_projects)
+- [`yaml_generation.extract_pypi_projects`](./best_of.yaml_generation.md#function-extract_pypi_projects)
 - [`yaml_generation.extract_pypi_projects_from_requirements`](./best_of.yaml_generation.md#function-extract_pypi_projects_from_requirements)
 
 
