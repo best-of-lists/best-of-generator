@@ -21,15 +21,26 @@ log = logging.getLogger(__name__)
 
 
 def extract_github_projects(
-    input: Union[str, List[str]], excluded_github_ids: Optional[List[str]] = None
+    input: Union[str, List[str]],
+    excluded_github_ids: Optional[List[str]] = None,
+    existing_projects: Optional[List[Dict]] = None,
 ) -> list:
 
     projects: List = []
 
+    if not excluded_github_ids:
+        excluded_github_ids = []
+
+    if existing_projects:
+        # Add projects to the overall project list
+        projects.extend(existing_projects)
+        for project in existing_projects:
+            if "github_id" in project and project["github_id"]:
+                # ignore all based on github_id
+                excluded_github_ids.append(project["github_id"])
+
     # If input is a list, iterate instead and combine all input lists
     if not isinstance(input, str):
-        if not excluded_github_ids:
-            excluded_github_ids = []
         for input_str in input:
             extracted_projects = extract_github_projects(input_str, excluded_github_ids)
             projects.extend(extracted_projects)
@@ -109,14 +120,25 @@ def extract_github_projects(
 
 
 def extract_pypi_projects(
-    input: Union[str, List[str]], excluded_pypi_ids: Optional[List[str]] = None
+    input: Union[str, List[str]],
+    excluded_pypi_ids: Optional[List[str]] = None,
+    existing_projects: Optional[List[Dict]] = None,
 ) -> list:
     projects: List = []
 
+    if not excluded_pypi_ids:
+        excluded_pypi_ids = []
+
+    if existing_projects:
+        # Add projects to the overall project list
+        projects.extend(existing_projects)
+        for project in existing_projects:
+            if "pypi_id" in project and project["pypi_id"]:
+                # ignore all based on pypi_id
+                excluded_pypi_ids.append(project["pypi_id"])
+
     # If input is a list, iterate instead and combine all input lists
     if not isinstance(input, str):
-        if not excluded_pypi_ids:
-            excluded_pypi_ids = []
         for input_str in input:
             extracted_projects = extract_pypi_projects(input_str, excluded_pypi_ids)
             projects.extend(extracted_projects)
@@ -124,7 +146,7 @@ def extract_pypi_projects(
                 if "pypi_id" in project and project["pypi_id"] not in excluded_pypi_ids:
                     excluded_pypi_ids.append(project["pypi_id"])
                 else:
-                    print("No github id found.")
+                    print("No pypi_id found.")
         return projects
 
     excluded_projects = set()
@@ -174,6 +196,12 @@ def extract_pypi_projects(
             # did not fetch any data from github, do not add project
             continue
 
+        if project.github_id:
+            # Update metadata again via twitter
+            github_integration.update_via_github(project)
+            if project.updated_github_id:
+                project.github_id = project.updated_github_id
+
         project.projectrank = projects_collection.calc_projectrank(project)
         added_projects.add(utils.simplify_str(pypi_id))
         projects.append(project.to_dict())
@@ -182,9 +210,38 @@ def extract_pypi_projects(
 
 
 def extract_pypi_projects_from_requirements(
-    requirements_input: str, excluded_pypi_ids: Optional[List[str]] = None
+    input: Union[str, List[str]],
+    excluded_pypi_ids: Optional[List[str]] = None,
+    existing_projects: Optional[List[Dict]] = None,
 ) -> list:
+    projects = []
     # libraries.io should be configured
+
+    if not excluded_pypi_ids:
+        excluded_pypi_ids = []
+
+    if existing_projects:
+        # Add projects to the overall project list
+        projects.extend(existing_projects)
+        for project in existing_projects:
+            if "pypi_id" in project and project["pypi_id"]:
+                # ignore all based on pypi_id
+                excluded_pypi_ids.append(project["pypi_id"])
+
+    # If input is a list, iterate instead and combine all input lists
+    if not isinstance(input, str):
+        for input_str in input:
+            extracted_projects = extract_pypi_projects_from_requirements(
+                input_str, excluded_pypi_ids
+            )
+            projects.extend(extracted_projects)
+            for project in extracted_projects:
+                if "pypi_id" in project and project["pypi_id"] not in excluded_pypi_ids:
+                    excluded_pypi_ids.append(project["pypi_id"])
+                else:
+                    print("No pypi_id found.")
+        return projects
+
     excluded_projects = set()
     added_projects = set()
 
@@ -192,17 +249,16 @@ def extract_pypi_projects_from_requirements(
         for excluded_project in excluded_pypi_ids:
             excluded_projects.add(utils.simplify_str(excluded_project))
 
-    input_str = requirements_input
-    if os.path.isfile(requirements_input):
+    input_str = input
+    if os.path.isfile(input):
         # If input is a valid file path, read as file
-        with open(requirements_input, "r") as f:
+        with open(input, "r") as f:
             input_str = f.read()
-    elif utils.is_valid_url(requirements_input):
+    elif utils.is_valid_url(input):
         # if input is a valid url, open and read from url
-        filedata = urllib.request.urlopen(requirements_input)
+        filedata = urllib.request.urlopen(input)
         input_str = filedata.read().decode("utf-8")
 
-    projects = []
     for req in tqdm(requirements.parse(input_str)):
         pypi_id = req.name.strip().lower()
 
@@ -222,6 +278,12 @@ def extract_pypi_projects_from_requirements(
             # did not fetch any data from github, do not add project
             continue
 
+        if project.github_id:
+            # Update metadata again via twitter
+            github_integration.update_via_github(project)
+            if project.updated_github_id:
+                project.github_id = project.updated_github_id
+
         project.projectrank = projects_collection.calc_projectrank(project)
         added_projects.add(utils.simplify_str(pypi_id))
         projects.append(project.to_dict())
@@ -235,7 +297,17 @@ def auto_extend_package_manager(
     updated_projects = []
     for project in tqdm(projects):
         project = Dict(project)
+        project_name = ""
+        if not project.name:
+            if project.pypi_id:
+                # fallback: use pypi_id as name
+                project.name = project.pypi_id
+            else:
+                # skip project
+                continue
+
         project_name = project.name.lower().strip().replace(" ", "-")
+
         if pypi and not project.pypi_id:
             project_cloned = copy.deepcopy(project)
             project_cloned.pypi_id = project_name
