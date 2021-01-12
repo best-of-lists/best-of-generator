@@ -108,6 +108,79 @@ def extract_github_projects(
     return projects
 
 
+def extract_pypi_projects(
+    input: Union[str, List[str]], excluded_pypi_ids: Optional[List[str]] = None
+) -> list:
+    projects: List = []
+
+    # If input is a list, iterate instead and combine all input lists
+    if not isinstance(input, str):
+        if not excluded_pypi_ids:
+            excluded_pypi_ids = []
+        for input_str in input:
+            extracted_projects = extract_pypi_projects(input_str, excluded_pypi_ids)
+            projects.extend(extracted_projects)
+            for project in extracted_projects:
+                if "pypi_id" in project and project["pypi_id"] not in excluded_pypi_ids:
+                    excluded_pypi_ids.append(project["pypi_id"])
+                else:
+                    print("No github id found.")
+        return projects
+
+    excluded_projects = set()
+    added_projects = set()
+
+    if excluded_pypi_ids:
+        for excluded_project in excluded_pypi_ids:
+            excluded_projects.add(utils.simplify_str(excluded_project))
+
+    input_str = input
+    if os.path.isfile(input):
+        # If input is a valid file path, read as file
+        with open(input, "r") as f:
+            input_str = f.read()
+    elif utils.is_valid_url(input):
+        # if input is a valid url, open and read from url
+        filedata = urllib.request.urlopen(input)
+        input_str = filedata.read().decode("utf-8")
+
+    # extract pypi project urls
+    for pypi_match in tqdm(
+        re.findall(
+            r"(^|[^#])https:\/\/pypi\.org\/project\/([a-zA-Z0-9-_.]*)",
+            input_str,
+            re.MULTILINE,
+        )
+    ):
+        if len(pypi_match) <= 1:
+            continue
+
+        pypi_id = pypi_match[1].strip().rstrip("/").rstrip(".")
+        if not pypi_id:
+            continue
+
+        if utils.simplify_str(pypi_id) in added_projects:
+            # project already added
+            continue
+
+        if utils.simplify_str(pypi_id) in excluded_projects:
+            # skip excluded projects
+            continue
+
+        project = Dict()
+        project.pypi_id = pypi_id
+        pypi_integration.PypiIntegration().update_project_info(project)
+        if not project.monthly_downloads:
+            # did not fetch any data from github, do not add project
+            continue
+
+        project.projectrank = projects_collection.calc_projectrank(project)
+        added_projects.add(utils.simplify_str(pypi_id))
+        projects.append(project.to_dict())
+
+    return projects
+
+
 def extract_pypi_projects_from_requirements(
     requirements_input: str, excluded_pypi_ids: Optional[List[str]] = None
 ) -> list:
@@ -169,9 +242,9 @@ def auto_extend_package_manager(
             pypi_integration.PypiIntegration().update_project_info(project_cloned)
             if (
                 project_cloned.pypi_monthly_downloads
-                and project_cloned.pypi_monthly_downloads > 500
+                and project_cloned.pypi_monthly_downloads > 250
             ):
-                # only use this package if monthly downloads over 500 -> to prevent errors
+                # only use this package if monthly downloads over X -> to prevent errors
                 log.info(
                     f"Detected pypi package: {project_cloned.pypi_id} for project {project_cloned.name}."
                 )
@@ -183,14 +256,26 @@ def auto_extend_package_manager(
             conda_integration.CondaIntegration().update_project_info(project_cloned)
             if (
                 project_cloned.conda_total_downloads
-                and project_cloned.conda_total_downloads > 5000
+                and project_cloned.conda_total_downloads > 2500
             ):
-                # only use this package if total downloads over 5000 -> to prevent errors
+                # only use this package if total downloads over X -> to prevent errors
                 log.info(
                     f"Detected conda package: {project_cloned.conda_id} for project {project_cloned.name}."
                 )
                 project = project_cloned
-
+            elif not project_cloned.conda_total_downloads and project.pypi_id:
+                # Try again with pypi_id
+                project_cloned.conda_id = "conda-forge/" + project.pypi_id
+                conda_integration.CondaIntegration().update_project_info(project_cloned)
+                if (
+                    project_cloned.conda_total_downloads
+                    and project_cloned.conda_total_downloads > 2500
+                ):
+                    # only use this package if total downloads over X -> to prevent errors
+                    log.info(
+                        f"Detected conda package: {project_cloned.conda_id} for project {project_cloned.name}."
+                    )
+                    project = project_cloned
         if npm and not project.npm_id:
             project_cloned = copy.deepcopy(project)
 
@@ -200,7 +285,7 @@ def auto_extend_package_manager(
                 project_cloned.npm_monthly_downloads
                 and project_cloned.npm_monthly_downloads > 500
             ):
-                # only use this package if monthly downloads over 500 -> to prevent errors
+                # only use this package if monthly downloads over X -> to prevent errors
                 log.info(
                     f"Detected npm package: {project_cloned.npm_id} for project {project_cloned.name}."
                 )
