@@ -4,13 +4,16 @@ import requests
 from addict import Dict
 from dateutil.parser import parse
 
+from best_of import utils
+from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations.base_integration import BaseIntegration
 
 log = logging.getLogger(__name__)
 
 query = """
 query($fullPath: ID!) {
-  project(fullPath: "gitlab-org/gitlab") {
+  project(fullPath: $fullPath) {
+    name
     forksCount
     starCount
     issueStatusCounts {
@@ -25,6 +28,7 @@ query($fullPath: ID!) {
       count
     }
     webUrl
+    httpUrlToRepo
     statistics {
       commitCount
     }
@@ -104,25 +108,21 @@ class GitLabIntegration(BaseIntegration):
 
         if repo_info.lastActivity:
             try:
-                last_ativity_at = parse(repo_info.lastActivityAt, ignoretz=True)
+                last_activity_at = parse(repo_info.lastActivityAt, ignoretz=True)
                 if (
-                    not project_info.lastActivityAt
-                    or project_info.lastActivityAt < created_at
+                    not project_info.updated_at
+                    or project_info.updated_at < last_activity_at
                 ):
-                    project_info.lastActivityAt = last_ativity_at
+                    project_info.updated_at = last_activity_at
             except Exception as ex:
                 log.warning(
                     f"Failed to parse timestamp: {repo_info.lastActivityAt}",
                     exc_info=ex,
                 )
 
-        if repo_info.forksCount:
-            forks_count = int(repo_info.forksCount)
-            if (
-                not project_info.fork_count
-                or int(project_info.fork_count) < forks_count
-            ):
-                project_info = forks_count
+        forks_count = int(repo_info.forksCount) if repo_info.forksCount else 0
+        if not project_info.fork_count or int(project_info.fork_count) < forks_count:
+            project_info.fork_count = forks_count
 
         issue_status_counts = repo_info.issueStatusCounts
         if issue_status_counts:
@@ -147,6 +147,23 @@ class GitLabIntegration(BaseIntegration):
             if not project_info.star_count or project_info.star_count < stars_count:
                 project_info.star_count = stars_count
 
+        if repo_info.releases:
+            release_count = len(repo_info.releases.edges)
+            if (
+                not project_info.release_count
+                or int(project_info.release_count) < release_count
+            ):
+                project_info.release_count = release_count
+
+        if repo_info.description and (
+            not project_info.description
+            or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
+        ):
+            project_info.description = repo_info.description
+
+        if not project_info.license:
+            project_info.license = "Unlicense"
+
     def generate_md_details(self, project: Dict, configuration: Dict) -> str:
         # reuse generate_github_details?
         # contributor_count
@@ -157,4 +174,39 @@ class GitLabIntegration(BaseIntegration):
         # last_commit_pushed_at
         # gitlab_url
 
-        return super().generate_md_details(project, configuration)
+        metrics_md = ""
+        if project.fork_count >= 0:
+            if metrics_md:
+                metrics_md += " · "
+            metrics_md += f"🔀 {utils.simplify_number(project.fork_count)}"
+
+        if project.open_issue_count and project.closed_issue_count:
+            if metrics_md:
+                metrics_md += " · "
+            total_issues = project.closed_issue_count + project.open_issue_count
+            metrics_md += f"📋 {utils.simplify_number(total_issues)} - {int((project.open_issue_count / total_issues) * 100)}% open"
+
+        if project.updated_at:
+            if metrics_md:
+                metrics_md += " · "
+            metrics_md += f"⏱️ {project.updated_at.strftime('%d.%m.%Y')}"
+
+        if metrics_md:
+            metrics_md = f"({metrics_md})"
+
+        if not project.gitlab_url:
+            project.gitlab_url = ""
+
+        separator = (
+            ""
+            if not configuration.generate_badges
+            and not configuration.generate_install_hints
+            else ":"
+        )
+
+        details_md = f"- [GitLab]({project.gitlab_url}) {metrics_md}{separator}\n"
+
+        if configuration.generate_install_hints:
+            details_md += f"\n\t```\n\tgit clone {project.gitlab_url}\n\t```\n"
+
+        return details_md
