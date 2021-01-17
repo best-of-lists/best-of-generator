@@ -346,7 +346,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
 
     # Check platform requires
-    if configuration.require_github and not (
+    if utils.require_repo(configuration) and not (
         project_info.github_url or project_info.gitlab_url
     ):
         log.info(

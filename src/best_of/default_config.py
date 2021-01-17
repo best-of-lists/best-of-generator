@@ -30,8 +30,8 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "require_license" not in config:
         config.require_license = True
 
-    if "require_github" not in config:
-        config.require_github = False
+    if "require_repo" not in config:
+        config.require_repo = False
 
     if "output_file" not in config:
         config.output_file = "README.md"
