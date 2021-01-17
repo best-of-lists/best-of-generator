@@ -1,4 +1,5 @@
 import logging
+from typing import Tuple
 
 import requests
 from addict import Dict
@@ -56,6 +57,23 @@ class GitLabIntegration(BaseIntegration):
     def name(self) -> str:
         return "gitlab"
 
+    def get_api_url(self, gitlab_id: str) -> Tuple[str, str]:
+        """If `gitlab_id` is in the format "<API_ENDPOINT>::org/repo", it returns a tuple "<API_ENDPOINT>, org/repo", otherwise it returns "<GITLAB_DEFAULT_API>, org/repo".
+
+        Args:
+            gitlab_id (str): A string in the format "org/repo" for GitLab projects
+            or "<API_ENDPOINT>::org/repo" for GitLab API compatible endpoints.
+
+        Returns:
+            tuple[str, str]: API endpoint, org/repo
+        """
+
+        if "::" in gitlab_id:
+            id_parts = tuple(gitlab_id.split("::"))
+            return id_parts[0], id_parts[1]
+        else:
+            return GITLAB_DEFAULT_API, gitlab_id
+
     def update_project_info(self, project_info: Dict) -> None:
 
         # project_info:
@@ -66,23 +84,25 @@ class GitLabIntegration(BaseIntegration):
         # github_release_downloads, monthly_downloads, release_count
         # description, dependent_project_count, contributor_count
 
-        api_url = project_info.api_url or GITLAB_DEFAULT_API
-        variables = {"fullPath": project_info.gitlab_id}
+        api_url, project_id = self.get_api_url(project_info.gitlab_id)
+
+        variables = {"fullPath": project_id}
         try:
             request = requests.post(
-                api_url, json={"query": query, "variables": variables}
+                api_url,
+                json={"query": query, "variables": variables},
             )
 
             if request.status_code != 200:
                 log.info(
-                    f"Unable to find the repo {project_info.gitlab_id}. Statuscode: {request.status_code}"
+                    f"Unable to find the repo {project_info.project_id} on {api_url}. Statuscode: {request.status_code}"
                 )
                 return
 
             repo_info = Dict(request.json()["data"]["project"])
         except Exception as ex:
             log.info(
-                f"Failed to request the repo {project_info.gitlab_id} on API {api_url} ",
+                f"Failed to request the repo {project_id} on API {api_url} ",
                 exc_info=ex,
             )
             return
