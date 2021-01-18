@@ -1,6 +1,6 @@
 """Gallery view for a best-of list.
 
-For each project, it shows an image (or automated homepage screenshot) and some
+For each project, it shows an image (or takes a screenshot of the homepage) and some
 information. Note that only a selected subset of project information is shown
 (compared to MarkdownListGenerator).
 See the example at: https://github.com/jrieke/best-of-streamlit
