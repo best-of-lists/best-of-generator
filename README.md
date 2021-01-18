@@ -248,6 +248,16 @@ Every project can also be expanded to show additional project information (by cl
         <td><code>gitlab_id</code></td>
         <td>GitLab ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
     </tr>
+    <tr>
+        <td colspan="2"><b>Additional Options for Markdown Gallery:</b></td>
+    </tr>
+    <tr>
+        <td colspan="2">These options only work when <code>output_generator</code> is set to <code>markdown-gallery</code>. See <a href="https://github.com/jrieke/best-of-streamlit">example gallery</a>.</td>
+    </tr>
+    <tr>
+        <td><code>image</code></td>
+        <td>Path or URL of the gallery image. If not given, will take a screenshot of <code>homepage</code> (if different from Github repo) or show the <code>default_image</code>.</td>
+    </tr>
 </table>
 
 While you can theoretically overwrite all project metadata, we suggest to only set the properties which the best-of generator is not able to find on GitHub or the configured package managers. There are also other undocumented properties, but for most projects those properties should not be overwritten.
@@ -545,14 +555,18 @@ The configuration example above changes the default configuration to show all pr
         <td colspan="3">These options only work when <code>output_generator</code> is set to <code>markdown-gallery</code>. See <a href="https://github.com/jrieke/best-of-streamlit">example gallery</a>.</td>
     </tr>
     <tr>
+        <td><code>default_image</code></td>
+        <td>Path or URL to a default image, which is shown for if <code>image</code> is not set for a project and taking a screenshot of it's <code>homepage</code> fails.</td>
+        <td><code>https://dummyimage.com/1024x768/ffffff/000000.jpg&text=No+image+found+:(</code></td>
+    </tr>
+    <tr>
         <td><code>skip_existing_screenshots</code></td>
-        <td>Whether to skip taking homepage screenshots that
-        were already taken before.</td>
+        <td>Whether to skip taking screenshots that were already taken before.</td>
         <td><code>False</code></td>
     </tr>
     <tr>
         <td><code>skip_screenshots</code></td>
-        <td>Whether to skip taking homepage screenshots completely.</td>
+        <td>Whether to skip taking screenshots completely.</td>
         <td><code>False</code></td>
     </tr>
     <tr>
