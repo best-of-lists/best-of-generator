@@ -28,13 +28,13 @@ from best_of.generators.base_generator import BaseGenerator
 log = logging.getLogger(__name__)
 
 
-def chunker(seq, size):
+def chunker(seq: list, size: int) -> list:
     """Iterates over a sequence in chunks."""
     # From https://stackoverflow.com/questions/434287/what-is-the-most-pythonic-way-to-iterate-over-a-list-in-chunks
     return (seq[pos : pos + size] for pos in range(0, len(seq), size))
 
 
-def shorten(s, max_len):
+def shorten(s: str, max_len: int) -> str:
     """Shorten a string by appending ... if it's too long."""
     if len(s) > max_len:
         s = s[: max_len - 3] + "..."
@@ -91,7 +91,7 @@ def generate_project_html(
                         f"Taking screenshot for {project.name} (from {project.homepage})"
                     )
                     sleep = configuration.get("wait_before_screenshot", 10)
-                    asyncio.run(
+                    asyncio.run( # type: ignore
                         save_screenshot(project.homepage, img_path, sleep=sleep)
                     )
                     print(f"Success! Saved in: {img_path}")
