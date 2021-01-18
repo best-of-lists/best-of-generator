@@ -557,7 +557,7 @@ The configuration example above changes the default configuration to show all pr
     <tr>
         <td><code>default_image</code></td>
         <td>Path or URL to a default image, which is shown for if <code>image</code> is not set for a project and taking a screenshot of it's <code>homepage</code> fails.</td>
-        <td><code>a dummy image</code></td>
+        <td>white dummy image</td>
     </tr>
     <tr>
         <td><code>skip_existing_screenshots</code></td>
