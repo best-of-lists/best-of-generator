@@ -433,7 +433,7 @@ The configuration example above changes the default configuration to show all pr
     </tr>
     <tr>
         <td><code>output_generator</code></td>
-        <td>Select the markdown generator to use for generating the output markdown page. Currently, only <code>markdown-list</code> is supported.</td>
+        <td>Select the markdown generator to use for generating the output markdown page. Currently, <code>markdown-list</code> and <code>markdown-gallery</code> are supported.</td>
         <td><code>markdown-list</code></td>
     </tr>
     <tr>
@@ -531,6 +531,64 @@ The configuration example above changes the default configuration to show all pr
         <td>Path to a python script which is loaded before project collection or markdown generation to allow extensibility.</td>
         <td></td>
     </tr>
+    <tr>
+        <td colspan="2"><b>Additional Options for Markdown Gallery:</b></td>
+    </tr>
+    <tr>
+        <td colspan="2">These options only work when <code>output_generator</code> is set to <code>markdown-gallery</code>. See <a href="https://github.com/jrieke/best-of-streamlit">example gallery</a>.</td>
+    </tr>
+    <tr>
+        <td><code>skip_existing_screenshots</code></td>
+        <td>Whether to skip taking homepage screenshots that
+        were already taken before.</td>
+        <td><code>False</code></td>
+    </tr>
+    <tr>
+        <td><code>skip_screenshots</code></td>
+        <td>Whether to skip taking homepage screenshots completely.</td>
+        <td><code>False</code></td>
+    </tr>
+    <tr>
+        <td><code>wait_before_screenshot</code></td>
+        <td>Seconds to wait before taking screenshot (so the website can load completely).</td>
+        <td><code>10</code></td>
+    </tr>
+    <tr>
+        <td><code>projects_per_category</code></td>
+        <td>Maximum number of projects that are shown per category.</td>
+        <td><code>9</code></td>
+    </tr>
+    <tr>
+        <td><code>projects_per_row</code></td>
+        <td>Maximum number of projects shown per row.</td>
+        <td><code>3</code></td>
+    </tr>
+    <tr>
+        <td><code>mobile_version</code></td>
+        <td>Whether to create an additional, mobile-optimized version with only one column (i.e. with <code>projects_per_row</code> set to <code>1</code>).</td>
+        <td><code>False</code></td>
+    </tr>
+    <tr>
+        <td><code>mobile_output_path</code></td>
+        <td>Output path of the mobile-optimized version.</td>
+        <td><code>README-mobile.md</code></td>
+    </tr>
+    <tr>
+        <td><code>mobile_markdown_header_file</code></td>
+        <td>Path to a mobile-specific header file.</td>
+        <td>Normal header file</td>
+    </tr>
+    <tr>
+        <td><code>mobile_markdown_footer_file</code></td>
+        <td>Path to a mobile-specific footer file.</td>
+        <td>Normal footer file</td>
+    </tr>
+    <tr>
+        <td><code>short_toc</code></td>
+        <td>Whether to use a short-form TOC that just takes up one line. Only works when <code>generate_toc</code> is <code>True.</code></td>
+        <td><code>False</code></td>
+    </tr>
+
 </table>
 
 ### Project Quality Score
