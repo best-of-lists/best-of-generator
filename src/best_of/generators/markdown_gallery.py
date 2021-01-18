@@ -6,27 +6,7 @@ information. Note that only a selected subset of project information is shown
 (compared to MarkdownListGenerator).
 See the example at: https://github.com/jrieke/best-of-streamlit
 
-Gallery view allows for some additional configuration args, all of which are optional:
-
-skip_existing_screenshots (bool): Whether to skip taking homepage screenshots that
-    were already taken before. Defaults to False.
-skip_screenshots (bool): Whether to skip taking homepage screenshots completely.
-    Defaults to False.
-wait_before_screenshot (int): Seconds to wait before taking screenshot (so the website
-    can load completely). Defaults to 10.
-projects_per_category (int): Maximum number of projects that are shown per category.
-    Defaults to 9.
-projects_per_row (int): Maximum number of projects shown per row. Defaults to 3.
-mobile_version (bool): Whether to create an additional, mobile-optimized version with
-    only one column (i.e. projects_per_row=1). Defaults to False.
-mobile_output_path (str): Output path of the mobile-optimized version. Defaults to
-    "README-mobile.md".
-mobile_markdown_header_file (str): Path to a mobile-specific header file. By default,
-    the normal header file is used.
-mobile_markdown_footer_file (str): Path to a mobile-specific footer file. By default,
-    the normal header file is used.
-short_toc (bool): Whether to use a short-form TOC that just takes up one line. Defaults
-    to False. Only works when generate_toc is True.
+Gallery view allows for some additional configuration args, see README.md.
 """
 
 import asyncio
@@ -232,11 +212,6 @@ def generate_category_gallery_md(
     return "<br>\n\n" + category_md
 
 
-def process_md_link(text: str) -> str:
-    text = text.lower().replace(" ", "-")
-    return re.compile(r"[^a-zA-Z0-9-]").sub("", text)
-
-
 def generate_short_toc(categories: OrderedDict, config: Dict) -> str:
     toc_md = ""
     toc_points = []
@@ -245,7 +220,7 @@ def generate_short_toc(categories: OrderedDict, config: Dict) -> str:
         if category_info.ignore:
             continue
 
-        url = "#" + process_md_link(category_info.title)
+        url = "#" + markdown_list.process_md_link(category_info.title)
 
         project_count = 0
         if category_info.projects:
