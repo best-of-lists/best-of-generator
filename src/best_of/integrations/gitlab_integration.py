@@ -83,6 +83,8 @@ class GitLabIntegration(BaseIntegration):
         # latest_stable_release_published_at, latest_stable_release_number
         # github_release_downloads, monthly_downloads, release_count
         # description, dependent_project_count, contributor_count
+        if not project_info.gitlab_id:
+            return
 
         api_url, project_id = self.get_api_url(project_info.gitlab_id)
 
@@ -109,6 +111,9 @@ class GitLabIntegration(BaseIntegration):
 
         if not project_info.gitlab_url and repo_info.httpUrlToRepo:
             project_info.gitlab_url = repo_info.httpUrlToRepo
+
+        if not project_info.gitlab_url:
+            project_info.gitlab_url = repo_info.webUrl
 
         if not project_info.homepage:
             project_info.homepage = repo_info.webUrl
