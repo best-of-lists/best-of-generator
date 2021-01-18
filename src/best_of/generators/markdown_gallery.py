@@ -161,7 +161,8 @@ def generate_category_gallery_md(
     category: Dict, config: Dict, labels: list, title_md_prefix: str = "##"
 ) -> str:
     """Generates markdown gallery for a category, containing tables with projects."""
-    category_md = ""
+    if category.ignore:
+        return ""
 
     if (
         (
@@ -172,14 +173,18 @@ def generate_category_gallery_md(
         and not category.hidden_projects
     ):
         # Do not show category
-        return category_md
+        return ""
 
     # Set up category header.
+    category_md = ""
     category_md += title_md_prefix + " " + category.title + "\n\n"
-    # TODO: Original line doesn't work if there's no TOC. Replaced it with link
-    #   to title for now but fix this in original repo.
-    # category_md += f'<a href="#contents"><img align="right" width="15" height="15" src="{best_of.default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
-    category_md += f'<a href="#----best-of-streamlit----"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
+    back_to_top_anchor = "#contents"
+    if not config.generate_toc:
+        # Use # anchor to get back to top of repo
+        back_to_top_anchor = "#"
+
+    category_md += f'<a href="{back_to_top_anchor}"><img align="right" width="15" height="15" src="{default_config.UP_ARROW_IMAGE}" alt="Back to top"></a>\n\n'
+
     if category.subtitle:
         category_md += "_" + category.subtitle.strip() + "_\n\n"
 
@@ -196,9 +201,7 @@ def generate_category_gallery_md(
             )
             category_md += f'<br><details align="center"><summary><b>Show {len(category.projects) - num_shown} more for "{category.title}"</b></summary><br>{hidden_table_html}</details>\n\n'
 
-    # This is actually not used here (because all projects are set to show:
-    # True) but it's left here from the original `best_of.generate_category_md` function
-    # for completeness.
+    # TODO: Hidden projects are not adjusted to the gallery view so far.
     if category.hidden_projects:
         category_md += (
             "<details><summary>Show "
@@ -211,7 +214,7 @@ def generate_category_gallery_md(
             )
             category_md += project_md + "\n"
         category_md += "</details>\n"
-    # print(category_md)
+
     return "<br>\n\n" + category_md
 
 
