@@ -11,6 +11,7 @@ on:
         description: "Working directory from where the build command is run"
         required: false
   push:
+  pull_request:
 
 env:
   BUILD_ARGS: ${{ secrets.BUILD_ARGS }}

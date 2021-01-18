@@ -346,8 +346,12 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
 
     # Check platform requires
-    if configuration.require_github and not project_info.github_url:
-        log.info(f"{project_info.name} requires github, but no github repo found .")
+    if utils.require_repo(configuration) and not (
+        project_info.github_url or project_info.gitlab_url
+    ):
+        log.info(
+            f"{project_info.name} requires a repo url (e.g. GitHub or GitLab), but no repo url found."
+        )
         project_info.show = False
 
     # TODO: also support other package managers as requirement
