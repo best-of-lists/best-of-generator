@@ -219,6 +219,8 @@ def generate_category_gallery_md(
 
 
 def generate_short_toc(categories: OrderedDict, config: Dict) -> str:
+    """Generate a short TOC, which is just all category names in one line."""
+    # TODO: Maybe port this to markdown_list.
     toc_md = ""
     toc_points = []
     for category in categories:
@@ -247,6 +249,11 @@ def generate_short_toc(categories: OrderedDict, config: Dict) -> str:
 
 
 def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
+    """Generate the markdown text.
+
+    This is a near-complete copy of the same method in markdown_list but it uses the
+    functions in this file.
+    """
     full_markdown = ""
     project_count = 0
     category_count = 0
