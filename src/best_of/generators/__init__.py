@@ -1,10 +1,11 @@
 from typing import List, Optional
 
 from best_of import utils
-from best_of.generators import base_generator, markdown_list
+from best_of.generators import base_generator, markdown_gallery, markdown_list
 
 AVAILABLE_GENERATORS: List[base_generator.BaseGenerator] = [
-    markdown_list.MarkdownListGenerator()
+    markdown_list.MarkdownListGenerator(),
+    markdown_gallery.MarkdownGalleryGenerator(),
 ]
 
 
