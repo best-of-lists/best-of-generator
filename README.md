@@ -569,9 +569,9 @@ The configuration example above changes the default configuration to show all pr
         <td><code>False</code></td>
     </tr>
     <tr>
-        <td><code>mobile_output_path</code></td>
+        <td><code>mobile_output_file</code></td>
         <td>Output path of the mobile-optimized version.</td>
-        <td><code>README-mobile.md</code></td>
+        <td><code>./README-mobile.md</code></td>
     </tr>
     <tr>
         <td><code>mobile_markdown_header_file</code></td>
