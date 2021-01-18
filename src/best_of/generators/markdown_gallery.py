@@ -1,5 +1,4 @@
-"""
-Gallery view for a best-of list.
+"""Gallery view for a best-of list.
 
 For each project, it shows an image (or automated homepage screenshot) and some
 information. Note that only a selected subset of project information is shown
