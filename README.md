@@ -532,10 +532,10 @@ The configuration example above changes the default configuration to show all pr
         <td></td>
     </tr>
     <tr>
-        <td colspan="2"><b>Additional Options for Markdown Gallery:</b></td>
+        <td colspan="3"><b>Additional Options for Markdown Gallery:</b></td>
     </tr>
     <tr>
-        <td colspan="2">These options only work when <code>output_generator</code> is set to <code>markdown-gallery</code>. See <a href="https://github.com/jrieke/best-of-streamlit">example gallery</a>.</td>
+        <td colspan="3">These options only work when <code>output_generator</code> is set to <code>markdown-gallery</code>. See <a href="https://github.com/jrieke/best-of-streamlit">example gallery</a>.</td>
     </tr>
     <tr>
         <td><code>skip_existing_screenshots</code></td>
