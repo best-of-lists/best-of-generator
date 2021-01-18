@@ -11,12 +11,11 @@ Gallery view allows for some additional configuration args, see README.md.
 import asyncio
 import logging
 import os
-import re
 import time
 from collections import OrderedDict
 from datetime import datetime
 from pathlib import Path
-from typing import List
+from typing import Generator, List
 
 import pyppeteer
 from addict import Dict
@@ -28,7 +27,7 @@ from best_of.generators.base_generator import BaseGenerator
 log = logging.getLogger(__name__)
 
 
-def chunker(seq: list, size: int) -> list:
+def chunker(seq: list, size: int) -> Generator:
     """Iterates over a sequence in chunks."""
     # From https://stackoverflow.com/questions/434287/what-is-the-most-pythonic-way-to-iterate-over-a-list-in-chunks
     return (seq[pos : pos + size] for pos in range(0, len(seq), size))
@@ -91,7 +90,7 @@ def generate_project_html(
                         f"Taking screenshot for {project.name} (from {project.homepage})"
                     )
                     sleep = configuration.get("wait_before_screenshot", 10)
-                    asyncio.run( # type: ignore
+                    asyncio.run(  # type: ignore
                         save_screenshot(project.homepage, img_path, sleep=sleep)
                     )
                     print(f"Success! Saved in: {img_path}")
