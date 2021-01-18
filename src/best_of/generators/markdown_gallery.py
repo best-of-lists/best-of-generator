@@ -179,7 +179,7 @@ def generate_category_gallery_md(
     category_md = ""
     category_md += title_md_prefix + " " + category.title + "\n\n"
     back_to_top_anchor = "#contents"
-    if not config.generate_toc:
+    if not config.generate_toc or config.short_toc:
         # Use # anchor to get back to top of repo
         back_to_top_anchor = "#"
 
