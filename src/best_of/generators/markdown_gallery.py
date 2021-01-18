@@ -27,6 +27,10 @@ from best_of.generators.base_generator import BaseGenerator
 log = logging.getLogger(__name__)
 
 
+# This is used if no image is given at all.
+DUMMY_IMAGE = "https://dummyimage.com/1024x768/ffffff/000000.jpg&text=No+image+found+:("
+
+
 def chunker(seq: list, size: int) -> Generator:
     """Iterates over a sequence in chunks."""
     # From https://stackoverflow.com/questions/434287/what-is-the-most-pythonic-way-to-iterate-over-a-list-in-chunks
@@ -64,22 +68,22 @@ def generate_project_html(
     if project.image:
         img_path = project.image
     else:
-        # Make screenshot of the homepage.
+        # Retrieve default image and any existing screenshot.
+        default_img_path = configuration.get("default_image", DUMMY_IMAGE)
         screenshot_dir = Path("screenshots")
         screenshot_dir.mkdir(parents=True, exist_ok=True)
         img_filename = "".join([c for c in project.name if c.isalpha()]) + ".png"
         img_path = screenshot_dir / img_filename
 
         if configuration.skip_screenshots:
-            # Use existing img or default img if doesn't exist.
+            # Use existing screenshot or default img if doesn't exist.
             if not img_path.exists():
-                # TODO: Allow to set default screenshot via config.
-                img_path = screenshot_dir / "0_default.png"
+                img_path = default_img_path
         elif not (configuration.skip_existing_screenshots and img_path.exists()):
             if project.homepage == project.github_url:
                 # If no dedicated homepage is given (other than the github site),
                 # use the default img.
-                img_path = screenshot_dir / "0_default.png"
+                img_path = default_img_path
             else:
                 # Try to take a screenshot of the website and use default img if that
                 # fails.
@@ -96,12 +100,13 @@ def generate_project_html(
                     print(f"Success! Saved in: {img_path}")
                 except pyppeteer.errors.TimeoutError:
                     print(f"Timeout when loading: {project.homepage}")
-                    img_path = screenshot_dir / "0_default.png"
+                    img_path = default_img_path
 
-    # TODO: Check that this link opens in new tab from Github readme.
+    # Add image and project name to md.
     project_md += f'<br><a href="{project.homepage}"><img width="256" height="144" src="{img_path}"></a><br>'
     project_md += f'<h3><a href="{project.homepage}">{project.name}</a></h3>'
 
+    # Add metrics to md.
     metrics = []
     if project.created_at:
         project_total_month = utils.diff_month(datetime.now(), project.created_at)
@@ -114,17 +119,18 @@ def generate_project_html(
         metrics.append(f"⭐ {str(utils.simplify_number(project.star_count))}")
     if project.github_url:
         metrics.append(f'<a href="{project.github_url}">:octocat: Code</a>')
-
     if metrics:
         metrics_str = " · ".join(metrics)
         project_md += f"<p>{metrics_str}</p>"
 
+    # Shorten description and add to md.
     description = project.description
     if description[-1] == ".":  # descriptions returned by best-of end with .
         description = description[:-1]
     description = shorten(description, 90)
     project_md += f"<p>{description}</p>"
 
+    # Add project author (=Github repo owner) to md.
     if project.github_id:
         author = project.github_id.split("/")[0]
         project_md += (
@@ -143,7 +149,6 @@ def generate_table_html(projects: list, config: Dict, labels: Dict) -> str:
         table_html += '<tr align="center">'
         for project in project_row:
             print("- " + project.name)
-            # table_html += project.name
             project_md = generate_project_html(project, config, labels)
             table_html += f'<td valign="top" width="33.3%">{project_md}</td>'
         table_html += "</tr>"
