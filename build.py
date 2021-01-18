@@ -27,10 +27,7 @@ def main(args: dict) -> None:
     if args.get(build_utils.FLAG_MAKE):
         # Install pipenv dev requirements
         build_python.install_build_env(exit_on_error=True)
-        # Create API documentation via lazydocs
-        build_python.generate_api_docs(
-            github_url=GITHUB_URL, main_package=MAIN_PACKAGE, exit_on_error=True
-        )
+
         # Build distribution via setuptools
         build_python.build_distribution(exit_on_error=True)
 
@@ -70,6 +67,11 @@ def main(args: dict) -> None:
             build_utils.run('pipenv run pytest -m "not slow"', exit_on_error=True)
 
     if args.get(build_utils.FLAG_RELEASE):
+        # Create API documentation via lazydocs
+        build_python.generate_api_docs(
+            github_url=GITHUB_URL, main_package=MAIN_PACKAGE, exit_on_error=True
+        )
+
         # Publish distribution on pypi
         build_python.publish_pypi_distribution(
             pypi_token=args.get(build_python.FLAG_PYPI_TOKEN),
