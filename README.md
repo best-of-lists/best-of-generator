@@ -179,7 +179,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>github_id</code></td>
-        <td>GitHub ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
+        <td>GitHub ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>. If the project is hosted on GitLab, please use the <code>gitlab_id</code> property.</td>
     </tr>
     <tr>
         <td><code>category</code></td>
@@ -218,7 +218,7 @@ Every project can also be expanded to show additional project information (by cl
         <td>If <code>True</code>, the project will be ignored. This also means that it will not be included in the hidden projects section. However, the project metadata will still be collected.</td>
     </tr>
     <tr>
-        <td colspan="2"><b>Supported Package Managers:</b></td>
+        <td colspan="2"><b>Supported Integrations:</b></td>
     </tr>
     <tr>
         <td><code>pypi_id</code></td>
@@ -239,6 +239,14 @@ Every project can also be expanded to show additional project information (by cl
     <tr>
         <td><code>maven_id</code></td>
         <td>Artifact ID on <a href="https://mvnrepository.com">Maven central</a>, e.g. <code>org.apache.flink:flink-core</code>. </td>
+    </tr>
+    <tr>
+        <td><code>github_id</code></td>
+        <td>GitHub ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
+    </tr>
+    <tr>
+        <td><code>gitlab_id</code></td>
+        <td>GitLab ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
     </tr>
 </table>
 
@@ -400,13 +408,12 @@ Many aspects of the best-of list can be configured. Since most default values ar
 configuration:
   min_stars: 0
   min_projectrank: 0
-  require_github: True
   allowed_licenses: ["all"]
   markdown_header_file: "config/header.md"
   markdown_footer_file: "config/footer.md"
 ```
 
-The configuration example above changes the default configuration to show all projects regardless of star count (via `min_stars`), projectrank (via `min_projectrank`), or license (via `allows_licenses`). It also configures a header (via `markdown_header_file`) and footer (via `markdown_footer_file`) markdown files that will be attached to the generated content. In addition, all projects are required to provide at-least a `github_id` (via `require_github`).
+The configuration example above changes the default configuration to show all projects regardless of star count (via `min_stars`), projectrank (via `min_projectrank`), or license (via `allows_licenses`). It also configures a header (via `markdown_header_file`) and footer (via `markdown_footer_file`) markdown files that will be attached to the generated content.
 
 #### Configuration Options
 
@@ -467,8 +474,8 @@ The configuration example above changes the default configuration to show all pr
         <td><code>True</code></td>
     </tr>
     <tr>
-        <td><code>require_github</code></td>
-        <td>If <code>True</code>, all projects without a <code>github_id</code> will be hidden.</td>
+        <td><code>require_repo</code></td>
+        <td>If <code>True</code>, all projects without a source repository - configure via <code>github_id</code> or <code>gitlab_id</code> - will be hidden.</td>
         <td><code>False</code></td>
     </tr>
     <tr>

@@ -2,6 +2,8 @@ import re
 import textwrap
 from datetime import datetime
 
+from addict import Dict
+
 
 def simplify_str(text: str) -> str:
     return re.compile(r"[^a-zA-Z0-9]").sub("", text.strip()).lower()
@@ -66,3 +68,16 @@ url_validator = re.compile(
 
 def is_valid_url(url: str) -> bool:
     return re.match(url_validator, url) is not None
+
+
+def require_repo(configuration: Dict) -> bool:
+    """Returns true if a repo id is required for a project entry via `configuration.require_repo` or for compatibility reasons `configuration.require_github`.
+
+    Args:
+        configuration (Dict): The project configuration
+
+    Returns:
+        bool: if `configuration.require_repo` or `configuration.require_github` is True
+    """
+
+    return configuration.require_repo or configuration.require_github
