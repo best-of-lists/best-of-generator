@@ -9,7 +9,7 @@ import pandas as pd
 import yaml
 from addict import Dict
 
-from best_of import default_config
+from best_of import default_config, utils
 
 log = logging.getLogger(__name__)
 
@@ -146,8 +146,10 @@ def generate_markdown(
         output_generator = get_generator(config.output_generator)
         if not output_generator:
             log.error("No output generator registered for " + config.output_generator)
+            utils.exit_process(1)
             return
 
         output_generator.write_output(categories, projects, config, labels)
     except Exception as ex:
         log.error("Failed to generate markdown.", exc_info=ex)
+        utils.exit_process(1)
