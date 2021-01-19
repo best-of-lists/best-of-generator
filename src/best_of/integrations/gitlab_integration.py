@@ -198,6 +198,10 @@ class GitLabIntegration(BaseIntegration):
         # last_commit_pushed_at
         # gitlab_url
 
+        # only show if gitlab url is set
+        if not project.gitlab_url:
+            return ""
+
         metrics_md = ""
         if project.fork_count >= 0:
             if metrics_md:
@@ -217,9 +221,6 @@ class GitLabIntegration(BaseIntegration):
 
         if metrics_md:
             metrics_md = f"({metrics_md})"
-
-        if not project.gitlab_url:
-            project.gitlab_url = ""
 
         separator = (
             ""
