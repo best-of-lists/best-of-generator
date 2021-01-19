@@ -60,7 +60,7 @@ You can find further information on how to configure the `projects.yaml` file an
 
 ## Support & Feedback
 
-This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein), [Lukas Masuch](https://twitter.com/LukasMasuch), and [Jan Kalkan](https://www.linkedin.com/in/jan-kalkan-b5390284/). Please understand that we won't be able to provide individual support via email. We also believe that help is much more valuable if it's shared publicly so that more people can benefit from it.
+This project is maintained by [Benjamin Räthlein](https://twitter.com/raethlein), [Lukas Masuch](https://twitter.com/LukasMasuch), [Jan Kalkan](https://www.linkedin.com/in/jan-kalkan-b5390284/), and [Johannes Rieke](https://twitter.com/jrieke). Please understand that we won't be able to provide individual support via email. We also believe that help is much more valuable if it's shared publicly so that more people can benefit from it.
 
 | Type                     | Channel                                              |
 | ------------------------ | ------------------------------------------------------ |
