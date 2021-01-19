@@ -80,7 +80,10 @@ def generate_project_html(
             if not img_path.exists():
                 img_path = default_img_path
         elif not (configuration.skip_existing_screenshots and img_path.exists()):
-            if configuration.ignore_github_screenshot and project.homepage == project.github_url:
+            if (
+                configuration.ignore_github_screenshot
+                and project.homepage == project.github_url
+            ):
                 # If no dedicated homepage is given (other than the github site),
                 # use the default img.
                 img_path = default_img_path
