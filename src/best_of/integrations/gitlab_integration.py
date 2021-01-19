@@ -87,7 +87,6 @@ class GitLabIntegration(BaseIntegration):
             return
 
         api_url, project_id = self.get_api_url(project_info.gitlab_id)
-
         variables = {"fullPath": project_id}
         try:
             request = requests.post(
@@ -97,20 +96,23 @@ class GitLabIntegration(BaseIntegration):
 
             if request.status_code != 200:
                 log.info(
-                    f"Unable to find the repo {project_info.project_id} on {api_url}. Statuscode: {request.status_code}"
+                    f"Unable to find the repo {project_info.gitlab_id} on {api_url}. Statuscode: {request.status_code}"
                 )
                 return
 
             repo_info = Dict(request.json()["data"]["project"])
+
+            if not repo_info:
+                log.info(
+                    f"Unable to find the repo {project_info.gitlab_id} on {api_url}. No data returned."
+                )
+                return
         except Exception as ex:
             log.info(
                 f"Failed to request the repo {project_id} on API {api_url} ",
                 exc_info=ex,
             )
             return
-
-        if not project_info.gitlab_url and repo_info.httpUrlToRepo:
-            project_info.gitlab_url = repo_info.httpUrlToRepo
 
         if not project_info.gitlab_url:
             project_info.gitlab_url = repo_info.webUrl
@@ -185,9 +187,6 @@ class GitLabIntegration(BaseIntegration):
             or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
         ):
             project_info.description = repo_info.description
-
-        if not project_info.license:
-            project_info.license = "Unlicense"
 
     def generate_md_details(self, project: Dict, configuration: Dict) -> str:
         # reuse generate_github_details?
