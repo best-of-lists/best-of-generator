@@ -198,8 +198,8 @@ class GitLabIntegration(BaseIntegration):
         # last_commit_pushed_at
         # gitlab_url
 
-        # only show if gitlab url is set
-        if not project.gitlab_url:
+        # Only show if gitlab url is set
+        if not project.gitlab_id or not project.gitlab_url:
             return ""
 
         metrics_md = ""
