@@ -256,7 +256,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>image</code></td>
-        <td>Path or URL of the gallery image. If not given, will take a screenshot of <code>homepage</code> (if different from Github repo) or show the <code>default_image</code>.</td>
+        <td>Path or URL of the gallery image. If not given, will take a screenshot of <code>homepage</code> or show the <code>default_image</code>.</td>
     </tr>
 </table>
 
@@ -573,6 +573,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>wait_before_screenshot</code></td>
         <td>Seconds to wait before taking screenshot (so the website can load completely).</td>
         <td><code>10</code></td>
+    </tr>
+    <tr>
+        <td><code>ignore_github_screenshot</code></td>
+        <td>Do not take screenshot if `homepage` matches the project's GitHub URL.</td>
+        <td><code>False</code></td>
     </tr>
     <tr>
         <td><code>projects_per_category</code></td>
