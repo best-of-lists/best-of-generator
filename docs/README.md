@@ -8,12 +8,14 @@
 - [`best_of.generator`](./best_of.generator.md#module-best_ofgenerator)
 - [`best_of.generators`](./best_of.generators.md#module-best_ofgenerators)
 - [`best_of.generators.base_generator`](./best_of.generators.base_generator.md#module-best_ofgeneratorsbase_generator)
+- [`best_of.generators.markdown_gallery`](./best_of.generators.markdown_gallery.md#module-best_ofgeneratorsmarkdown_gallery): Gallery view for a best-of list.
 - [`best_of.generators.markdown_list`](./best_of.generators.markdown_list.md#module-best_ofgeneratorsmarkdown_list)
 - [`best_of.integrations`](./best_of.integrations.md#module-best_ofintegrations)
 - [`best_of.integrations.base_integration`](./best_of.integrations.base_integration.md#module-best_ofintegrationsbase_integration)
 - [`best_of.integrations.conda_integration`](./best_of.integrations.conda_integration.md#module-best_ofintegrationsconda_integration)
 - [`best_of.integrations.dockerhub_integration`](./best_of.integrations.dockerhub_integration.md#module-best_ofintegrationsdockerhub_integration)
 - [`best_of.integrations.github_integration`](./best_of.integrations.github_integration.md#module-best_ofintegrationsgithub_integration)
+- [`best_of.integrations.gitlab_integration`](./best_of.integrations.gitlab_integration.md#module-best_ofintegrationsgitlab_integration)
 - [`best_of.integrations.libio_integration`](./best_of.integrations.libio_integration.md#module-best_ofintegrationslibio_integration)
 - [`best_of.integrations.maven_integration`](./best_of.integrations.maven_integration.md#module-best_ofintegrationsmaven_integration)
 - [`best_of.integrations.npm_integration`](./best_of.integrations.npm_integration.md#module-best_ofintegrationsnpm_integration)
@@ -26,10 +28,12 @@
 ## Classes
 
 - [`base_generator.BaseGenerator`](./best_of.generators.base_generator.md#class-basegenerator)
+- [`markdown_gallery.MarkdownGalleryGenerator`](./best_of.generators.markdown_gallery.md#class-markdowngallerygenerator)
 - [`markdown_list.MarkdownListGenerator`](./best_of.generators.markdown_list.md#class-markdownlistgenerator)
 - [`base_integration.BaseIntegration`](./best_of.integrations.base_integration.md#class-baseintegration)
 - [`conda_integration.CondaIntegration`](./best_of.integrations.conda_integration.md#class-condaintegration)
 - [`dockerhub_integration.DockerhubIntegration`](./best_of.integrations.dockerhub_integration.md#class-dockerhubintegration)
+- [`gitlab_integration.GitLabIntegration`](./best_of.integrations.gitlab_integration.md#class-gitlabintegration)
 - [`maven_integration.MavenIntegration`](./best_of.integrations.maven_integration.md#class-mavenintegration)
 - [`npm_integration.NpmIntegration`](./best_of.integrations.npm_integration.md#class-npmintegration)
 - [`pypi_integration.PypiIntegration`](./best_of.integrations.pypi_integration.md#class-pypiintegration)
@@ -42,6 +46,14 @@
 - [`generator.load_extension_script`](./best_of.generator.md#function-load_extension_script)
 - [`generator.parse_projects_yaml`](./best_of.generator.md#function-parse_projects_yaml)
 - [`generators.get_generator`](./best_of.generators.md#function-get_generator)
+- [`markdown_gallery.chunker`](./best_of.generators.markdown_gallery.md#function-chunker): Iterates over a sequence in chunks.
+- [`markdown_gallery.generate_category_gallery_md`](./best_of.generators.markdown_gallery.md#function-generate_category_gallery_md): Generates markdown gallery for a category, containing tables with projects.
+- [`markdown_gallery.generate_md`](./best_of.generators.markdown_gallery.md#function-generate_md): Generate the markdown text.
+- [`markdown_gallery.generate_project_html`](./best_of.generators.markdown_gallery.md#function-generate_project_html): Generates the content of a table cell for a project.
+- [`markdown_gallery.generate_short_toc`](./best_of.generators.markdown_gallery.md#function-generate_short_toc): Generate a short TOC, which is just all category names in one line.
+- [`markdown_gallery.generate_table_html`](./best_of.generators.markdown_gallery.md#function-generate_table_html): Generates a table containing several projects.
+- [`markdown_gallery.save_screenshot`](./best_of.generators.markdown_gallery.md#function-save_screenshot): Loads url in headless browser and saves screenshot to file (.jpg or .png).
+- [`markdown_gallery.shorten`](./best_of.generators.markdown_gallery.md#function-shorten): Shorten a string by appending ... if it's too long.
 - [`markdown_list.generate_category_md`](./best_of.generators.markdown_list.md#function-generate_category_md)
 - [`markdown_list.generate_changes_md`](./best_of.generators.markdown_list.md#function-generate_changes_md)
 - [`markdown_list.generate_legend`](./best_of.generators.markdown_list.md#function-generate_legend)
@@ -77,6 +89,7 @@
 - [`utils.is_valid_url`](./best_of.utils.md#function-is_valid_url)
 - [`utils.process_description`](./best_of.utils.md#function-process_description)
 - [`utils.remove_special_chars`](./best_of.utils.md#function-remove_special_chars)
+- [`utils.require_repo`](./best_of.utils.md#function-require_repo): Returns true if a repo id is required for a project entry via `configuration.require_repo` or for compatibility reasons `configuration.require_github`.
 - [`utils.simplify_number`](./best_of.utils.md#function-simplify_number)
 - [`utils.simplify_str`](./best_of.utils.md#function-simplify_str)
 - [`yaml_generation.auto_extend_package_manager`](./best_of.yaml_generation.md#function-auto_extend_package_manager)
