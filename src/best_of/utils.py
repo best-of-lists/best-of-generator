@@ -1,8 +1,8 @@
+import os
 import re
+import sys
 import textwrap
 from datetime import datetime
-
-from addict import Dict
 
 
 def simplify_str(text: str) -> str:
@@ -70,14 +70,16 @@ def is_valid_url(url: str) -> bool:
     return re.match(url_validator, url) is not None
 
 
-def require_repo(configuration: Dict) -> bool:
-    """Returns true if a repo id is required for a project entry via `configuration.require_repo` or for compatibility reasons `configuration.require_github`.
+def exit_process(code: int = 0) -> None:
+    """Exit the process with exit code.
 
-    Args:
-        configuration (Dict): The project configuration
-
-    Returns:
-        bool: if `configuration.require_repo` or `configuration.require_github` is True
+    `sys.exit` seems to be a bit unreliable, process just sleeps and does not exit.
+    So we are using os._exit instead and doing some manual cleanup.
     """
+    import atexit
+    import gc
 
-    return configuration.require_repo or configuration.require_github
+    gc.collect()
+    atexit._run_exitfuncs()
+    sys.stdout.flush()
+    os._exit(code)
