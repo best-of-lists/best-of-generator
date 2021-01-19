@@ -13,6 +13,7 @@
 - **libio_integration**
 - **conda_integration**
 - **dockerhub_integration**
+- **gitlab_integration**
 - **maven_integration**
 - **npm_integration**
 - **pypi_integration**
