@@ -576,7 +576,7 @@ The configuration example above changes the default configuration to show all pr
     </tr>
     <tr>
         <td><code>ignore_github_screenshot</code></td>
-        <td>Do not take screenshot if `homepage` matches the project's GitHub URL.</td>
+        <td>Do not take screenshot if <code>homepage</code> matches the project's GitHub URL.</td>
         <td><code>False</code></td>
     </tr>
     <tr>
