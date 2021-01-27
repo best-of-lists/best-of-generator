@@ -86,10 +86,10 @@
 - [`projects_collection.update_project_category`](./best_of.projects_collection.md#function-update_project_category)
 - [`utils.clean_whitespaces`](./best_of.utils.md#function-clean_whitespaces)
 - [`utils.diff_month`](./best_of.utils.md#function-diff_month)
+- [`utils.exit_process`](./best_of.utils.md#function-exit_process): Exit the process with exit code.
 - [`utils.is_valid_url`](./best_of.utils.md#function-is_valid_url)
 - [`utils.process_description`](./best_of.utils.md#function-process_description)
 - [`utils.remove_special_chars`](./best_of.utils.md#function-remove_special_chars)
-- [`utils.require_repo`](./best_of.utils.md#function-require_repo): Returns true if a repo id is required for a project entry via `configuration.require_repo` or for compatibility reasons `configuration.require_github`.
 - [`utils.simplify_number`](./best_of.utils.md#function-simplify_number)
 - [`utils.simplify_str`](./best_of.utils.md#function-simplify_str)
 - [`yaml_generation.auto_extend_package_manager`](./best_of.yaml_generation.md#function-auto_extend_package_manager)
