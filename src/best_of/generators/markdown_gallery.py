@@ -48,7 +48,7 @@ async def save_screenshot(
     url: str, img_path: str, sleep: int = 5, width: int = 1024, height: int = 576
 ) -> None:
     """Loads url in headless browser and saves screenshot to file (.jpg or .png)."""
-    browser = await pyppeteer.launch()
+    browser = await pyppeteer.launch(args=["--no-sandbox"])
     page = await browser.newPage()
     await page.goto(url, {"timeout": 6000})  # increase timeout to 60 s for heroku apps
     await page.emulate({"viewport": {"width": width, "height": height}})
