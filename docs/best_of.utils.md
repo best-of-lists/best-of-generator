@@ -120,25 +120,15 @@ is_valid_url(url: str) → bool
 
 <a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/utils.py#L73"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
-## <kbd>function</kbd> `require_repo`
+## <kbd>function</kbd> `exit_process`
 
 ```python
-require_repo(configuration: Dict) → bool
+exit_process(code: int = 0) → None
 ```
 
-Returns true if a repo id is required for a project entry via `configuration.require_repo` or for compatibility reasons `configuration.require_github`. 
+Exit the process with exit code. 
 
-
-
-**Args:**
- 
- - <b>`configuration`</b> (Dict):  The project configuration 
-
-
-
-**Returns:**
- 
- - <b>`bool`</b>:  if `configuration.require_repo` or `configuration.require_github` is True 
+`sys.exit` seems to be a bit unreliable, process just sleeps and does not exit. So we are using os._exit instead and doing some manual cleanup. 
 
 
 
