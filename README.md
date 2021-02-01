@@ -191,7 +191,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>license</code></td>
-        <td>License of the project. If set, license information from GitHub or package managers will be overwritten.</td>
+        <td>License of the project. If set, license information from GitHub or package managers will be overwritten. Can be a custom URL pointing to more information in case it is not a standard license. `allowed_licenses` must be set to "all" or contain the URL in order to show the project.</td>
     </tr>
     <tr>
         <td><code>description</code></td>
