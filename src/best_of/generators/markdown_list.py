@@ -169,18 +169,24 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
     if project.license:
         licenses_name = project.license
         licenses_warning = True
-        licenses_url = "https://tldrlegal.com/search?q=" + urllib.parse.quote(
-            project.license
-        )
-        license_metadata = get_license(licenses_name)
 
-        if license_metadata:
-            if license_metadata.name:
-                licenses_name = license_metadata.name
-            if license_metadata.url:
-                licenses_url = license_metadata.url
-            if "warning" in license_metadata:
-                licenses_warning = license_metadata.warning
+        # License can be a url
+        if licenses_name.startswith("http://") or licenses_name.startswith("https://"):
+            licenses_url = licenses_name
+            licenses_name = "Custom"
+        else:
+            licenses_url = "https://tldrlegal.com/search?q=" + urllib.parse.quote(
+                project.license
+            )
+            license_metadata = get_license(licenses_name)
+
+            if license_metadata:
+                if license_metadata.name:
+                    licenses_name = license_metadata.name
+                if license_metadata.url:
+                    licenses_url = license_metadata.url
+                if "warning" in license_metadata:
+                    licenses_warning = license_metadata.warning
 
         if licenses_warning and not configuration.hide_license_risk:
             licenses_name = "❗️" + licenses_name
