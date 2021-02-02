@@ -173,7 +173,7 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
         # License can be a url
         if licenses_name.startswith("http://") or licenses_name.startswith("https://"):
             licenses_url = licenses_name
-            licenses_name = "Custom-url License"
+            licenses_name = "Custom"
         else:
             licenses_url = "https://tldrlegal.com/search?q=" + urllib.parse.quote(
                 project.license
