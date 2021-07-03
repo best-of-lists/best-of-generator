@@ -57,6 +57,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "hide_empty_categories" not in config:
         config.hide_empty_categories = False
 
+    if "max_description_length" not in config:
+        config.max_description_length = 55
+
     if "hide_project_license" not in config:
         config.hide_project_license = False
 

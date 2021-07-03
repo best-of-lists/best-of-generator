@@ -263,7 +263,7 @@ def generate_project_md(
     desc_length = int(
         round(
             max(
-                55,
+                configuration.max_description_length,
                 105
                 - (len(project.name) * 1.3)
                 - len(metrics_md)
