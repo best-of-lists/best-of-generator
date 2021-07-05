@@ -19,7 +19,7 @@
 ## <kbd>function</kbd> `calc_projectrank`
 
 ```python
-calc_projectrank(project_info: Dict)
+calc_projectrank(project_info: Dict) → int
 ```
 
 

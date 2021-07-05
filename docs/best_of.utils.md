@@ -33,7 +33,7 @@ simplify_str(text: str) → str
 ## <kbd>function</kbd> `diff_month`
 
 ```python
-diff_month(date1: datetime, date2: datetime)
+diff_month(date1: datetime, date2: datetime) → int
 ```
 
 
