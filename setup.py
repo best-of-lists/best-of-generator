@@ -71,7 +71,7 @@ setup(
             "pytest",
             "pytest-mock",
             "pytest-cov",
-            "mypy",
+            "mypy==0.812",
             "black",
             "pydocstyle",
             "isort",
