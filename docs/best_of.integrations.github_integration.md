@@ -18,7 +18,7 @@
 ## <kbd>function</kbd> `get_repo_deps_via_github`
 
 ```python
-get_repo_deps_via_github(github_id: str)
+get_repo_deps_via_github(github_id: str) → int
 ```
 
 
