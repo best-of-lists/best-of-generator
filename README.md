@@ -489,6 +489,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>False</code></td>
     </tr>
     <tr>
+        <td><code>max_description_length</code></td>
+        <td>The maximum length of the project description.</td>
+        <td><code>55</code></td>
+    </tr>
+    <tr>
         <td><code>projects_history_folder</code></td>
         <td>The folder used for storing history files (<code>csv</code> files with project metadata). If <code>null</code>, no history files will be created.</td>
         <td><code>./history</code></td>
