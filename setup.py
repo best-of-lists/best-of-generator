@@ -59,6 +59,7 @@ setup(
         "PyYAML",
         "python-dateutil",
         "pyppeteer",
+        "httpx",
     ],
     # deprecated: dependency_links=dependency_links,
     extras_require={
@@ -76,6 +77,7 @@ setup(
             "pydocstyle",
             "isort",
             "lazydocs",
+            "types-requests",
         ],
     },
     include_package_data=True,

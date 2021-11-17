@@ -4,6 +4,7 @@ import time
 
 import pypistats
 from addict import Dict
+from httpx import HTTPStatusError
 from requests.exceptions import HTTPError
 
 from best_of import utils
@@ -104,7 +105,7 @@ class PypiIntegration(BaseIntegration):
                     project_info.pypi_monthly_downloads
                 )
                 return
-            except HTTPError as ex:
+            except (HTTPError, HTTPStatusError) as ex:
                 if ex.response.status_code == 429:
                     sleep_time = 2 * i
                     log.info(
@@ -120,7 +121,8 @@ class PypiIntegration(BaseIntegration):
                     return
             except Exception as ex:
                 log.warning(
-                    "Unable to request statistics from pypi: " + project_info.pypi_id,
+                    "Unable to request statistics from pypi (unexpected exception): "
+                    + project_info.pypi_id,
                     exc_info=ex,
                 )
                 return
