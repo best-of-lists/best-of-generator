@@ -369,9 +369,8 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = True
         return
 
-    if not project_info.description or len(project_info.description) < int(
-        configuration.min_project_desc_length
-    ):
+    desc_length = 0 if not project_info.description else len(project_info.description)
+    if desc_length < int(configuration.min_project_desc_length):
         log.info(
             f"A project description is required with atleast {int(configuration.min_project_desc_length)} chars. The project {project_info.name} will be hidden."
         )
