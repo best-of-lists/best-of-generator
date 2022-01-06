@@ -5,6 +5,7 @@ import re
 import urllib.request
 from typing import List, Optional, Union
 
+import requests
 import requirements
 from addict import Dict
 from tqdm import tqdm
@@ -18,6 +19,118 @@ from best_of.integrations import (
 )
 
 log = logging.getLogger(__name__)
+
+
+def get_projects_from_org(organization: str, min_stars: int = 30) -> List[str]:
+    query = """
+query($organization: String!) {
+      organization(login: $organization) {
+        repositories(first: 100) {
+          nodes {
+            nameWithOwner
+            stargazerCount
+          }
+        }
+      }
+ }
+    """
+
+    headers = {"Authorization": "token " + os.environ["GITHUB_API_KEY"]}
+    variables = {"organization": organization}
+
+    try:
+        request = requests.post(
+            "https://api.github.com/graphql",
+            json={"query": query, "variables": variables},
+            headers=headers,
+        )
+        if request.status_code != 200:
+            print(
+                "Unable to find GitHub org via GitHub api: "
+                + organization
+                + " ("
+                + str(request.status_code)
+                + ")"
+            )
+            return []
+
+        github_org_info = Dict(request.json()["data"]["organization"])
+    except Exception as ex:
+        log.info(
+            "Failed to request GitHub org via GitHub api: " + organization,
+            exc_info=ex,
+        )
+        return []
+
+    list_of_repos = []
+    for repo in github_org_info.repositories.nodes:
+        # Requires min star count
+        if repo.stargazerCount > min_stars:
+            list_of_repos.append(repo.nameWithOwner)
+    return list_of_repos
+
+
+def collect_github_projects(
+    repos: List[str],
+    excluded_github_ids: Optional[List[str]] = None,
+    existing_projects: Optional[List[Dict]] = None,
+    group: Optional[str] = None,
+) -> list:
+
+    projects: List = []
+
+    if not excluded_github_ids:
+        excluded_github_ids = []
+
+    if existing_projects:
+        # Add projects to the overall project list
+        projects.extend(existing_projects)
+        for project in existing_projects:
+            if "github_id" in project and project["github_id"]:
+                # ignore all based on github_id
+                excluded_github_ids.append(project["github_id"])
+
+    excluded_projects = set()
+    added_projects = set()
+
+    if excluded_github_ids:
+        for excluded_project in excluded_github_ids:
+            excluded_projects.add(utils.simplify_str(excluded_project))
+
+    # extract github project urls
+    for github_id in tqdm(repos):
+        if utils.simplify_str(github_id) in added_projects:
+            # project already added
+            continue
+
+        if utils.simplify_str(github_id) in excluded_projects:
+            # skip excluded projects
+            continue
+
+        project = Dict()
+        project.github_id = github_id
+        github_integration.update_via_github(project)
+
+        if not project.github_url or not project.name:
+            # did not fetch any data from github, do not add project
+            continue
+
+        if project.updated_github_id:
+            if utils.simplify_str(project.updated_github_id) in excluded_projects:
+                # project is added with updated id
+                continue
+
+            # Apply updated github id:
+            project.github_id = project.updated_github_id
+            added_projects.add(utils.simplify_str(project.updated_github_id))
+
+        project.projectrank = projects_collection.calc_projectrank(project)
+        if group:
+            project.group_id = group
+        added_projects.add(utils.simplify_str(github_id))
+        projects.append(project.to_dict())
+
+    return projects
 
 
 def extract_github_projects(
