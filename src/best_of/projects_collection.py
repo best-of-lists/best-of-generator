@@ -105,6 +105,14 @@ def calc_projectrank(project_info: Dict) -> int:
     if project_info.fork_count:
         projectrank += round(math.log(project_info.fork_count) / 2)
 
+    # Custom addition: Watchers - Logarithmic scale
+    if project_info.watchers_count:
+        projectrank += round(math.log(project_info.watchers_count) / 2) - 1
+
+    # Custom addition: Close issue count - Logarithmic scale
+    if project_info.closed_issue_count:
+        projectrank += round(math.log(project_info.closed_issue_count) / 2) - 1
+
     # Custom addition: Monthly downloads - Logarithmic scale
     if project_info.monthly_downloads:
         projectrank += round(math.log(project_info.monthly_downloads) / 2) - 1
@@ -114,8 +122,6 @@ def calc_projectrank(project_info: Dict) -> int:
         projectrank += round(math.log(project_info.commit_count) / 2) - 1
 
     # Minus if issues not activated or repo archived
-
-    # TODO: Closed/Open Issue count, e.g. https://isitmaintained.com/project/ml-tooling/ml-workspace
 
     # TODO: from github api:
     # isArchived: -1
@@ -165,6 +171,39 @@ def calc_projectrank_placing(projects: list) -> None:
                 project["projectrank_placing"] = 2
             else:
                 project["projectrank_placing"] = 3
+
+
+def group_projects(projects: list) -> list:
+    processed_projects: list = []
+    groups: dict = {}
+    # collect all unique groups
+    for project in projects:
+        if project.group:
+            if project.group_id not in groups:
+                project.projects = []
+                groups[project.group_id] = project
+                processed_projects.append(project)
+            else:
+                log.info(f"Project group {project.group_id} is duplicated.")
+
+    # put projects with group_id into group
+    for project in projects:
+        if project.group:
+            # Ignore project, since it is already added
+            continue
+
+        if not project.group_id:
+            # project does not have a group
+            processed_projects.append(project)
+            continue
+
+        if project.group_id in groups:
+            groups[project.group_id].projects.append(project)
+        else:
+            log.info(f"Project group {project.group_id} does not exist.")
+            processed_projects.append(project)
+
+    return processed_projects
 
 
 def categorize_projects(projects: list, categories: OrderedDict) -> None:
@@ -317,6 +356,12 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
 
     if project_info.resource:
+        # Always show resources
+        project_info.show = True
+        return
+
+    if project_info.group:
+        # Always show grouped projects
         project_info.show = True
         return
 
@@ -402,6 +447,153 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
 
 
+def calc_grouped_metrics(projects: list) -> None:
+    groups: dict = {}
+    # collect all unique groups
+    for project in projects:
+        if project.group:
+            if not project.group_id:
+                log.info(f"Project group requires a group_id.")
+            elif project.group_id.lower() not in groups:
+                groups[project.group_id.lower()] = project
+            else:
+                log.info(f"Project group {project.group_id} is duplicated.")
+
+    # put projects with group_id into group
+    for project in projects:
+        if project.group:
+            # Ignore project groups
+            continue
+
+        if not project.group_id:
+            # project does not have a group id
+            continue
+
+        project.group_id = project.group_id.lower()
+        if project.group_id in groups:
+            project_group = groups[project.group_id]
+            if project.commit_count:
+                if not project_group.commit_count:
+                    project_group.commit_count = project.commit_count
+                else:
+                    project_group.commit_count += project.commit_count
+
+            if project.star_count:
+                if not project_group.star_count:
+                    project_group.star_count = project.star_count
+                else:
+                    project_group.star_count += project.star_count
+
+            if project.monthly_downloads:
+                if not project_group.monthly_downloads:
+                    project_group.monthly_downloads = project.monthly_downloads
+                else:
+                    project_group.monthly_downloads += project.monthly_downloads
+
+            if project.fork_count:
+                if not project_group.fork_count:
+                    project_group.fork_count = project.fork_count
+                else:
+                    project_group.fork_count += project.fork_count
+
+            if project.watchers_count:
+                if not project_group.watchers_count:
+                    project_group.watchers_count = project.watchers_count
+                else:
+                    project_group.watchers_count += project.watchers_count
+
+            if project.release_count:
+                if not project_group.release_count:
+                    project_group.release_count = project.release_count
+                else:
+                    project_group.release_count += project.release_count
+
+            if project.monthly_downloads:
+                if not project_group.monthly_downloads:
+                    project_group.monthly_downloads = project.monthly_downloads
+                else:
+                    project_group.monthly_downloads += project.monthly_downloads
+
+            if project.pr_count:
+                if not project_group.pr_count:
+                    project_group.pr_count = project.pr_count
+                else:
+                    project_group.pr_count += project.pr_count
+
+            if project.open_issue_count:
+                if not project_group.open_issue_count:
+                    project_group.open_issue_count = project.open_issue_count
+                else:
+                    project_group.open_issue_count += project.open_issue_count
+
+            if project.closed_issue_count:
+                if not project_group.closed_issue_count:
+                    project_group.closed_issue_count = project.closed_issue_count
+                else:
+                    project_group.closed_issue_count += project.closed_issue_count
+
+            if project.dependent_project_count:
+                if not project_group.dependent_project_count:
+                    project_group.dependent_project_count = (
+                        project.dependent_project_count
+                    )
+                else:
+                    project_group.dependent_project_count += (
+                        project.dependent_project_count
+                    )
+
+            if project.contributor_count:
+                if not project_group.contributor_count:
+                    project_group.contributor_count = project.contributor_count
+                else:
+                    project_group.contributor_count += project.contributor_count
+
+            if project.created_at:
+                if not project_group.created_at:
+                    project_group.created_at = project.created_at
+                elif project_group.created_at > project.created_at:
+                    # always use the oldest available date
+                    project_group.created_at = project.created_at
+
+            if project.updated_at:
+                if not project_group.updated_at:
+                    project_group.updated_at = project.updated_at
+                elif project_group.updated_at < project.updated_at:
+                    # always use the most recent available date
+                    project_group.updated_at = project.updated_at
+
+            if project.last_commit_pushed_at:
+                if not project_group.last_commit_pushed_at:
+                    project_group.last_commit_pushed_at = project.last_commit_pushed_at
+                elif (
+                    project_group.last_commit_pushed_at < project.last_commit_pushed_at
+                ):
+                    # always use the most recent available date
+                    project_group.last_commit_pushed_at = project.last_commit_pushed_at
+
+            if project.latest_stable_release_published_at:
+                if not project_group.latest_stable_release_published_at:
+                    project_group.latest_stable_release_published_at = (
+                        project.latest_stable_release_published_at
+                    )
+                elif (
+                    project_group.latest_stable_release_published_at
+                    < project.latest_stable_release_published_at
+                ):
+                    # always use the most recent available date
+                    project_group.latest_stable_release_published_at = (
+                        project.latest_stable_release_published_at
+                    )
+
+            # Update project rank
+            project_group.projectrank = calc_projectrank(project_group)
+
+            # TODO: project info is not shared in the actual dict
+            groups[project.group_id.lower()]
+        else:
+            log.info(f"Project group {project.group_id} does not exist.")
+
+
 def collect_projects_info(
     projects: list, categories: OrderedDict, config: Dict
 ) -> list:
@@ -448,8 +640,9 @@ def collect_projects_info(
         # Check and update the project category
         update_project_category(project_info, categories)
 
-        projects_processed.append(project_info.to_dict())
+        projects_processed.append(project_info)
 
+    calc_grouped_metrics(projects_processed)
     projects_processed = sort_projects(projects_processed, config)
     calc_projectrank_placing(projects_processed)
 

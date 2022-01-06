@@ -130,6 +130,7 @@ def generate_markdown(
                     max_trends=config.max_trending_projects,
                 )
 
+        projects = projects_collection.group_projects(projects)
         projects_collection.categorize_projects(projects, categories)
 
         if config.projects_history_folder:
@@ -139,7 +140,15 @@ def generate_markdown(
             projects_history_file = os.path.join(
                 config.projects_history_folder, projects_file_name
             )
-            pd.DataFrame(projects).to_csv(projects_history_file, sep=",")
+
+            prepared_projects = []
+            for project in projects:
+                cloned_project = Dict(project)
+                if "projects" in cloned_project:
+                    # Drop projects list for grouped projects
+                    del cloned_project["projects"]
+                prepared_projects.append(cloned_project.to_dict())
+            pd.DataFrame(prepared_projects).to_csv(projects_history_file, sep=",")
 
         from best_of.generators import get_generator
 

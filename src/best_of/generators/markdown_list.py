@@ -161,7 +161,7 @@ def generate_project_labels(project: Dict, labels: list) -> Tuple[str, int]:
 
 
 def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]:
-    if configuration.hide_project_license or project.resource:
+    if configuration.hide_project_license or project.resource or project.group:
         return "", 0
 
     license_length = 12
@@ -203,8 +203,21 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
     return license_md, license_length
 
 
-def generate_project_body(project: Dict, configuration: Dict) -> str:
+def generate_project_body(project: Dict, configuration: Dict, labels: list) -> str:
     body_md = ""
+
+    if project.group:
+        if project.projects and len(project.projects) > 0:
+            body_md += "\n---\n"
+            for project in project.projects:
+                # Generate project body for all grouped projects
+                project_md = generate_project_md(project, configuration, labels)
+                body_md += project_md + "\n"
+            body_md += "\n---\n"
+        else:
+            body_md = "- _Group does not have any projects._"
+        body_md = "\n\n" + body_md
+        return body_md
 
     if project.github_id:
         body_md += github_integration.generate_github_details(project, configuration)
@@ -246,7 +259,7 @@ def generate_project_md(
         metadata_md = labels_md
 
     if generate_body:
-        body_md = generate_project_body(project, configuration)
+        body_md = generate_project_body(project, configuration, labels)
     else:
         body_md = ""
 
