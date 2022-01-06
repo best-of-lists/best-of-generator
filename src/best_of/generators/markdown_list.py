@@ -520,7 +520,16 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
             category_count += 1
 
         if category.projects:
+
             for project in category.projects:
+                if project.group:
+                    for sub_project in project.projects:
+                        # Count sub projects of group projects
+                        project_count += 1
+                        if sub_project.star_count:
+                            stars_count += sub_project.star_count
+                    # Do not count group project
+                    continue
                 project_count += 1
                 if project.star_count:
                     stars_count += project.star_count
