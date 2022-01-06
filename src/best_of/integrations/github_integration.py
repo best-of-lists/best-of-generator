@@ -142,9 +142,6 @@ query($owner: String!, $repo: String!) {
     watchers {
       totalCount
     }
-    pullRequests {
-      totalCount
-    }
     masterCommit: defaultBranchRef {
         target {
           ... on Commit {
@@ -296,6 +293,22 @@ query($owner: String!, $repo: String!) {
         elif int(project_info.fork_count) < fork_count:
             # always use the highest number
             project_info.fork_count = fork_count
+
+    if github_info.watchers and github_info.watchers.totalCount:
+        watchers_count = int(github_info.watchers.totalCount)
+        if not project_info.watchers_count:
+            project_info.watchers_count = watchers_count
+        elif int(project_info.watchers_count) < watchers_count:
+            # always use the highest number
+            project_info.watchers_count = watchers_count
+
+    if github_info.pullRequests and github_info.pullRequests.totalCount:
+        pr_count = int(github_info.pullRequests.totalCount)
+        if not project_info.pr_count:
+            project_info.pr_count = pr_count
+        elif int(project_info.pr_count) < pr_count:
+            # always use the highest number
+            project_info.pr_count = pr_count
 
     if github_info.openIssues and github_info.openIssues.totalCount:
         open_issue_count = int(github_info.openIssues.totalCount)
