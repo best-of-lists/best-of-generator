@@ -453,7 +453,7 @@ def calc_grouped_metrics(projects: list) -> None:
     for project in projects:
         if project.group:
             if not project.group_id:
-                log.info(f"Project group requires a group_id.")
+                log.info("Project group requires a group_id.")
             elif project.group_id.lower() not in groups:
                 groups[project.group_id.lower()] = project
             else:
