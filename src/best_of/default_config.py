@@ -12,6 +12,9 @@ ENV_LIBRARIES_API_KEY = "LIBRARIES_API_KEY"
 def prepare_configuration(cfg: dict) -> Dict:
     config = Dict(cfg)
 
+    if "min_project_desc_length" not in config:
+        config.min_project_desc_length = MIN_PROJECT_DESC_LENGTH
+
     if "project_inactive_months" not in config:
         config.project_inactive_months = 6
 

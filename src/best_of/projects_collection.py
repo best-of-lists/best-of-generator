@@ -11,7 +11,6 @@ from addict import Dict
 from tqdm import tqdm
 
 from best_of import default_config, integrations, utils
-from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations import github_integration
 from best_of.license import get_license
 
@@ -201,7 +200,7 @@ def group_projects(projects: list) -> list:
             groups[project.group_id].projects.append(project)
         else:
             log.info(f"Project group {project.group_id} does not exist.")
-            processed_projects.append(project)
+        processed_projects.append(project)
 
     return processed_projects
 
@@ -220,7 +219,12 @@ def categorize_projects(projects: list, categories: OrderedDict) -> None:
             )
             continue
 
-        if project.show:
+        if project.group_id and not project.group:
+            # Project is a grouped project -> should not be shown
+            if not categories[project.category].grouped_projects:
+                categories[project.category].grouped_projects = []
+            categories[project.category].grouped_projects.append(project)
+        elif project.show:
             if not categories[project.category].projects:
                 categories[project.category].projects = []
             categories[project.category].projects.append(project)
@@ -365,12 +369,11 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = True
         return
 
-    if (
-        not project_info.description
-        or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
+    if not project_info.description or len(project_info.description) < int(
+        configuration.min_project_desc_length
     ):
         log.info(
-            f"A project description is required with atleast {MIN_PROJECT_DESC_LENGTH} chars. The project {project_info.name} will be hidden."
+            f"A project description is required with atleast {int(configuration.min_project_desc_length)} chars. The project {project_info.name} will be hidden."
         )
         project_info.show = False
 
@@ -611,6 +614,9 @@ def collect_projects_info(
 
         for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
             package_manager.update_project_info(project_info)
+
+        if not project_info.description:
+            project_info.description = ""
 
         if not project_info.updated_at and project_info.created_at:
             # set update at if created at is available
