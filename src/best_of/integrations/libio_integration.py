@@ -193,7 +193,7 @@ def update_package_via_libio(
             dependent_project_count += int(package_info.dependent_repos_count)
 
         if package_info.dependents_count:
-            dependent_project_count += int(package_info.dependent_repos_count)
+            dependent_project_count += int(package_info.dependents_count)
 
         if not project_info.dependent_project_count:
             project_info.dependent_project_count = 0
