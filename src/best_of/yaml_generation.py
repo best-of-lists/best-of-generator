@@ -56,18 +56,17 @@ query($organization: String!) {
 
         github_org_info = Dict(request.json()["data"]["organization"])
     except Exception as ex:
-        log.info(
+        print(
             "Failed to request GitHub org via GitHub api: " + organization,
             exc_info=ex,
         )
         return []
 
-    list_of_repos = []
-    for repo in github_org_info.repositories.nodes:
-        # Requires min star count
-        if repo.stargazerCount > min_stars:
-            list_of_repos.append(repo.nameWithOwner)
-    return list_of_repos
+    return [
+        repo.nameWithOwner
+        for repo in github_org_info.repositories.nodes
+        if repo.stargazerCount > min_stars
+    ]
 
 
 def collect_github_projects(
