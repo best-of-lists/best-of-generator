@@ -56,7 +56,7 @@ query($organization: String!) {
 
         github_org_info = Dict(request.json()["data"]["organization"])
     except Exception as ex:
-        print(
+        log.info(
             "Failed to request GitHub org via GitHub api: " + organization,
             exc_info=ex,
         )
