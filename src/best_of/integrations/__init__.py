@@ -2,14 +2,14 @@ from typing import List
 
 from best_of.integrations import (
     base_integration,
+    cargo_integration,
     conda_integration,
     dockerhub_integration,
     gitlab_integration,
+    go_integration,
     maven_integration,
     npm_integration,
     pypi_integration,
-    cargo_integration,
-    go_integration,
 )
 
 # libio and github integrations are a bit special

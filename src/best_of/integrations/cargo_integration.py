@@ -5,9 +5,9 @@ import requests
 from addict import Dict
 
 from best_of import utils
+from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations import libio_integration
 from best_of.integrations.base_integration import BaseIntegration
-from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 
 log = logging.getLogger(__name__)
 
