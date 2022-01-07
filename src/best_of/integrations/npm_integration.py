@@ -107,7 +107,7 @@ class NpmIntegration(BaseIntegration):
             else ":"
         )
 
-        details_md = "- [NPM](" + npm_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [npm](" + npm_url + ")" + metrics_md + seperator + "\n"
 
         if configuration.generate_install_hints:
             details_md += "\t```\n\tnpm install {npm_id}\n\t```\n"
