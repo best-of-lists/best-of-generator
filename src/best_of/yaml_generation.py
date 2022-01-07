@@ -404,6 +404,86 @@ def extract_pypi_projects_from_requirements(
     return projects
 
 
+def auto_extend_via_libio(projects: list) -> list:
+    from pybraries.search import Search
+
+    updated_projects = []
+    for project in tqdm(projects):
+        project = copy.deepcopy(project)
+        if "github_id" in project:
+            search = Search()
+            related_projects = search.repository_projects(
+                host="github",
+                owner=project["github_id"].split("/")[0],
+                repo=project["github_id"].split("/")[1],
+            )
+            selected_platform_dep_rank: dict = {}
+            if related_projects is not None:
+                for related_project in related_projects:
+                    platform = related_project["platform"].lower()
+                    if platform in selected_platform_dep_rank and (
+                        selected_platform_dep_rank[platform] >= related_project["rank"]
+                    ):
+                        # Project with same platform and higher rank already added
+                        continue
+
+                    project_id = None
+                    id_property = None
+
+                    if platform == "pypi":
+                        id_property = "pypi_id"
+                        project_id = related_project["name"]
+                    elif platform == "npm":
+                        id_property = "npm_id"
+                        project_id = related_project["name"]
+                    elif platform == "maven":
+                        id_property = "maven_id"
+                        project_id = related_project["name"]
+                    elif platform == "conda":
+                        id_property = "conda_id"
+                        project_id = related_project["package_manager_url"].replace(
+                            "https://anaconda.org/", ""
+                        )
+                    elif platform == "go":
+                        id_property = "go_id"
+                        project_id = related_project["name"]
+                    elif platform == "cargo":
+                        id_property = "cargo_id"
+                        project_id = related_project["name"]
+                    elif platform == "nuget":
+                        # TODO: not supported yet
+                        id_property = "nuget_id"
+                        project_id = related_project["name"]
+                    elif platform == "homebrew":
+                        # TODO: not supported yet
+                        id_property = "brew_id"
+                        project_id = related_project["name"]
+                    else:
+                        print(f"Platform {platform} not supported")
+                        continue
+
+                    if not project_id or not id_property:
+                        print(f"Platform {platform} not supported")
+                        continue
+
+                    if (
+                        platform not in selected_platform_dep_rank
+                        and id_property in project
+                    ):
+                        # dependency already added manually
+                        continue
+
+                    # TODO: Perform download check: min 50 downloads
+
+                    project[id_property] = project_id
+                    selected_platform_dep_rank[platform] = related_project["rank"]
+            else:
+                print("Failed to get projects for " + project["github_id"])
+
+            updated_projects.append(project)
+    return updated_projects
+
+
 def auto_extend_package_manager(
     projects: list, pypi: bool = False, conda: bool = False, npm: bool = False
 ) -> list:
