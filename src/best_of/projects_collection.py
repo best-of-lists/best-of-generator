@@ -94,32 +94,45 @@ def calc_projectrank(project_info: Dict) -> int:
 
     # Stars  - Logarithmic scale
     if project_info.star_count:
-        projectrank += round(math.log(project_info.star_count) / 2)
-
-    # Contributors - Logarithmic scale
-    if project_info.contributor_count:
-        projectrank += round(math.log(project_info.contributor_count) / 2) - 1
+        projectrank += round(math.log(project_info.star_count) / 2) - 1
+    elif project_info.star_count == 0:
+        projectrank -= 1
 
     # Custom addition: Forks - Logarithmic scale
     if project_info.fork_count:
         projectrank += round(math.log(project_info.fork_count) / 2)
 
-    # Custom addition: Watchers - Logarithmic scale
-    if project_info.watchers_count:
-        projectrank += round(math.log(project_info.watchers_count) / 2) - 1
-
-    # Custom addition: Close issue count - Logarithmic scale
-    if project_info.closed_issue_count:
-        projectrank += round(math.log(project_info.closed_issue_count) / 2) - 1
-
-    # Custom addition: Monthly downloads - Logarithmic scale
-    if project_info.monthly_downloads:
-        projectrank += round(math.log(project_info.monthly_downloads) / 2) - 1
+    # Contributors - Logarithmic scale
+    if project_info.contributor_count:
+        projectrank += round(math.log(project_info.contributor_count) / 2) - 1
 
     # Custom addition: Commit count - Logarithmic scale
     if project_info.commit_count:
         projectrank += round(math.log(project_info.commit_count) / 2) - 1
 
+    # Custom addition: Watchers - Logarithmic scale
+    if project_info.watchers_count:
+        projectrank += round(math.log(project_info.watchers_count) / 2) - 1
+    elif project_info.watchers_count == 0:
+        projectrank -= 1
+
+    # Custom addition: Closed issue count - Logarithmic scale
+    if project_info.closed_issue_count:
+        projectrank += round(math.log(project_info.closed_issue_count) / 2) - 1
+    elif project_info.closed_issue_count == 0:
+        projectrank -= 1
+
+    # Custom addition: Monthly downloads - Logarithmic scale
+    if project_info.monthly_downloads:
+        projectrank += round(math.log(project_info.monthly_downloads) / 2) - 1
+    elif project_info.monthly_downloads == 0:
+        projectrank -= 1
+
+    # Custom addition: Recent commits (last 90 days) - Logarithmic scale
+    if project_info.recent_commit_count:
+        projectrank += round(math.log(project_info.recent_commit_count) / 1.5) - 1
+    elif project_info.recent_commit_count == 0:
+        projectrank -= 1
     # Minus if issues not activated or repo archived
 
     # TODO: from github api:
@@ -474,6 +487,12 @@ def calc_grouped_metrics(projects: list, config: Dict) -> None:
                     project_group.commit_count = project.commit_count
                 else:
                     project_group.commit_count += project.commit_count
+
+            if project.recent_commit_count:
+                if not project_group.recent_commit_count:
+                    project_group.recent_commit_count = project.recent_commit_count
+                else:
+                    project_group.recent_commit_count += project.recent_commit_count
 
             if project.star_count:
                 if not project_group.star_count:

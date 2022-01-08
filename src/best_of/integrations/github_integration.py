@@ -1,7 +1,7 @@
 import logging
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 import requests
@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from dateutil.parser import parse
 
 from best_of import utils
+from best_of import default_config
 from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations import libio_integration
 
@@ -113,7 +114,7 @@ def update_via_github_api(project_info: Dict) -> None:
     # GraphQL query
     # https://github.com/badgen/badgen.net/blob/master/endpoints/github.ts#L214
     query = """
-query($owner: String!, $repo: String!) {
+query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
   repository(owner: $owner, name: $repo) {
     name
     nameWithOwner
@@ -146,6 +147,12 @@ query($owner: String!, $repo: String!) {
         target {
           ... on Commit {
             committedDate
+            recent_activity: history(since: $since_recent_activity) {
+                totalCount
+            }
+            history {
+                totalCount
+            }
           }
         }
     }
@@ -162,13 +169,6 @@ query($owner: String!, $repo: String!) {
     closedIssues: issues(states: CLOSED) {
       totalCount
     }
-    commits: object(expression:"master") {
-      ... on Commit {
-        history {
-          totalCount
-        }
-      }
-    }
     releases(first: 100, orderBy: {field:CREATED_AT, direction:DESC}) {
       nodes {
         createdAt
@@ -183,12 +183,30 @@ query($owner: String!, $repo: String!) {
         }
       }
     }
+    discussions {
+      totalCount
+    }
+    isArchived
+    isDisabled
+    isEmpty
+    isFork
+    isInOrganization
+    isSecurityPolicyEnabled
+    hasIssuesEnabled
   }
 }
 """
 
     headers = {"Authorization": "token " + github_api_token}
-    variables = {"owner": owner, "repo": repo}
+    # Check activity since the latest 90 days
+    recent_activity_date = datetime.now() - timedelta(
+        days=default_config.RECENT_ACTIVITY_DAYS
+    )
+    variables = {
+        "owner": owner,
+        "repo": repo,
+        "since_recent_activity": recent_activity_date.isoformat(),
+    }
 
     try:
         request = requests.post(
@@ -266,24 +284,38 @@ query($owner: String!, $repo: String!) {
                 "Failed to parse timestamp: " + str(github_info.pushedAt), exc_info=ex
             )
 
-    if (
-        github_info.masterCommit
-        and github_info.masterCommit.target
-        and github_info.masterCommit.target.committedDate
-    ):
-        try:
-            last_commit_pushed_at = parse(
-                str(github_info.masterCommit.target.committedDate), ignoretz=True
+    if github_info.masterCommit and github_info.masterCommit.target:
+        if github_info.masterCommit.target.committedDate:
+            try:
+                last_commit_pushed_at = parse(
+                    str(github_info.masterCommit.target.committedDate), ignoretz=True
+                )
+                if not project_info.last_commit_pushed_at:
+                    project_info.last_commit_pushed_at = last_commit_pushed_at
+                elif project_info.last_commit_pushed_at < last_commit_pushed_at:
+                    # always use the latest available date
+                    project_info.last_commit_pushed_at = last_commit_pushed_at
+            except Exception as ex:
+                log.warning(
+                    "Failed to parse timestamp: "
+                    + str(github_info.target.committedDate),
+                    exc_info=ex,
+                )
+        if (
+            github_info.masterCommit.target.history
+            and github_info.masterCommit.target.history.totalCount
+        ):
+            project_info.commit_count = int(
+                github_info.masterCommit.target.history.totalCount
             )
-            if not project_info.last_commit_pushed_at:
-                project_info.last_commit_pushed_at = last_commit_pushed_at
-            elif project_info.last_commit_pushed_at < last_commit_pushed_at:
-                # always use the latest available date
-                project_info.last_commit_pushed_at = last_commit_pushed_at
-        except Exception as ex:
-            log.warning(
-                "Failed to parse timestamp: " + str(github_info.target.committedDate),
-                exc_info=ex,
+
+        if (
+            github_info.masterCommit.target.recent_activity
+            and github_info.masterCommit.target.recent_activity.totalCount
+        ):
+            # TODO: combine pullrequests, closed issues and commit count into one recent acitivty score
+            project_info.recent_commit_count = int(
+                github_info.masterCommit.target.recent_activity.totalCount
             )
 
     if github_info.forks and github_info.forks.totalCount:
@@ -333,13 +365,6 @@ query($owner: String!, $repo: String!) {
         elif int(project_info.star_count) < star_count:
             # always use the highest number
             project_info.star_count = star_count
-
-    if (
-        github_info.commits
-        and github_info.commits.history
-        and github_info.commits.history.totalCount
-    ):
-        project_info.commit_count = int(github_info.commits.history.totalCount)
 
     if github_info.releases and github_info.releases.nodes:
         release_count = 0
@@ -428,6 +453,8 @@ query($owner: String!, $repo: String!) {
         elif int(project_info.contributor_count) < contributor_count:
             # always use the highest number
             project_info.contributor_count = contributor_count
+
+    # TODO: Get monthly statistics: https://github.com/ethereum/go-ethereum/pulse/monthly
 
 
 def update_via_github(project_info: Dict) -> None:
