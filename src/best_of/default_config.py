@@ -12,9 +12,6 @@ ENV_LIBRARIES_API_KEY = "LIBRARIES_API_KEY"
 def prepare_configuration(cfg: dict) -> Dict:
     config = Dict(cfg)
 
-    if "min_project_desc_length" not in config:
-        config.min_project_desc_length = MIN_PROJECT_DESC_LENGTH
-
     if "project_inactive_months" not in config:
         config.project_inactive_months = 6
 
@@ -62,6 +59,9 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "max_description_length" not in config:
         config.max_description_length = 55
+
+    if "min_description_length" not in config:
+        config.min_description_length = MIN_PROJECT_DESC_LENGTH
 
     if "hide_project_license" not in config:
         config.hide_project_license = False

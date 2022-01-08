@@ -364,15 +364,10 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = True
         return
 
-    if project_info.group:
-        # Always show grouped projects
-        project_info.show = True
-        return
-
     desc_length = 0 if not project_info.description else len(project_info.description)
-    if desc_length < int(configuration.min_project_desc_length):
+    if desc_length < int(configuration.min_description_length):
         log.info(
-            f"A project description is required with atleast {int(configuration.min_project_desc_length)} chars. The project {project_info.name} will be hidden."
+            f"A project description is required with atleast {int(configuration.min_description_length)} chars. The project {project_info.name} will be hidden."
         )
         project_info.show = False
 
@@ -449,7 +444,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
 
 
-def calc_grouped_metrics(projects: list) -> None:
+def calc_grouped_metrics(projects: list, config: Dict) -> None:
     groups: dict = {}
     # collect all unique groups
     for project in projects:
@@ -589,6 +584,7 @@ def calc_grouped_metrics(projects: list) -> None:
 
             # Update project rank
             project_group.projectrank = calc_projectrank(project_group)
+            apply_filters(project_group, config)
 
             # TODO: project info is not shared in the actual dict
             groups[project.group_id.lower()]
@@ -647,7 +643,7 @@ def collect_projects_info(
 
         projects_processed.append(project_info)
 
-    calc_grouped_metrics(projects_processed)
+    calc_grouped_metrics(projects_processed, config)
     projects_processed = sort_projects(projects_processed, config)
     calc_projectrank_placing(projects_processed)
 

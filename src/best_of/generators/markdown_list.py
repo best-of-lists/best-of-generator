@@ -209,10 +209,17 @@ def generate_project_body(project: Dict, configuration: Dict, labels: list) -> s
     if project.group:
         if project.projects and len(project.projects) > 0:
             body_md += "\n---\n"
-            for project in project.projects:
+            hidden_project_counter = 0
+            for sub_project in project.projects:
+                if sub_project.show is False:
+                    hidden_project_counter += 1
+                    continue
+
                 # Generate project body for all grouped projects
-                project_md = generate_project_md(project, configuration, labels)
+                project_md = generate_project_md(sub_project, configuration, labels)
                 body_md += project_md + "\n"
+            if hidden_project_counter > 0:
+                body_md += f"\n<br>\n\n _{hidden_project_counter} projects are hidden because they don't fulfill the minimal requirements._\n"
             body_md += "\n---\n"
         else:
             body_md = "- _Group does not have any projects._"
