@@ -42,6 +42,7 @@ def process_description(text: str, max_lenght: int) -> str:
 
     text = remove_special_chars(text).strip()
     text = text.replace('"', "")
+    text = text.replace("'", "")
     text = text.replace("<", "")
     text = text.replace(">", "")
 
