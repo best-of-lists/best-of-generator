@@ -103,7 +103,7 @@ process_description(text: str, max_lenght: int) → str
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/utils.py#L69"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/utils.py#L70"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `is_valid_url`
 
@@ -118,7 +118,7 @@ is_valid_url(url: str) → bool
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/utils.py#L73"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/utils.py#L74"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `exit_process`
 

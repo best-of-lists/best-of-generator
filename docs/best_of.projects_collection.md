@@ -156,12 +156,12 @@ apply_filters(project_info: Dict, configuration: Dict) → None
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/projects_collection.py#L452"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/projects_collection.py#L447"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `calc_grouped_metrics`
 
 ```python
-calc_grouped_metrics(projects: list) → None
+calc_grouped_metrics(projects: list, config: Dict) → None
 ```
 
 
@@ -171,7 +171,7 @@ calc_grouped_metrics(projects: list) → None
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/projects_collection.py#L599"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/projects_collection.py#L595"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `collect_projects_info`
 
