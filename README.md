@@ -210,12 +210,12 @@ Every project can also be expanded to show additional project information (by cl
         <td>If <code>True</code>, the project will be marked as a resource. Resources are not ranked and will always be shown on top of the category. You can use this to link to another best-of list section or website that contains additional projects.</td>
     </tr>
     <tr>
-        <td><code>group_id</code></td>
-        <td>Group ID that can be used to group this project to other projects. For every group, there needs to be one project with `group` set to `True`.</td>
+        <td><code>group</code></td>
+        <td>If <code>True</code>, the project will be used as top project for grouping a set of related projects. <code>group_id</code> also needs to be set to the shared group ID.</td>
     </tr>
     <tr>
-        <td><code>group</code></td>
-        <td>If <code>True</code>, the project will be used as top project for grouping a set of related projects. `group_id` also needs to be set to the shared group ID.</td>
+        <td><code>group_id</code></td>
+        <td>Group ID that can be used to group this project to other projects. For every group, there needs to be one project with <code>group</code> set to <code>True</code>.</td>
     </tr>
     <tr>
         <td><code>show</code></td>
