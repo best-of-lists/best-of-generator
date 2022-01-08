@@ -9,8 +9,7 @@ from addict import Dict
 from bs4 import BeautifulSoup
 from dateutil.parser import parse
 
-from best_of import utils
-from best_of import default_config
+from best_of import default_config, utils
 from best_of.default_config import MIN_PROJECT_DESC_LENGTH
 from best_of.integrations import libio_integration
 
