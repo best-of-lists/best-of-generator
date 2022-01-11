@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import time
 from datetime import datetime, timedelta
 from typing import Optional
 
@@ -91,24 +92,26 @@ def get_contributors_via_github_api(
         return None
 
 
-def update_via_github_api(project_info: Dict) -> None:
-    if not project_info.github_id:
-        return
+def request_metadata_from_github_api(
+    github_api_token: str, github_id: str, recent_activity_date: datetime
+) -> Optional[Dict]:
 
-    github_api_token = os.getenv("GITHUB_API_KEY")
-    if not github_api_token:
-        return
-
-    if "/" not in project_info.github_id:
-        log.info("The GitHub project id is not valid: " + project_info.github_id)
-        return
-
-    owner = project_info.github_id.split("/")[0]
-    repo = project_info.github_id.split("/")[1]
+    owner = github_id.split("/")[0]
+    repo = github_id.split("/")[1]
 
     # TODO: parse github dependents: https://github.com/badgen/badgen.net/blob/master/endpoints/github.ts#L406
     # TODO: Github assets download: https://github.com/badgen/badgen.net/blob/master/endpoints/github.ts#L125
     # TODO: latest stable release, PR...
+    # discussions {
+    #   totalCount
+    # }
+    # isArchived
+    # isDisabled
+    # isEmpty
+    # isFork
+    # isInOrganization
+    # isSecurityPolicyEnabled
+    # hasIssuesEnabled
 
     # GraphQL query
     # https://github.com/badgen/badgen.net/blob/master/endpoints/github.ts#L214
@@ -182,25 +185,10 @@ query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
         }
       }
     }
-    discussions {
-      totalCount
-    }
-    isArchived
-    isDisabled
-    isEmpty
-    isFork
-    isInOrganization
-    isSecurityPolicyEnabled
-    hasIssuesEnabled
   }
 }
 """
-
     headers = {"Authorization": "token " + github_api_token}
-    # Check activity since the latest 90 days
-    recent_activity_date = datetime.now() - timedelta(
-        days=default_config.RECENT_ACTIVITY_DAYS
-    )
     variables = {
         "owner": owner,
         "repo": repo,
@@ -208,26 +196,64 @@ query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
     }
 
     try:
-        request = requests.post(
+        response = requests.post(
             "https://api.github.com/graphql",
             json={"query": query, "variables": variables},
             headers=headers,
         )
-        if request.status_code != 200:
+
+        if response.status_code != 200:
             log.info(
                 "Unable to find GitHub repo via GitHub api: "
-                + project_info.github_id
+                + github_id
                 + " ("
-                + str(request.status_code)
+                + str(response.status_code)
                 + ")"
             )
-            return
-        github_info = Dict(request.json()["data"]["repository"])
+            return None
+        response_data = response.json()
+
+        if "data" not in response_data:
+            log.info("Request returned unexpected data: ", response_data)
+            return None
+
+        return Dict(response_data["data"]["repository"])
     except Exception as ex:
         log.info(
-            "Failed to request GitHub repo via GitHub api: " + project_info.github_id,
+            "Failed to request GitHub repo via GitHub api: " + github_id,
             exc_info=ex,
         )
+        return None
+
+
+def update_via_github_api(project_info: Dict) -> None:
+    if not project_info.github_id:
+        return
+
+    if "/" not in project_info.github_id:
+        log.info("The GitHub project id is not valid: " + project_info.github_id)
+        return
+
+    github_api_token = os.getenv("GITHUB_API_KEY")
+    if not github_api_token:
+        return None
+
+    # Check activity since the latest 90 days
+    recent_activity_date = datetime.now() - timedelta(
+        days=default_config.RECENT_ACTIVITY_DAYS
+    )
+
+    github_info = request_metadata_from_github_api(
+        github_api_token, project_info.github_id, recent_activity_date
+    )
+    if github_info is None:
+        log.info("Retrying failed github api call short wait time.")
+        time.sleep(150)
+        github_info = request_metadata_from_github_api(
+            github_api_token, project_info.github_id, recent_activity_date
+        )
+
+    if github_info is None:
         return
 
     if not project_info.github_url and github_info.url:
