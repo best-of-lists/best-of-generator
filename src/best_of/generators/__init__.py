@@ -5,7 +5,6 @@ from best_of.generators import base_generator, markdown_gallery, markdown_list
 
 AVAILABLE_GENERATORS: List[base_generator.BaseGenerator] = [
     markdown_list.MarkdownListGenerator(),
-    markdown_gallery.MarkdownGalleryGenerator(),
 ]
 
 
