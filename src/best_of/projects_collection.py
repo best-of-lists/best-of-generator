@@ -306,7 +306,7 @@ def apply_projects_changes(
     trending_up: dict = {}
     for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=True):
         project_name = project[0]
-        project_score = trending_projects[project[0]]
+        project_score = trending_projects[project_name]
         if project_score < 0:
             break
         if len(trending_up) < max_trends:
@@ -315,7 +315,7 @@ def apply_projects_changes(
     trending_down: dict = {}
     for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=False):
         project_name = project[0]
-        project_score = trending_projects[project[0]]
+        project_score = trending_projects[project_name]
         if project_score > 0:
             break
         if len(trending_down) < max_trends:
