@@ -39,22 +39,25 @@ query($organization: String!) {
     variables = {"organization": organization}
 
     try:
-        request = requests.post(
+        response = requests.post(
             "https://api.github.com/graphql",
             json={"query": query, "variables": variables},
             headers=headers,
         )
-        if request.status_code != 200:
+        if response.status_code != 200:
             print(
                 "Unable to find GitHub org via GitHub api: "
                 + organization
                 + " ("
-                + str(request.status_code)
+                + str(response.status_code)
                 + ")"
             )
             return []
-
-        github_org_info = Dict(request.json()["data"]["organization"])
+        response_data = response.json()
+        if "data" not in response_data:
+            print(f"Failed to get Github org data for {organization}", response_data)
+            return []
+        github_org_info = Dict(response_data["data"]["organization"])
     except Exception as ex:
         log.info(
             "Failed to request GitHub org via GitHub api: " + organization,
@@ -403,7 +406,9 @@ def extract_pypi_projects_from_requirements(
     return projects
 
 
-def auto_extend_via_libio(projects: list) -> list:
+def auto_extend_via_libio(
+    projects: list, selected_package_manager: Optional[List[str]] = None
+) -> list:
     from pybraries.search import Search
 
     updated_projects = []
@@ -428,6 +433,14 @@ def auto_extend_via_libio(projects: list) -> list:
 
                     project_id = None
                     id_property = None
+
+                    if (
+                        selected_package_manager
+                        and platform not in selected_package_manager
+                    ):
+                        # Skip project
+                        print(f"Platform {platform} is not selected -> Ignore.")
+                        continue
 
                     if platform == "pypi":
                         id_property = "pypi_id"
