@@ -11,12 +11,11 @@
 ---------------
 - **base_generator**
 - **markdown_list**
-- **markdown_gallery**
 - **AVAILABLE_GENERATORS**
 
 ---
 
-<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generators/__init__.py#L12"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
+<a href="https://github.com/best-of-lists/best-of-generator/blob/main/src/best_of/generators/__init__.py#L11"><img align="right" style="float:right;" src="https://img.shields.io/badge/-source-cccccc?style=flat-square"></a>
 
 ## <kbd>function</kbd> `get_generator`
 
