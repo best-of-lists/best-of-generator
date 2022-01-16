@@ -25,7 +25,7 @@ def get_projects_from_org(organization: str, min_stars: int = 30) -> List[str]:
     query = """
 query($organization: String!) {
       organization(login: $organization) {
-        repositories(first: 100) {
+        repositories(first: 100, orderBy: {field: STARGAZERS, direction: DESC}) {
           nodes {
             nameWithOwner
             stargazerCount
