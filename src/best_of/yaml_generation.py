@@ -45,7 +45,7 @@ query($organization: String!) {
             headers=headers,
         )
         if response.status_code != 200:
-            print(
+            log.info(
                 "Unable to find GitHub org via GitHub api: "
                 + organization
                 + " ("
@@ -55,7 +55,7 @@ query($organization: String!) {
             return []
         response_data = response.json()
         if "data" not in response_data:
-            print(f"Failed to get Github org data for {organization}", response_data)
+            log.info(f"Failed to get Github org data for {organization}", response_data)
             return []
         github_org_info = Dict(response_data["data"]["organization"])
     except Exception as ex:
@@ -166,7 +166,7 @@ def extract_github_projects(
                 ):
                     excluded_github_ids.append(project["github_id"])
                 else:
-                    print("No github id found.")
+                    log.info("No github id found.")
         return projects
 
     excluded_projects = set()
@@ -261,7 +261,7 @@ def extract_pypi_projects(
                 if "pypi_id" in project and project["pypi_id"] not in excluded_pypi_ids:
                     excluded_pypi_ids.append(project["pypi_id"])
                 else:
-                    print("No pypi_id found.")
+                    log.info("No pypi_id found.")
         return projects
 
     excluded_projects = set()
@@ -354,7 +354,7 @@ def extract_pypi_projects_from_requirements(
                 if "pypi_id" in project and project["pypi_id"] not in excluded_pypi_ids:
                     excluded_pypi_ids.append(project["pypi_id"])
                 else:
-                    print("No pypi_id found.")
+                    log.info("No pypi_id found.")
         return projects
 
     excluded_projects = set()
@@ -439,7 +439,7 @@ def auto_extend_via_libio(
                         and platform not in selected_package_manager
                     ):
                         # Skip project
-                        print(f"Platform {platform} is not selected -> Ignore.")
+                        log.info(f"Platform {platform} is not selected -> Ignore.")
                         continue
 
                     if platform == "pypi":
@@ -471,11 +471,11 @@ def auto_extend_via_libio(
                         id_property = "brew_id"
                         project_id = related_project["name"]
                     else:
-                        print(f"Platform {platform} not supported")
+                        log.info(f"Platform {platform} not supported")
                         continue
 
                     if not project_id or not id_property:
-                        print(f"Platform {platform} not supported")
+                        log.info(f"Platform {platform} not supported")
                         continue
 
                     if (
@@ -490,7 +490,7 @@ def auto_extend_via_libio(
                     project[id_property] = project_id
                     selected_platform_dep_rank[platform] = related_project["rank"]
             else:
-                print("Failed to get projects for " + project["github_id"])
+                log.info("Failed to get projects for " + project["github_id"])
 
             updated_projects.append(project)
     return updated_projects
