@@ -8,7 +8,6 @@
 - [`best_of.generator`](./best_of.generator.md#module-best_ofgenerator)
 - [`best_of.generators`](./best_of.generators.md#module-best_ofgenerators)
 - [`best_of.generators.base_generator`](./best_of.generators.base_generator.md#module-best_ofgeneratorsbase_generator)
-- [`best_of.generators.markdown_gallery`](./best_of.generators.markdown_gallery.md#module-best_ofgeneratorsmarkdown_gallery): Gallery view for a best-of list.
 - [`best_of.generators.markdown_list`](./best_of.generators.markdown_list.md#module-best_ofgeneratorsmarkdown_list)
 - [`best_of.integrations`](./best_of.integrations.md#module-best_ofintegrations)
 - [`best_of.integrations.base_integration`](./best_of.integrations.base_integration.md#module-best_ofintegrationsbase_integration)
@@ -30,7 +29,6 @@
 ## Classes
 
 - [`base_generator.BaseGenerator`](./best_of.generators.base_generator.md#class-basegenerator)
-- [`markdown_gallery.MarkdownGalleryGenerator`](./best_of.generators.markdown_gallery.md#class-markdowngallerygenerator)
 - [`markdown_list.MarkdownListGenerator`](./best_of.generators.markdown_list.md#class-markdownlistgenerator)
 - [`base_integration.BaseIntegration`](./best_of.integrations.base_integration.md#class-baseintegration)
 - [`cargo_integration.CargoIntegration`](./best_of.integrations.cargo_integration.md#class-cargointegration)
@@ -50,14 +48,6 @@
 - [`generator.load_extension_script`](./best_of.generator.md#function-load_extension_script)
 - [`generator.parse_projects_yaml`](./best_of.generator.md#function-parse_projects_yaml)
 - [`generators.get_generator`](./best_of.generators.md#function-get_generator)
-- [`markdown_gallery.chunker`](./best_of.generators.markdown_gallery.md#function-chunker): Iterates over a sequence in chunks.
-- [`markdown_gallery.generate_category_gallery_md`](./best_of.generators.markdown_gallery.md#function-generate_category_gallery_md): Generates markdown gallery for a category, containing tables with projects.
-- [`markdown_gallery.generate_md`](./best_of.generators.markdown_gallery.md#function-generate_md): Generate the markdown text.
-- [`markdown_gallery.generate_project_html`](./best_of.generators.markdown_gallery.md#function-generate_project_html): Generates the content of a table cell for a project.
-- [`markdown_gallery.generate_short_toc`](./best_of.generators.markdown_gallery.md#function-generate_short_toc): Generate a short TOC, which is just all category names in one line.
-- [`markdown_gallery.generate_table_html`](./best_of.generators.markdown_gallery.md#function-generate_table_html): Generates a table containing several projects.
-- [`markdown_gallery.save_screenshot`](./best_of.generators.markdown_gallery.md#function-save_screenshot): Loads url in headless browser and saves screenshot to file (.jpg or .png).
-- [`markdown_gallery.shorten`](./best_of.generators.markdown_gallery.md#function-shorten): Shorten a string by appending ... if it's too long.
 - [`markdown_list.generate_category_md`](./best_of.generators.markdown_list.md#function-generate_category_md)
 - [`markdown_list.generate_changes_md`](./best_of.generators.markdown_list.md#function-generate_changes_md)
 - [`markdown_list.generate_legend`](./best_of.generators.markdown_list.md#function-generate_legend)
@@ -73,6 +63,7 @@
 - [`github_integration.generate_github_details`](./best_of.integrations.github_integration.md#function-generate_github_details)
 - [`github_integration.get_contributors_via_github_api`](./best_of.integrations.github_integration.md#function-get_contributors_via_github_api)
 - [`github_integration.get_repo_deps_via_github`](./best_of.integrations.github_integration.md#function-get_repo_deps_via_github)
+- [`github_integration.request_metadata_from_github_api`](./best_of.integrations.github_integration.md#function-request_metadata_from_github_api)
 - [`github_integration.update_via_github`](./best_of.integrations.github_integration.md#function-update_via_github)
 - [`github_integration.update_via_github_api`](./best_of.integrations.github_integration.md#function-update_via_github_api)
 - [`libio_integration.is_activated`](./best_of.integrations.libio_integration.md#function-is_activated)
