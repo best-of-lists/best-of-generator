@@ -214,7 +214,7 @@ query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
         response_data = response.json()
 
         if "data" not in response_data:
-            log.info("Request returned unexpected data: ", response_data)
+            log.info("Request returned unexpected data: " + str(response_data))
             return None
 
         return Dict(response_data["data"]["repository"])
