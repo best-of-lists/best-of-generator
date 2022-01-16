@@ -264,7 +264,6 @@ def update_project_category(project_info: Dict, categories: OrderedDict) -> None
 def get_projects_changes(
     projects: List[Dict], history_file_path: str
 ) -> Tuple[List[str], Dict]:
-    print(history_file_path)
     # get project scores from history file
     projects_history_df = pd.read_csv(history_file_path, sep=",", index_col=0)
     project_scores_history = {}
@@ -293,6 +292,15 @@ def get_projects_changes(
         if score_difference == 0:
             # did not change
             continue
+
+        if score_difference < -10 or score_difference > 10:
+            log.info(
+                f"Ignoring project {project_name} for trending calculation. The score difference is unusually big: {score_difference}."
+                "There might be something wrong with this project."
+            )
+            # ignore projects that changed by more than 5 points
+            continue
+
         trending_projects[project_name] = score_difference
     return added_projects, trending_projects
 
@@ -301,7 +309,7 @@ def apply_projects_changes(
     projects: List[Dict],
     added_projects: List[str],
     trending_projects: Dict,
-    max_trends: int = 5,
+    configuration: Dict,
 ) -> None:
     trending_up: dict = {}
     for project in sorted(trending_projects.items(), key=lambda x: x[1], reverse=True):
@@ -309,7 +317,7 @@ def apply_projects_changes(
         project_score = trending_projects[project_name]
         if project_score < 0:
             break
-        if len(trending_up) < max_trends:
+        if len(trending_up) < configuration.max_trending_projects:
             trending_up[project_name] = project_score
 
     trending_down: dict = {}
@@ -318,12 +326,30 @@ def apply_projects_changes(
         project_score = trending_projects[project_name]
         if project_score > 0:
             break
-        if len(trending_down) < max_trends:
+        if len(trending_down) < configuration.max_trending_projects:
             trending_down[project_name] = project_score
 
     for project in projects:
         project_name = project["name"]
         if project_name in trending_up:
+            project_inactive_month = None
+            if project.last_commit_pushed_at:
+                project_inactive_month = utils.diff_month(
+                    datetime.now(), project.last_commit_pushed_at
+                )
+            elif project.updated_at:
+                project_inactive_month = utils.diff_month(
+                    datetime.now(), project.updated_at
+                )
+
+            if (
+                project_inactive_month
+                and configuration.project_dead_months
+                and int(configuration.project_dead_months) < project_inactive_month
+            ):
+                # Ignore dead projects from trending list
+                continue
+
             project["trending"] = trending_up[project_name]
         elif project_name in trending_down:
             project["trending"] = trending_down[project_name]
