@@ -83,6 +83,8 @@ def collect_github_projects(
 
     if not excluded_github_ids:
         excluded_github_ids = []
+    else:
+        excluded_github_ids = copy.deepcopy(excluded_github_ids)
 
     if existing_projects:
         # Add projects to the overall project list
