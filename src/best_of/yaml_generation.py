@@ -491,8 +491,7 @@ def auto_extend_via_libio(
                     selected_platform_dep_rank[platform] = related_project["rank"]
             else:
                 log.info("Failed to get projects for " + project["github_id"])
-
-            updated_projects.append(project)
+        updated_projects.append(project)
     return updated_projects
 
 
