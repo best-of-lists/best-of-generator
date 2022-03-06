@@ -199,7 +199,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>homepage</code></td>
-        <td>Hompage URL of the project. Only use this property if the project homepage is different from the GitHub URL.</td>
+        <td>Homepage URL of the project. Only use this property if the project homepage is different from the GitHub URL.</td>
     </tr>
     <tr>
         <td><code>docs_url</code></td>
