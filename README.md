@@ -497,6 +497,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>55</code></td>
     </tr>
     <tr>
+        <td><code>ascii_description</code></td>
+        <td>If <code>True</code>, all non-ASCII characters in the project description will be removed. Useful for filtering out distractive emoji, but hurtful in non-English cases. (Note: GitHub emoji commands (e.g. <code>:smile:</code>) are always removed.)</td>
+        <td><code>True</code></td>
+    </tr>
+    <tr>
         <td><code>projects_history_folder</code></td>
         <td>The folder used for storing history files (<code>csv</code> files with project metadata). If <code>null</code>, no history files will be created.</td>
         <td><code>./history</code></td>

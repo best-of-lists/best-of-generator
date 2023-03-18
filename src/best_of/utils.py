@@ -33,14 +33,16 @@ def remove_special_chars(text: str) -> str:
     return text.encode("ascii", "ignore").decode("ascii")
 
 
-def process_description(text: str, max_lenght: int) -> str:
+def process_description(text: str, max_length: int, *, ascii_only: bool) -> str:
     if not text:
         return ""
 
     # Remove github emoji commands
     text = re.sub(":[a-zA-Z_]*:", "", text).strip()
 
-    text = remove_special_chars(text).strip()
+    if ascii_only:
+        text = remove_special_chars(text)
+    text = text.strip()
     text = text.replace('"', "")
     text = text.replace("'", "")
     text = text.replace("<", "")
@@ -53,7 +55,7 @@ def process_description(text: str, max_lenght: int) -> str:
         # make sure that the text always ends with a dot
         text += "."
 
-    return clean_whitespaces(textwrap.shorten(text, width=max_lenght, placeholder=".."))
+    return clean_whitespaces(textwrap.shorten(text, width=max_length, placeholder=".."))
 
 
 url_validator = re.compile(
