@@ -108,7 +108,7 @@ configuration:
 categories:
   - category: "data-engineering"
     title: "Machine Learning & Data Engineering"
-    subtitle: "Best-of lists about machine learning, data engieering, data science, or other topics related to big data."
+    subtitle: "Best-of lists about machine learning, data engineering, data science, or other topics related to big data."
 
 # Optional: add labels
 labels:
@@ -305,7 +305,7 @@ A category allows to add additional structure to the best-of list by grouping re
 categories:
   - category: "data-engineering"
     title: "Machine Learning & Data Engineering"
-    subtitle: "Best-of lists about machine learning, data engieering, data science, or other topics related to big data."
+    subtitle: "Best-of lists about machine learning, data engineering, data science, or other topics related to big data."
 
 projects:
   - name: "best-of-ml-python"
@@ -538,7 +538,7 @@ The configuration example above changes the default configuration to show all pr
     </tr>
     <tr>
         <td><code>hide_license_risk</code></td>
-        <td>If <code>True</code>, the risk indicator for uncommen or risky licenses will not be shown.</td>
+        <td>If <code>True</code>, the risk indicator for uncommon or risky licenses will not be shown.</td>
         <td><code>False</code></td>
     </tr>
     <tr>

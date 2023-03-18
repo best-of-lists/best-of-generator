@@ -215,7 +215,7 @@ You can also configure `black` and `isort` inside your code editor. For example,
 
 #### Code linting
 
-We use [flake8](https://github.com/PyCQA/flake8) for linting, [mypy](https://github.com/python/mypy) for type checking, and [pydocstyle](https://github.com/PyCQA/pydocstyle) for docstring style checks. You can find our flake8 configuration inside the `setup.cfg` or [here](.github/linters/.flake8). The following commands run `flake8`, `mypy` and `pydocstyle` on all python files of the compontent (when executed in the compontent root):
+We use [flake8](https://github.com/PyCQA/flake8) for linting, [mypy](https://github.com/python/mypy) for type checking, and [pydocstyle](https://github.com/PyCQA/pydocstyle) for docstring style checks. You can find our flake8 configuration inside the `setup.cfg` or [here](.github/linters/.flake8). The following commands run `flake8`, `mypy` and `pydocstyle` on all python files of the component (when executed in the component root):
 
 ```bash
 # type checks
