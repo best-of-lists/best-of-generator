@@ -292,7 +292,11 @@ def generate_project_md(
             )
         )
     )
-    description = utils.process_description(project.description, desc_length)
+    description = utils.process_description(
+        project.description,
+        desc_length,
+        ascii_only=configuration.ascii_description,
+    )
 
     # target="_blank"
     if project.resource:

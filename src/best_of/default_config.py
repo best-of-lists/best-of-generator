@@ -64,6 +64,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "min_description_length" not in config:
         config.min_description_length = MIN_PROJECT_DESC_LENGTH
 
+    if "ascii_description" not in config:
+        config.ascii_description = True
+
     if "hide_project_license" not in config:
         config.hide_project_license = False
 

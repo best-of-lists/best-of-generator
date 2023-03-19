@@ -680,7 +680,7 @@ def collect_projects_info(
         if project_info.description:
             # Process description
             project_info.description = utils.process_description(
-                project_info.description, 120
+                project_info.description, 120, ascii_only=config.ascii_description
             )
 
         # Check and update the project category
