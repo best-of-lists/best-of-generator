@@ -22,6 +22,6 @@ class BaseGenerator(ABC):
             categories (OrderedDict): Projects categorized into configured categories.
             projects (list): List of projects.
             config (Dict): Best-of configuration.
-            labels (list): List of avaialable labels.
+            labels (list): List of available labels.
         """
         pass

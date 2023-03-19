@@ -252,9 +252,9 @@ def generate_project_md(
     project_md = ""
     metrics_md = generate_metrics_info(project, configuration)
     license_md, license_len = generate_license_info(project, configuration)
-    labels_md, labels_lenght = generate_project_labels(project, labels)
+    labels_md, labels_length = generate_project_labels(project, labels)
 
-    # TODO: use labels_lenght
+    # TODO: use labels_length
 
     metadata_md = ""
     if license_md and labels_md:
