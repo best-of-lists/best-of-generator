@@ -52,12 +52,17 @@ class GiteeIntegration(BaseIntegration):
             )
             return
 
-        project_info |= dict(
-            gitee_url=repo_info.url,
-            homepage=repo_info.homepage,
-            name=repo_info.name,
-            license=repo_info.license,
-        )
+        if not project_info.gitee_url:
+            project_info.gitee_url = repo_info.url
+
+        if not project_info.homepage:
+            project_info.homepage = repo_info.homepage
+
+        if not project_info.name:
+            project_info.name = repo_info.name
+
+        if not project_info.license:
+            project_info.license = repo_info.license
 
         if repo_info.description and (
             not project_info.description
