@@ -428,7 +428,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
 
     # Check platform requires
     if configuration.require_repo and not (
-        project_info.github_url or project_info.gitlab_url
+        project_info.github_url or project_info.gitlab_url or project_info.gitee_url
     ):
         log.info(
             f"{project_info.name} requires a repo url (e.g. GitHub or GitLab), but no repo url found."

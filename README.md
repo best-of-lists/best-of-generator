@@ -256,6 +256,10 @@ Every project can also be expanded to show additional project information (by cl
         <td><code>gitlab_id</code></td>
         <td>GitLab ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
     </tr>
+    <tr>
+        <td><code>gitee_id</code></td>
+        <td>Gitee ID of the project based on user or organization and the repository name, e.g. <code>best-of-lists/best-of-generator</code>. You can <a href='https://gitee.com/profile/personal_access_tokens/new'>generate an access key</a> and set <code>$GITEE_API_KEY</code>.</td>
+    </tr>
 </table>
 
 While you can theoretically overwrite all project metadata, we suggest to only set the properties which the best-of generator is not able to find on GitHub or the configured package managers. There are also other undocumented properties, but for most projects those properties should not be overwritten.
@@ -483,7 +487,7 @@ The configuration example above changes the default configuration to show all pr
     </tr>
     <tr>
         <td><code>require_repo</code></td>
-        <td>If <code>True</code>, all projects without a source repository - configure via <code>github_id</code> or <code>gitlab_id</code> - will be hidden.</td>
+        <td>If <code>True</code>, all projects without a source repository - configure via <code>github_id</code> or <code>gitlab_id</code> or <code>gitee_id</code> - will be hidden.</td>
         <td><code>False</code></td>
     </tr>
     <tr>
