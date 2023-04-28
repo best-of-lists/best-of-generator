@@ -56,7 +56,7 @@ class GiteeIntegration(BaseIntegration):
             project_info.gitee_url = repo_info.html_url.removesuffix(".git")
 
         if not project_info.homepage:
-            project_info.homepage = repo_info.homepage
+            project_info.homepage = repo_info.homepage or project_info.gitee_url
 
         if not project_info.name:
             project_info.name = repo_info.name
