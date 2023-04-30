@@ -6,15 +6,13 @@ from addict import Dict
 from dateutil.parser import parse
 
 from best_of import utils
-from best_of.default_config import MIN_PROJECT_DESC_LENGTH
+from best_of.default_config import ENV_GITEE_API_KEY, MIN_PROJECT_DESC_LENGTH
 from best_of.integrations.base_integration import BaseIntegration
 
 log = logging.getLogger(__name__)
 
 
 class GiteeIntegration(BaseIntegration):
-    token: str | None
-
     @property
     def name(self) -> str:
         return "gitee"
@@ -23,20 +21,19 @@ class GiteeIntegration(BaseIntegration):
         if not project_info.gitee_id:
             return
 
-        self.token = getenv("GITEE_API_KEY")
-        if not self.token:
+        token = getenv(ENV_GITEE_API_KEY)
+        if not token:
             log.warning(
                 "Gitee projects detected, but no API key provided. "
-                "This is fine for small lists. For large lists, "
-                "you can generate one at "
-                "https://gitee.com/profile/personal_access_tokens/new "
-                "and set $GITEE_API_KEY."
+                "This is fine for lists with few Gitee projects. "
+                "Otherwise, please consider generate one at "
+                "https://gitee.com/profile/personal_access_tokens"
             )
 
         try:
             params = Dict()
-            if self.token:
-                params.access_token = self.token
+            if token:
+                params.access_token = token
 
             response = requests.get(
                 f"https://gitee.com/api/v5/repos/{project_info.gitee_id}",

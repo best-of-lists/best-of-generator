@@ -34,12 +34,18 @@ def cli() -> None:
     type=click.STRING,
     help="Github API Token (from: https://github.com/settings/tokens)",
 )
+@click.option(
+    "--gitee-key",
+    required=False,
+    type=click.STRING,
+    help="Gitee API Key (https://gitee.com/profile/personal_access_tokens)",
+)
 @click.argument("path", type=click.Path(exists=True))
-def generate(path: str, libraries_key: str, github_key: str) -> None:
+def generate(path: str, libraries_key: str, github_key: str, gitee_key: str) -> None:
     """Generates a best-of markdown page from a yaml file."""
     from best_of import generator
 
-    generator.generate_markdown(path, libraries_key, github_key)
+    generator.generate_markdown(path, libraries_key, github_key, gitee_key)
 
 
 cli.add_command(generate)

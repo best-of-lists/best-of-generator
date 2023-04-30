@@ -77,7 +77,10 @@ def load_extension_script(extension_script_path: str) -> None:
 
 
 def generate_markdown(
-    projects_yaml_path: str, libraries_api_key: str = None, github_api_key: str = None
+    projects_yaml_path: str,
+    libraries_api_key: str = None,
+    github_api_key: str = None,
+    gitee_api_key: str = None,
 ) -> None:
     try:
         # Set libraries api key
@@ -95,6 +98,18 @@ def generate_markdown(
             log.warning(
                 "No Github API key provided. We recommend to activate the Github integration by providing a valid API key from https://github.com/settings/tokens"
             )
+
+        if gitee_api_key:
+            os.environ[default_config.ENV_GITEE_API_KEY] = gitee_api_key
+        else:
+            log.info(
+                "No Gitee API key provided. "
+                "This is fine for lists with few or no Gitee projects. "
+                "Otherwise, please consider generate one at "
+                "https://gitee.com/profile/personal_access_tokens"
+            )
+            # This is an info, not warning.
+            # We'll raise warnings again if detected.
 
         config, projects, categories, labels = parse_projects_yaml(projects_yaml_path)
 

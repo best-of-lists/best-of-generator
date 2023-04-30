@@ -258,7 +258,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>gitee_id</code></td>
-        <td>Gitee ID of the project based on user or organization and the repository name, e.g. <code>best-of-lists/best-of-generator</code>. You can <a href='https://gitee.com/profile/personal_access_tokens/new'>generate an access key</a> and set <code>$GITEE_API_KEY</code>.</td>
+        <td>Gitee ID of the project based on user or organization and the repository name, e.g. <code>best-of-lists/best-of-generator</code>. You can <a href='https://gitee.com/profile/personal_access_tokens/new'>generate an access token</a> and set option <code>--gitee-key</code>.</td>
     </tr>
 </table>
 
@@ -619,6 +619,7 @@ Generates a best-of markdown page from a `yaml` file.
 
 *  `-g`, `--github-key` `TEXT`: GitHub API Token (from https://github.com/settings/tokens).
 *  `-l`, `--libraries-key` `TEXT`: Libraries.io API Key (from https://libraries.io/api).
+*  `--gitee-key` `TEXT`: Gitee API Key (from https://gitee.com/profile/personal_access_tokens).
 * `--help`: Show this message and exit.
 
 ### Generation via GitHub Action
