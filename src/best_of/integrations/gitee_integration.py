@@ -92,7 +92,7 @@ class GiteeIntegration(BaseIntegration):
                     exc_info=ex,
                 )
 
-        forks_count = int(repo_info.forksCount) if repo_info.forksCount else 0
+        forks_count = int(repo_info.forks_count) if repo_info.forks_count else 0
         if not project_info.fork_count or int(project_info.fork_count) < forks_count:
             project_info.fork_count = forks_count
 
