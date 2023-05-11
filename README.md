@@ -521,6 +521,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>True</code></td>
     </tr>
     <tr>
+        <td><code>category_heading</code></td>
+        <td>How categories headings are generated. If <code>simple</code>, headings will be <code>## Category</code>, and IDs are set by GitHub. If <code>robust</code>, headings will be <code>&lt;h2 id='category-id'&gt;Category&lt;/h2&gt;</code>. (TOC relies on these IDs.) If all of your categories' names are ASCII, use <code>simple</code>.</td>
+        <td><code>simple</code><td>
+    </tr>
+    <tr>
         <td><code>generate_legend</code></td>
         <td>If <code>True</code>, generate a legend containing explanations for the used emojis.</td>
         <td><code>True</code></td>
