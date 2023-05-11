@@ -256,6 +256,10 @@ Every project can also be expanded to show additional project information (by cl
         <td><code>gitlab_id</code></td>
         <td>GitLab ID of the project based on user or organization  and the repository name, e.g. <code>best-of-lists/best-of-generator</code>.</td>
     </tr>
+    <tr>
+        <td><code>greasy_fork_id</code></td>
+        <td>Greasy Fork ID of the project. This is the number in script's URL, e.g. <code>299792458</code> for <code>https://greasyfork.org/scripts/299792458-speed-of-light</code>.</td>
+    </tr>
 </table>
 
 While you can theoretically overwrite all project metadata, we suggest to only set the properties which the best-of generator is not able to find on GitHub or the configured package managers. There are also other undocumented properties, but for most projects those properties should not be overwritten.
@@ -592,6 +596,7 @@ All projects in a best-of list are ranked and sorted by a project-quality score 
   - Number of dependent projects: `+ log(COUNT / 1.5)`
   - Number of watchers: `+ log(COUNT / 2) - 1`
   - Number of closed issues: `+ log(COUNT / 2) - 1`
+  - Greasy Fork fan score: `+ log(COUNT / 2) - 1`
 
 ### Trending Projects
 
