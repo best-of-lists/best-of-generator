@@ -42,6 +42,11 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "generate_install_hints" not in config:
         config.generate_install_hints = True
+    elif "generate_clone_hints" not in config:
+        config.generate_clone_hints = config.generate_install_hints
+
+    if "generate_clone_hints" not in config:
+        config.generate_clone_hints = False
 
     if "generate_toc" not in config:
         config.generate_toc = True
@@ -59,7 +64,7 @@ def prepare_configuration(cfg: dict) -> Dict:
         config.hide_empty_categories = False
 
     if "max_description_length" not in config:
-        config.max_description_length = 55
+        config.max_description_length = 100
 
     if "min_description_length" not in config:
         config.min_description_length = MIN_PROJECT_DESC_LENGTH

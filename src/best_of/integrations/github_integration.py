@@ -564,12 +564,12 @@ def generate_github_details(project: Dict, configuration: Dict) -> str:
     seperator = (
         ""
         if not configuration.generate_badges
-        and not configuration.generate_install_hints
+        and not configuration.generate_clone_hints
         else ":"
     )
 
     details_md = "- [GitHub](" + github_url + ")" + metrics_md + seperator + "\n"
 
-    if configuration.generate_install_hints:
+    if configuration.generate_clone_hints:
         details_md += "\n\t```\n\tgit clone https://github.com/{github_id}\n\t```\n"
     return details_md.format(github_id=github_id)

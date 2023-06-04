@@ -83,12 +83,10 @@ def generate_metrics_info(project: Dict, configuration: Dict) -> str:
         metrics_md = status_md
 
     if metrics_md:
-        # add divider if metrics are available
-        metrics_md = "(" + metrics_md + ")"
         # remove unneccesary whitespaces
         utils.clean_whitespaces(metrics_md)
-        # Add whitespace
-        metrics_md = metrics_md + " "
+        # add divider if metrics are available
+        metrics_md = " - " + metrics_md
 
     return metrics_md
 
@@ -153,8 +151,8 @@ def generate_project_labels(project: Dict, labels: list) -> Tuple[str, int]:
             label_md = '<a href="' + label_info.url + '">' + label_md + "</a>"
 
         if label_md:
-            # Add a single space in front of label:
-            labels_md += " " + label_md.strip()
+            # Add a separator between labels:
+            labels_md += " · " + label_md.strip()
             labels_text_length += LABEL_SPACING_LENGTH
 
     return (labels_md, labels_text_length)
@@ -200,7 +198,7 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
             license_md += " <code>Unlicensed</code>"
         else:
             license_md += " <code>❗Unlicensed</code>"
-    return license_md, license_length
+    return " ·" + license_md, license_length
 
 
 def generate_project_body(project: Dict, configuration: Dict, labels: list) -> str:
@@ -231,7 +229,11 @@ def generate_project_body(project: Dict, configuration: Dict, labels: list) -> s
 
     for package_manager in integrations.AVAILABLE_PACKAGE_MANAGER:
         package_manager_id = package_manager.name.lower().strip() + "_id"
-        if package_manager_id in project and project[package_manager_id]:
+        if (
+            package_manager_id in project
+            and project[package_manager_id]
+            or package_manager.name == "mkdocs"
+        ):
             body_md += package_manager.generate_md_details(project, configuration)
 
     if not body_md:
@@ -258,7 +260,6 @@ def generate_project_md(
 
     metadata_md = ""
     if license_md and labels_md:
-        # TODO: add " · " in between?
         metadata_md = license_md + labels_md
     elif license_md:
         metadata_md = license_md
@@ -276,33 +277,17 @@ def generate_project_md(
     if project.labels:
         label_count = len(project.labels)
 
-    if license_len:
-        # Add spacing to length
-        license_len += 2
-
-    desc_length = int(
-        round(
-            max(
-                configuration.max_description_length,
-                105
-                - (len(project.name) * 1.3)
-                - len(metrics_md)
-                - license_len
-                - (label_count * 5),
-            )
-        )
-    )
     description = utils.process_description(
         project.description,
-        desc_length,
+        configuration.max_description_length,
         ascii_only=configuration.ascii_description,
     )
 
     # target="_blank"
+    if description:
+        description = f"<br>{description}"
     if project.resource:
-        if description:
-            description = f"- {description}"
-        project_md = '🔗&nbsp;<b><a href="{homepage}">{name}</a></b> {metrics} {description}{metadata}\n'.format(
+        project_md = '🔗&nbsp;<b><a href="{homepage}">{name}</a></b> {metrics}{metadata}{description}\n'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
@@ -310,7 +295,7 @@ def generate_project_md(
             metadata=metadata_md,
         )
     elif generate_body:
-        project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}</summary>{body}</details>'.format(
+        project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}{metadata}{description}</summary>{body}</details>'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
@@ -320,7 +305,7 @@ def generate_project_md(
         )
     else:
         # don't use details format
-        project_md = '- <b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}'.format(
+        project_md = '- <b><a href="{homepage}">{name}</a></b> {metrics}{metadata}{description}'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
@@ -372,9 +357,7 @@ def generate_category_md(
             + " hidden projects...</summary>\n\n"
         )
         for project in category.hidden_projects:
-            project_md = generate_project_md(
-                project, config, labels, generate_body=False
-            )
+            project_md = generate_project_md(project, config, labels)
             category_md += project_md + "\n"
         category_md += "</details>\n"
 
