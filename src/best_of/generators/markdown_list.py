@@ -353,9 +353,7 @@ def generate_category_md(
             + " hidden projects...</summary>\n\n"
         )
         for project in category.hidden_projects:
-            project_md = generate_project_md(
-                project, config, labels, generate_body=False
-            )
+            project_md = generate_project_md(project, config, labels)
             category_md += project_md + "\n"
         category_md += "</details>\n"
 
