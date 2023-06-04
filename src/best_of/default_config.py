@@ -59,7 +59,7 @@ def prepare_configuration(cfg: dict) -> Dict:
         config.hide_empty_categories = False
 
     if "max_description_length" not in config:
-        config.max_description_length = 55
+        config.max_description_length = 100
 
     if "min_description_length" not in config:
         config.min_description_length = MIN_PROJECT_DESC_LENGTH
