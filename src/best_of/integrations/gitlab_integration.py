@@ -225,13 +225,13 @@ class GitLabIntegration(BaseIntegration):
         separator = (
             ""
             if not configuration.generate_badges
-            and not configuration.generate_install_hints
+            and not configuration.generate_clone_hints
             else ":"
         )
 
         details_md = f"- [GitLab]({project.gitlab_url}) {metrics_md}{separator}\n"
 
-        if configuration.generate_install_hints:
+        if configuration.generate_clone_hints:
             details_md += f"\n\t```\n\tgit clone {project.gitlab_url}\n\t```\n"
 
         return details_md

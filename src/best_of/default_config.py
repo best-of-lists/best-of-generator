@@ -42,6 +42,11 @@ def prepare_configuration(cfg: dict) -> Dict:
 
     if "generate_install_hints" not in config:
         config.generate_install_hints = True
+    elif "generate_clone_hints" not in config:
+        config.generate_clone_hints = config.generate_install_hints
+
+    if "generate_clone_hints" not in config:
+        config.generate_clone_hints = False
 
     if "generate_toc" not in config:
         config.generate_toc = True
