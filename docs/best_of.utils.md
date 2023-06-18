@@ -93,7 +93,7 @@ remove_special_chars(text: str) → str
 ## <kbd>function</kbd> `process_description`
 
 ```python
-process_description(text: str, max_lenght: int) → str
+process_description(text: str, max_length: int) → str
 ```
 
 
