@@ -138,7 +138,7 @@ class DockerhubIntegration(BaseIntegration):
             dockerhub_url = project.dockerhub_url
 
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
@@ -146,7 +146,7 @@ class DockerhubIntegration(BaseIntegration):
         )
 
         details_md = (
-            "- [Docker Hub](" + dockerhub_url + ")" + metrics_md + seperator + "\n"
+            "- [Docker Hub](" + dockerhub_url + ")" + metrics_md + separator + "\n"
         )
 
         if configuration.generate_install_hints:

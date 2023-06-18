@@ -85,7 +85,7 @@ def generate_metrics_info(project: Dict, configuration: Dict) -> str:
     if metrics_md:
         # add divider if metrics are available
         metrics_md = "(" + metrics_md + ")"
-        # remove unneccesary whitespaces
+        # remove unnecessary whitespaces
         utils.clean_whitespaces(metrics_md)
         # Add whitespace
         metrics_md = metrics_md + " "

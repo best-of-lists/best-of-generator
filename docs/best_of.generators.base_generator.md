@@ -51,7 +51,7 @@ Generates the markdown output and writes into files.
  - <b>`categories`</b> (OrderedDict):  Projects categorized into configured categories. 
  - <b>`projects`</b> (list):  List of projects. 
  - <b>`config`</b> (Dict):  Best-of configuration. 
- - <b>`labels`</b> (list):  List of avaialable labels. 
+ - <b>`labels`</b> (list):  List of available labels. 
 
 
 

@@ -100,14 +100,14 @@ class NpmIntegration(BaseIntegration):
             npm_url = project.npm_url
 
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
             else ":"
         )
 
-        details_md = "- [npm](" + npm_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [npm](" + npm_url + ")" + metrics_md + separator + "\n"
 
         if configuration.generate_install_hints:
             details_md += "\t```\n\tnpm install {npm_id}\n\t```\n"

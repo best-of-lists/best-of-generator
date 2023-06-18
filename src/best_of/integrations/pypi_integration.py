@@ -70,14 +70,14 @@ class PypiIntegration(BaseIntegration):
         # https://badgen.net/#pypi
 
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
             else ":"
         )
 
-        details_md = "- [PyPi](" + pypi_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [PyPi](" + pypi_url + ")" + metrics_md + separator + "\n"
 
         if configuration.generate_install_hints:
             details_md += "\t```\n\tpip install {pypi_id}\n\t```\n"

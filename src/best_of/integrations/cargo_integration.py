@@ -115,14 +115,14 @@ class CargoIntegration(BaseIntegration):
 
         cargo_url = project.cargo_url or ""
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
             else ":"
         )
 
-        details_md = "- [Cargo](" + cargo_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [Cargo](" + cargo_url + ")" + metrics_md + separator + "\n"
 
         if configuration.generate_install_hints:
             # TODO: Cargo install only works for binary packages
