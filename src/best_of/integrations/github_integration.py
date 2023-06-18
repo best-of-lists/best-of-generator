@@ -561,14 +561,14 @@ def generate_github_details(project: Dict, configuration: Dict) -> str:
     # https://badgen.net/#github
 
     # only show : if details are available
-    seperator = (
+    separator = (
         ""
         if not configuration.generate_badges
         and not configuration.generate_install_hints
         else ":"
     )
 
-    details_md = "- [GitHub](" + github_url + ")" + metrics_md + seperator + "\n"
+    details_md = "- [GitHub](" + github_url + ")" + metrics_md + separator + "\n"
 
     if configuration.generate_install_hints:
         details_md += "\n\t```\n\tgit clone https://github.com/{github_id}\n\t```\n"

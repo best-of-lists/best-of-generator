@@ -55,14 +55,14 @@ class MavenIntegration(BaseIntegration):
             maven_url = project.maven_url
 
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
             else ":"
         )
 
-        details_md = "- [Maven](" + maven_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [Maven](" + maven_url + ")" + metrics_md + separator + "\n"
 
         if configuration.generate_install_hints:
             details_md += "\t```\n\t<dependency>\n\t\t<groupId>{maven_group_id}</groupId>\n\t\t<artifactId>{maven_artifact_id}</artifactId>\n\t\t<version>[VERSION]</version>\n\t</dependency>\n\t```\n"

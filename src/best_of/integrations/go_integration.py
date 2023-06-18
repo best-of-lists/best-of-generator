@@ -49,14 +49,14 @@ class GoIntegration(BaseIntegration):
 
         go_url = project.go_url or ""
         # only show : if details are available
-        seperator = (
+        separator = (
             ""
             if not configuration.generate_badges
             and not configuration.generate_install_hints
             else ":"
         )
 
-        details_md = "- [Go](" + go_url + ")" + metrics_md + seperator + "\n"
+        details_md = "- [Go](" + go_url + ")" + metrics_md + separator + "\n"
 
         if configuration.generate_install_hints:
             details_md += "\t```\n\tgo install {go_id}\n\t```\n"
