@@ -60,7 +60,7 @@ def main(args: dict) -> None:
             # Run pytest in pipenv environment
             build_utils.run("pipenv run pytest", exit_on_error=True)
 
-            # Update pipfile.lock when all tests are successfull (lock environment)
+            # Update pipfile.lock when all tests are successful (lock environment)
             build_utils.run("pipenv lock", exit_on_error=True)
         else:
             # Run fast tests
