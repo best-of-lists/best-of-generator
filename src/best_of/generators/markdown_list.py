@@ -83,12 +83,10 @@ def generate_metrics_info(project: Dict, configuration: Dict) -> str:
         metrics_md = status_md
 
     if metrics_md:
-        # add divider if metrics are available
-        metrics_md = "(" + metrics_md + ")"
         # remove unnecessary whitespaces
         utils.clean_whitespaces(metrics_md)
-        # Add whitespace
-        metrics_md = metrics_md + " "
+        # add divider if metrics are available
+        metrics_md = " - " + metrics_md
 
     return metrics_md
 
@@ -153,8 +151,8 @@ def generate_project_labels(project: Dict, labels: list) -> Tuple[str, int]:
             label_md = '<a href="' + label_info.url + '">' + label_md + "</a>"
 
         if label_md:
-            # Add a single space in front of label:
-            labels_md += " " + label_md.strip()
+            # Add a separator between labels:
+            labels_md += " · " + label_md.strip()
             labels_text_length += LABEL_SPACING_LENGTH
 
     return (labels_md, labels_text_length)
@@ -200,7 +198,7 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
             license_md += " <code>Unlicensed</code>"
         else:
             license_md += " <code>❗Unlicensed</code>"
-    return license_md, license_length
+    return " ·" + license_md, license_length
 
 
 def generate_project_body(project: Dict, configuration: Dict, labels: list) -> str:
@@ -300,9 +298,7 @@ def generate_project_md(
 
     # target="_blank"
     if project.resource:
-        if description:
-            description = f"- {description}"
-        project_md = '🔗&nbsp;<b><a href="{homepage}">{name}</a></b> {metrics} {description}{metadata}\n'.format(
+        project_md = '🔗&nbsp;<b><a href="{homepage}">{name}</a></b> {metrics}{metadata}<br>{description}\n'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
@@ -310,7 +306,7 @@ def generate_project_md(
             metadata=metadata_md,
         )
     elif generate_body:
-        project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}</summary>{body}</details>'.format(
+        project_md = '<details><summary><b><a href="{homepage}">{name}</a></b> {metrics}{metadata}<br>{description}</summary>{body}</details>'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
@@ -320,7 +316,7 @@ def generate_project_md(
         )
     else:
         # don't use details format
-        project_md = '- <b><a href="{homepage}">{name}</a></b> {metrics}- {description}{metadata}'.format(
+        project_md = '- <b><a href="{homepage}">{name}</a></b> {metrics}{metadata}<br>{description}'.format(
             homepage=project.homepage,
             name=project.name,
             description=description,
