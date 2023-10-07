@@ -83,7 +83,7 @@ def generate_metrics_info(project: Dict, configuration: Dict) -> str:
         metrics_md = status_md
 
     if metrics_md:
-        # remove unneccesary whitespaces
+        # remove unneccessary whitespaces
         utils.clean_whitespaces(metrics_md)
         # add divider if metrics are available
         metrics_md = " - " + metrics_md
@@ -247,7 +247,6 @@ def generate_project_body(project: Dict, configuration: Dict, labels: list) -> s
 def generate_project_md(
     project: Dict, configuration: Dict, labels: list, generate_body: bool = True
 ) -> str:
-
     if project.ignore:
         return ""
 
@@ -317,7 +316,7 @@ def generate_project_md(
 
 
 def generate_category_md(
-    category: Dict, config: Dict, labels: list, title_md_prefix: str = "##"
+    category: Dict, config: Dict, labels: list, heading_level: int = 2
 ) -> str:
     if category.ignore:
         return ""
@@ -334,7 +333,21 @@ def generate_category_md(
         return ""
 
     category_md: str = ""
-    category_md += title_md_prefix + " " + category.title + "\n\n"
+
+    if config.category_heading == "simple":
+        category_md += "#" * heading_level + " " + category.title + "\n\n"
+    elif config.category_heading == "robust":
+        category_md += (
+            f"<h{heading_level} id='{category.category}'>{category.title}"
+            f"</h{heading_level}>\n\n"
+        )
+    else:
+        raise Exception(
+            "Configuration category_heading is not valid: "
+            f"“{config.category_heading}”. "
+            "Valid values are “simple”, “robust”."
+        )
+
     back_to_top_anchor = "#contents"
     if not config.generate_toc:
         # Use # anchor to get back to top of repo
@@ -417,10 +430,8 @@ def generate_changes_md(projects: list, config: Dict, labels: list) -> str:
     return markdown
 
 
-def generate_legend(
-    configuration: Dict, labels: list, title_md_prefix: str = "##"
-) -> str:
-    legend_md = title_md_prefix + " Explanation\n"
+def generate_legend(configuration: Dict, labels: list, heading_level: int = 2) -> str:
+    legend_md = "#" * heading_level + " Explanation\n"
     # Score that various project-quality metrics
     # score for a package based on a number of metrics
     legend_md += "- 🥇🥈🥉&nbsp; Combined project-quality score\n"
@@ -478,7 +489,16 @@ def generate_toc(categories: OrderedDict, config: Dict) -> str:
         if category_info.ignore:
             continue
 
-        url = "#" + process_md_link(category_info.title)
+        if config.category_heading == "simple":
+            url = "#" + process_md_link(category_info.title)
+        elif config.category_heading == "robust":
+            url = "#" + category_info.category
+        else:
+            raise Exception(
+                "Configuration category_heading is not valid: "
+                f"“{config.category_heading}”. "
+                "Valid values are “simple”, “robust”."
+            )
 
         project_count = 0
         if category_info.projects:
@@ -514,7 +534,6 @@ def generate_md(categories: OrderedDict, config: Dict, labels: list) -> str:
             category_count += 1
 
         if category.projects:
-
             for project in category.projects:
                 if project.group:
                     for sub_project in project.projects:
