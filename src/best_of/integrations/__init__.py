@@ -8,7 +8,6 @@ from best_of.integrations import (
     gitlab_integration,
     go_integration,
     maven_integration,
-    mkdocs_integration,
     npm_integration,
     pypi_integration,
 )
@@ -24,7 +23,6 @@ AVAILABLE_PACKAGE_MANAGER: List[base_integration.BaseIntegration] = [
     dockerhub_integration.DockerhubIntegration(),
     cargo_integration.CargoIntegration(),
     go_integration.GoIntegration(),
-    mkdocs_integration.MkDocsIntegration(),
 ]
 
 # TODO: "helm_id", "brew_id", "apt_id", "yum_id", "snap_id", "dnf_id", "yay_id",
