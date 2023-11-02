@@ -27,10 +27,12 @@ class MkDocsIntegration(BaseIntegration):
         extensions = _get_as_list(project, "markdown_extension")
 
         config_keys = []
-        yml = []
+        yml = yml_main = []
+        yml_extra = []
         if themes:
             config_keys.append("theme")
             yml += [f"theme: {x}" for x in themes]
+            yml = yml_extra
         if plugins:
             config_keys.append("plugins")
             theme_prefix = f"{themes[0]}/" if themes else ""
@@ -48,7 +50,14 @@ class MkDocsIntegration(BaseIntegration):
         lines = [
             f"Add to [mkdocs.yml]({url}):",
             "```yaml",
-            *yml,
+            *yml_main,
             "```",
         ]
+        if yml_extra:
+            lines += [
+                "Extras:",
+                "```yaml",
+                *yml_extra,
+                "```",
+            ]
         return "- " + "".join(f"   {line}\n" for line in lines).lstrip()
