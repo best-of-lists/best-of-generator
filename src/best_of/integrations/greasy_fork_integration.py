@@ -42,13 +42,17 @@ class GreasyForkIntegration(BaseIntegration):
             )
             return
 
-        if not project_info.homepage:
+        # Greasy Fork takes precedence over GitHub.
+        # A GitHub repository may contain multiple scripts on Greasy Fork,
+        # therefore Greasy Fork gives more specific metadata.
+        if (
+            not project_info.homepage
+            or project_info.homepage == project_info.github_url
+        ):
             project_info.homepage = greasy_fork_info.url
 
-        if (
-            not project_info.description
-            or len(project_info.description) < MIN_PROJECT_DESC_LENGTH
-        ) and greasy_fork_info.description:
+        # Greasy Fork takes precedence for the same reason.
+        if greasy_fork_info.description:
             project_info.description = greasy_fork_info.description
 
         if not project_info.license:
