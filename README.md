@@ -262,7 +262,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>greasy_fork_id</code></td>
-        <td>Greasy Fork ID of the project. This is the number in script's URL, e.g. <code>299792458</code> for <code>https://greasyfork.org/scripts/299792458-speed-of-light</code>.</td>
+        <td>Greasy Fork ID of the project. This is the number in script's URL, e.g. <code>299792458</code> for <code>https://greasyfork.org/scripts/299792458-speed-of-light</code>. If set, homepage and description on Greasy Fork will take precedence over those on GitHub.</td>
     </tr>
 </table>
 
