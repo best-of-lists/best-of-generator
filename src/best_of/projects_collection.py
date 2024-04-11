@@ -394,7 +394,7 @@ def apply_filters(project_info: Dict, configuration: Dict) -> None:
         project_info.show = False
         return
 
-    if not project_info.homepage:
+    if not project_info.homepage and configuration.require_homepage:
         log.info(f"Could not find a valid homepage for {project_info.name}")
         project_info.show = False
 

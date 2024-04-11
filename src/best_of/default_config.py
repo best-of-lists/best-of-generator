@@ -28,6 +28,9 @@ def prepare_configuration(cfg: dict) -> Dict:
     if "min_stars" not in config:
         config.min_stars = 100
 
+    if "require_homepage" not in config:
+        config.require_homepage = True
+
     if "require_license" not in config:
         config.require_license = True
 

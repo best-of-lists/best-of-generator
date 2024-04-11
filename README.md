@@ -477,6 +477,11 @@ The configuration example above changes the default configuration to show all pr
         <td><code>100</code></td>
     </tr>
     <tr>
+        <td><code>require_homepage</code></td>
+        <td>If <code>True</code>, all projects without a detected homepage will be hidden.</td>
+        <td><code>True</code></td>
+    </tr>
+    <tr>
         <td><code>require_license</code></td>
         <td>If <code>True</code>, all projects without a detected license will be hidden.</td>
         <td><code>True</code></td>
