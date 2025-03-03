@@ -481,7 +481,7 @@ The configuration example above changes the default configuration to show all pr
     </tr>
     <tr>
         <td><code>min_stars</code></td>
-        <td>Project will be hidden if it has a less stars on GitHub.</td>
+        <td>Projects with fewer stars than the specified threshold will be hidden.</td>
         <td><code>100</code></td>
     </tr>
     <tr>
