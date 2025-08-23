@@ -171,14 +171,14 @@ query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
     closedIssues: issues(states: CLOSED) {
       totalCount
     }
-    releases(first: 100, orderBy: {field:CREATED_AT, direction:DESC}) {
+    releases(first: 50, orderBy: {field:CREATED_AT, direction:DESC}) {
       nodes {
         createdAt
         publishedAt
         tagName
         isDraft
         isPrerelease
-        releaseAssets(first: 100) {
+        releaseAssets(first: 40) {
           nodes {
             downloadCount
           }
@@ -188,6 +188,11 @@ query($owner: String!, $repo: String!, $since_recent_activity: GitTimestamp!) {
   }
 }
 """
+    # NOTE: The official best-of generator fetches 100 releases × 100 assets per release at most.
+    # https://github.com/best-of-lists/best-of-generator/blob/96a12cb4730cd162886e0d5beb54b9514faaa08b/src/best_of/integrations/github_integration.py#L174-L181
+    # It will lead to 504 Gateway Timeout for repos that release many assets (e.g., https://github.com/Myriad-Dreamin/tinymist).
+    # We reduce the limit to 50 × 40 to avoid this error.
+
     headers = {"Authorization": "token " + github_api_token}
     variables = {
         "owner": owner,
