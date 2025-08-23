@@ -265,7 +265,7 @@ def update_via_github_api(project_info: Dict) -> None:
         project_info.github_url = github_info.url
 
     if not project_info.homepage:
-        project_info.homepage = project_info.github_url
+        project_info.homepage = github_info.homepageUrl or project_info.github_url
 
     if not project_info.name and github_info.name:
         project_info.name = github_info.name
