@@ -173,7 +173,7 @@ def generate_license_info(project: Dict, configuration: Dict) -> Tuple[str, int]
             licenses_url = licenses_name
             licenses_name = "Custom"
         else:
-            licenses_url = "https://tldrlegal.com/search?q=" + urllib.parse.quote(
+            licenses_url = "https://tldrlegal.com/search?query=" + urllib.parse.quote(
                 project.license
             )
             license_metadata = get_license(licenses_name)
