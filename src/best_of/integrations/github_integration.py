@@ -323,7 +323,7 @@ def update_via_github_api(project_info: Dict) -> None:
             except Exception as ex:
                 log.warning(
                     "Failed to parse timestamp: "
-                    + str(github_info.target.committedDate),
+                    + str(github_info.masterCommit.target.committedDate),
                     exc_info=ex,
                 )
         if (
