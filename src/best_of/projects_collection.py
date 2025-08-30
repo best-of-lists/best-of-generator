@@ -116,6 +116,12 @@ def calc_projectrank(project_info: Dict) -> int:
     elif project_info.watchers_count == 0:
         projectrank -= 1
 
+    # Custom addition: Greasy Fork fan score - Logarithmic scale
+    if project_info.greasy_fork_fan_score:
+        projectrank += round(math.log(project_info.greasy_fork_fan_score) / 2) - 1
+    elif project_info.greasy_fork_fan_score == 0:
+        projectrank -= 1
+
     # Custom addition: Closed issue count - Logarithmic scale
     if project_info.closed_issue_count:
         projectrank += round(math.log(project_info.closed_issue_count) / 2) - 1
