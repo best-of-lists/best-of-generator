@@ -133,7 +133,7 @@ class GitLabIntegration(BaseIntegration):
                     f"Failed to parse timestamp: {repo_info.createdAt}", exc_info=ex
                 )
 
-        if repo_info.lastActivity:
+        if repo_info.lastActivityAt:
             try:
                 last_activity_at = parse(repo_info.lastActivityAt, ignoretz=True)
                 if (
