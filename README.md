@@ -260,6 +260,10 @@ Every project can also be expanded to show additional project information (by cl
         <td><code>greasy_fork_id</code></td>
         <td>Greasy Fork ID of the project. This is the number in script's URL, e.g. <code>299792458</code> for <code>https://greasyfork.org/scripts/299792458-speed-of-light</code>. If set, homepage and description on Greasy Fork will take precedence over those on GitHub.</td>
     </tr>
+    <tr>
+        <td><code>cargo_id</code></td>
+        <td>Project ID on the Rust Cargo package index (<a href="https://crates.io/">Crates</a>).</td>
+    </tr>
 </table>
 
 While you can theoretically overwrite all project metadata, we suggest to only set the properties which the best-of generator is not able to find on GitHub or the configured package managers. There are also other undocumented properties, but for most projects those properties should not be overwritten.
