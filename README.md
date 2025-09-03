@@ -234,7 +234,7 @@ Every project can also be expanded to show additional project information (by cl
     </tr>
     <tr>
         <td><code>conda_id</code></td>
-        <td>Project ID on the <a href="https://anaconda.org">conda package manager</a>. If the main package is provided on a different channel, prefix the ID with the given channel: e.g. <code>conda-forge/tensorflow</code></td>
+        <td>Project ID on the <a href="https://www.conda.io/">conda package manager</a>. If the string is without any `/`, it is interpreted as package name in the [`anaconda` channel](https://anaconda.org/anaconda/). Otherwise, prefix the ID with the given channel: e.g. <code>conda-forge/tensorflow</code></td>
     </tr>
     <tr>
         <td><code>npm_id</code></td>
